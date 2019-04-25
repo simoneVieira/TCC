@@ -43,7 +43,7 @@ public class SampleController {
      */
     @FXML
     protected void entrar(ActionEvent e) {
-        MyApp.changescren("cenaLogin");
+        //MyApp.changescren("cenaLogin");
         System.out.println("chega a qui");
     }
 }
