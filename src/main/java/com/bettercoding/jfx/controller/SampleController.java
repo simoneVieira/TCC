@@ -1,13 +1,10 @@
-package com.bettercoding.jfx;
+package com.bettercoding.jfx.controller;
 
 import com.bettercoding.jfx.model.Cliente;
 import com.bettercoding.jfx.service.ClienteService;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.web.WebView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -16,7 +13,7 @@ import org.springframework.stereotype.Controller;
 public class SampleController {
     
     @Autowired
-    ClienteService clienteService;
+    ClienteService  clienteService ;
     
    @FXML
     private Button idEntrar;

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="902.0" style="-fx-background-color: #FFFFFF;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bettercoding.jfx.TelaPrincipalController">
+<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="902.0" style="-fx-background-color: #FFFFFF;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bettercoding.jfx.controller.TelaPrincipalController">
     <stylesheets>
         <URL value="@/fxml/telaprincipal.css" />
     </stylesheets>
@@ -26,7 +26,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="botaoContratos" layoutX="281.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="143.0" text="          CONTRATOS" />
+            <Button fx:id="botaoContratos" layoutX="281.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="151.0" text="      ESTEIRA CONTRATOS" />
             <Button fx:id="botaoOP" layoutX="436.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="186.0" text="          ORDEM PAGAMENTO" />
             <Button fx:id="botaoRelatorio" layoutX="638.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="143.0" text="            RELATÓRIOS">
                <font>
@@ -38,12 +38,12 @@
                   <Image url="@cliente.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="viewEmprestimo" fitHeight="44.0" fitWidth="44.0" layoutX="139.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="viewEmprestimo" fitHeight="44.0" fitWidth="33.0" layoutX="139.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../imagem/emp.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="imagemContrato" fitHeight="44.0" fitWidth="52.0" layoutX="281.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imagemContrato" fitHeight="55.0" fitWidth="33.0" layoutX="281.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../imagem/contratos.png" />
                </image>

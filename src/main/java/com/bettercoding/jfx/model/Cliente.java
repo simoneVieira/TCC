@@ -10,10 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-/**
- *
- * @author Jefferson
- */
 @Entity
 public class Cliente {
     
