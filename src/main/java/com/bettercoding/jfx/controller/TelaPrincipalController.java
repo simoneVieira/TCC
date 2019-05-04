@@ -20,13 +20,14 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
+import org.springframework.stereotype.Controller;
 
 /**
  * FXML Controller class
  *
  * @author SimoneBarbosa
  */
+@Controller
 public class TelaPrincipalController implements Initializable {
 
     @FXML
@@ -69,7 +70,6 @@ public class TelaPrincipalController implements Initializable {
         imgRelatorio.setImage(imgRl);
 
     }
-   
 
     @FXML
     protected void botaoCliente(ActionEvent e) {
@@ -88,5 +88,50 @@ public class TelaPrincipalController implements Initializable {
 
         System.out.println("chegouu aqui");
 
+        
+
     }
+
+    @FXML
+    protected void botaoCli(ActionEvent e) {
+
+    }
+
+    @FXML
+    protected void botaoEmprestimo(ActionEvent e) {
+        Stage stage = new Stage();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/fxml/TelaEmprestimo.fxml"));
+        } catch (IOException ex) {
+            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        
+         botaoEmprestimo.getScene().getWindow().hide();
+
+        //System.out.println("chegouu aqui");
+    }
+ 
+    @FXML
+    protected void botaoOP(ActionEvent e) {
+        Stage stage = new Stage();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/fxml/TelaCliente.fxml"));
+        } catch (IOException ex) {
+            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        stage.setTitle("TELA PRINCIPAL");
+        botaoCliente.getScene().getWindow().hide();
+
+        System.out.println("chegouu aqui");
+
+    }
+    
 }

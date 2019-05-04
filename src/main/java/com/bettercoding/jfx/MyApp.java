@@ -35,8 +35,8 @@ public class MyApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
-        rootNode = fxmlLoader.load();
-       Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
+         rootNode = fxmlLoader.load();
+      Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
         cenaLogin = new Scene(root);
 
         primaryStage.setTitle("Carteira");
@@ -44,7 +44,7 @@ public class MyApp extends Application {
         primaryStage.setScene(cenaLogin);
         primaryStage.show();
        
-      // primaryStage.close();
+      //primaryStage.close();
       
      
     }

@@ -1,5 +1,6 @@
 package com.bettercoding.jfx.controller;
 
+import com.bettercoding.jfx.MyApp;
 import com.bettercoding.jfx.model.Cliente;
 import com.bettercoding.jfx.service.ClienteService;
 import javafx.event.ActionEvent;
@@ -25,10 +26,10 @@ public class SampleController {
    private String myUrl;
 
     
-    @FXML
+   @FXML
     public void salvarCli(){
         Cliente c = new Cliente();
-        c.setNome("João");
+       c.setNome("João");
         
         clienteService.salvarCli(c);
         
@@ -40,7 +41,7 @@ public class SampleController {
      */
     @FXML
     protected void entrar(ActionEvent e) {
-        //MyApp.changescren("cenaLogin");
+        MyApp.changescren("cenaLogin");
         System.out.println("chega a qui");
     }
 }

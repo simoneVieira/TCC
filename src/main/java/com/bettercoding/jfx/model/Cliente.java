@@ -16,25 +16,24 @@ public class Cliente {
     private Long id;
     private String nome;
     private String usuario;
-    private Long senha;
+    //private Long senha;
+   // private Long telefone1;
+
+    
+
+
+   
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
 
-    public void setSenha(Long senha) {
-        this.senha = senha;
-    }
     
 
     public String getUsuario() {
         return usuario;
     }
 
-    public Long getSenha() {
-        return senha;
-    }
-  
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
