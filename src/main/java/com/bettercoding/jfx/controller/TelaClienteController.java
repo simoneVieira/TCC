@@ -35,7 +35,7 @@ public class TelaClienteController implements Initializable {
     
 
     @Autowired
-    ClienteService  clienteServi ;
+    ClienteService  clienteService ;
    
     @FXML
     private Pane idVoltarMenu;
@@ -230,9 +230,11 @@ public class TelaClienteController implements Initializable {
    @FXML
     public void idSalvar(ActionEvent e){
         Cliente c = new Cliente();
-       c.setNome("João");
+        c.setNome("João");
         
-        clienteServi.salvarCli(c);
+        clienteService.salvarCli(c);
+        
+        System.out.println("OIIIII");
         
     }
 }

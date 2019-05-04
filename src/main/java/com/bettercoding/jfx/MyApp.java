@@ -34,13 +34,13 @@ public class MyApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
-        fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
-         rootNode = fxmlLoader.load();
+       // fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
+        // rootNode = fxmlLoader.load();
       Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
         cenaLogin = new Scene(root);
 
         primaryStage.setTitle("Carteira");
-        Scene scene = new Scene(rootNode, 800, 600);
+//        Scene scene = new Scene(rootNode, 800, 600);
         primaryStage.setScene(cenaLogin);
         primaryStage.show();
        

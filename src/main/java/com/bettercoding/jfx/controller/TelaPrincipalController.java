@@ -102,7 +102,7 @@ public class TelaPrincipalController implements Initializable {
         Stage stage = new Stage();
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/TelaEmprestimo.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/fxml/TelaCli.fxml"));
         } catch (IOException ex) {
             Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -120,7 +120,7 @@ public class TelaPrincipalController implements Initializable {
         Stage stage = new Stage();
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/TelaCliente.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/fxml/TelaCli.fxml"));
         } catch (IOException ex) {
             Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
