@@ -21,13 +21,13 @@
                   <Font name="Arial Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="botaoEmprestimo" layoutX="139.0" mnemonicParsing="false" onAction="#botaoEmprestimo" prefHeight="72.0" prefWidth="136.0" text="          EMPRÉSTIMOS">
+            <Button fx:id="botaoEmprestimo" layoutX="139.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="136.0" text="          EMPRÉSTIMOS">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
             <Button fx:id="botaoContratos" layoutX="281.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="151.0" text="      ESTEIRA CONTRATOS" />
-            <Button fx:id="botaoOP" layoutX="436.0" mnemonicParsing="false" onAction="#botaoOP" prefHeight="72.0" prefWidth="186.0" text="          ORDEM PAGAMENTO" />
+            <Button fx:id="botaoOP" layoutX="436.0" mnemonicParsing="false"  prefHeight="72.0" prefWidth="186.0" text="          ORDEM PAGAMENTO" />
             <Button fx:id="botaoRelatorio" layoutX="638.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="143.0" text="            RELATÓRIOS">
                <font>
                   <Font name="Arial" size="12.0" />

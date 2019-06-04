@@ -92,46 +92,45 @@ public class TelaPrincipalController implements Initializable {
 
     }
 
-    @FXML
     protected void botaoCli(ActionEvent e) {
 
     }
 
-    @FXML
-    protected void botaoEmprestimo(ActionEvent e) {
-        Stage stage = new Stage();
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/TelaCli.fxml"));
-        } catch (IOException ex) {
-            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-        
-         botaoEmprestimo.getScene().getWindow().hide();
-
-        //System.out.println("chegouu aqui");
-    }
+//    @FXML
+//    protected void botaoEmprestimo(ActionEvent e) {
+//        Stage stage = new Stage();
+//        Parent root = null;
+//        try {
+//            root = FXMLLoader.load(getClass().getResource("/fxml/TelaCli.fxml"));
+//        } catch (IOException ex) {
+//            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        Scene scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+//        
+//         botaoEmprestimo.getScene().getWindow().hide();
+//
+//        //System.out.println("chegouu aqui");
+//    }
  
-    @FXML
-    protected void botaoOP(ActionEvent e) {
-        Stage stage = new Stage();
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/TelaCli.fxml"));
-        } catch (IOException ex) {
-            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-        stage.setTitle("TELA PRINCIPAL");
-        botaoCliente.getScene().getWindow().hide();
-
-        System.out.println("chegouu aqui");
-
-    }
+//    @FXML
+//    protected void botaoOP(ActionEvent e) {
+//       Stage stage = new Stage();
+//        Parent root = null;
+//        try {
+//            root = FXMLLoader.load(getClass().getResource("/fxml/TelaCli.fxml"));
+//        } catch (IOException ex) {
+//            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        Scene scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+//        stage.setTitle("TELA PRINCIPAL");
+//        botaoCliente.getScene().getWindow().hide();
+//
+//        System.out.println("chegouu aqui");
+//
+//    }
     
 }

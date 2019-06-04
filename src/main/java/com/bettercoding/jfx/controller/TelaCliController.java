@@ -28,24 +28,18 @@ public class TelaCliController implements Initializable {
     
     @Autowired
     ClienteService  clienteService ;
+   
    @FXML
     private TextField idTeste;
 
     @FXML
     private Button iidsalvaTeste;
+      
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+       // TODO
+   
     }    
-    @FXML
-    public void iidsalvaTeste(ActionEvent e){
-        Cliente c = new Cliente();
-        c.setNome("João");
-        
-        clienteService.salvarCli(c);
-        
-        System.out.println("OIIIII");
-        
-    }
+   
 }

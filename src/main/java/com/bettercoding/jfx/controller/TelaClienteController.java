@@ -34,8 +34,9 @@ public class TelaClienteController implements Initializable {
 
     
 
-    @Autowired
-    ClienteService  clienteService ;
+   
+
+     Cliente c = new Cliente();
    
     @FXML
     private Pane idVoltarMenu;
@@ -155,7 +156,8 @@ public class TelaClienteController implements Initializable {
      @Value("${my.url}")
    private String myUrl;
 
-  
+   @Autowired
+    ClienteService  clienteService ;
         
 
     @Override
@@ -227,12 +229,14 @@ public class TelaClienteController implements Initializable {
         fieldConta.setEditable(false);
     
 }
-   @FXML
-    public void idSalvar(ActionEvent e){
-        Cliente c = new Cliente();
+    @FXML
+    public void salvarCli(){
+     
         c.setNome("João");
+      
+       
         
-        clienteService.salvarCli(c);
+         Cliente salvarCli = clienteService.salvarCli(c);
         
         System.out.println("OIIIII");
         
