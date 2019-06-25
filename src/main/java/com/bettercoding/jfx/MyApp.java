@@ -12,7 +12,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 public class MyApp extends Application {
-    private ConfigurableApplicationContext springContext;
+    public static ConfigurableApplicationContext springContext;
     private Parent rootNode;
     private FXMLLoader fxmlLoader;
     private static Scene cenaLogin;
@@ -35,7 +35,7 @@ public class MyApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
        // fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
-        // rootNode = fxmlLoader.load();
+         //rootNode = fxmlLoader.load();
       Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
         cenaLogin = new Scene(root);
 
@@ -44,7 +44,7 @@ public class MyApp extends Application {
         primaryStage.setScene(cenaLogin);
         primaryStage.show();
        
-      //primaryStage.close();
+     // primaryStage.close();
       
      
     }

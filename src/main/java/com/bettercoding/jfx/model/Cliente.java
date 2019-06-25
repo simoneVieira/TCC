@@ -10,56 +10,88 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Cliente {
 
     private Long id;
     private String nome;
-    private Long cpf;
-    private Long rg;
-    private Long telefone1;
-    private Long telefone2;
+
+   
+    private String cpf;
+    private String rg;
+    private String telefone1;
+    private String telefone2;
+  
     private Date dataNascimento;
     private String endereco;
     private String complemento;
     private String cidade;
     private String setor;
-    private Long cep;
-    private Long numero;
+    private String cep;
+    private String numero;
+    
+    
+   
+ public Cliente(String nome) {
+        this.nome = nome;
+    }
+    public Cliente(){
+        
+    }
 
-    public Long getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(Long cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
-    public Long getRg() {
+    public String getRg() {
         return rg;
     }
 
-    public void setRg(Long rg) {
+    public void setRg(String rg) {
         this.rg = rg;
     }
 
-    public Long getTelefone1() {
+    public String getTelefone1() {
         return telefone1;
     }
 
-    public void setTelefone1(Long telefone1) {
+    public void setTelefone1(String telefone1) {
         this.telefone1 = telefone1;
     }
 
-    public Long getTelefone2() {
+    public String getTelefone2() {
         return telefone2;
     }
 
-    public void setTelefone2(Long telefone2) {
+    public void setTelefone2(String telefone2) {
         this.telefone2 = telefone2;
     }
 
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+     
+    
+    @Temporal(TemporalType.DATE)
     public Date getDataNascimento() {
         return dataNascimento;
     }
@@ -98,22 +130,6 @@ public class Cliente {
 
     public void setSetor(String setor) {
         this.setor = setor;
-    }
-
-    public Long getCep() {
-        return cep;
-    }
-
-    public void setCep(Long cep) {
-        this.cep = cep;
-    }
-
-    public Long getNumero() {
-        return numero;
-    }
-
-    public void setNumero(Long numero) {
-        this.numero = numero;
     }
 
     @Id

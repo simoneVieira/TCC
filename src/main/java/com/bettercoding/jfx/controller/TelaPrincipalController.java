@@ -5,6 +5,7 @@
  */
 package com.bettercoding.jfx.controller;
 
+import com.bettercoding.jfx.MyApp;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,7 +21,9 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
+
 
 /**
  * FXML Controller class
@@ -76,7 +79,11 @@ public class TelaPrincipalController implements Initializable {
         Stage stage = new Stage();
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/TelaCliente.fxml"));
+        FXMLLoader fxml = new FXMLLoader();
+        fxml.setControllerFactory(MyApp.springContext::getBean);
+        fxml.setLocation(getClass().getResource("/fxml/TelaCliente.fxml"));
+        root = fxml.load();
+        
         } catch (IOException ex) {
             Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
