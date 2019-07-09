@@ -9,6 +9,7 @@ import com.bettercoding.jfx.model.Cliente;
 import com.bettercoding.jfx.repository.ClienteRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,17 +21,20 @@ public class ClienteService {
     public Cliente salvarCli(Cliente c) {
         return clienteRepository.save(c);
     }
-    
-    public String clie(){
-   for (Cliente produto : clienteRepository.findAll()) {
-    System.out.println(produto.toString());
-}
-   return "";
+
+    public List<Cliente> clie() {
+        return clienteRepository.findAll();
+    }
+     public Cliente buscaCli(String cpf) {
+        return clienteRepository.findByCpf(cpf);
+    }
+      
+     public void excluirCliente(Long id) {
+        clienteRepository.deleteById(id);
     }
 
-    public void miau() {
-        System.out.println("miau");
-        
-    }
+//    public void excluirCliente(Cliente cli) {
+//       
+//    }
 
 }

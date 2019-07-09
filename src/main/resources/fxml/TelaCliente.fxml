@@ -105,11 +105,11 @@
                   <Label layoutX="46.0" layoutY="108.0" text="Obrigatório:" textFill="WHITE" />
                </children>
             </Pane>
-            <Pane layoutX="129.0" layoutY="359.0" prefHeight="358.0" prefWidth="1388.0" style="-fx-background-color: #FFFFFF;">
+            <Pane layoutX="129.0" layoutY="368.0" prefHeight="358.0" prefWidth="1388.0" style="-fx-background-color: #FFFFFF;">
                <children>
                   <Button fx:id="idSalvar" layoutX="488.0" layoutY="291.0" mnemonicParsing="false" onAction="#salvarCli" prefHeight="50.0" prefWidth="112.0" text="      SALVAR" />
-                  <Button fx:id="idbtnCanccelar" layoutX="629.0" layoutY="290.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="112.0" text="     EXCLUIR" />
-                  <Button fx:id="btnPesquisar" layoutX="1077.0" layoutY="14.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="77.0" text="         PESQUISAR" />
+                  <Button fx:id="idbtnCanccelar" layoutX="629.0" layoutY="290.0" mnemonicParsing="false" onAction="#excluirCliente" prefHeight="50.0" prefWidth="112.0" text="     EXCLUIR" />
+                  <Button fx:id="btnPesquisar" layoutX="1077.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="59.0" />
                   <ImageView fx:id="imageSalvar" fitHeight="37.0" fitWidth="37.0" layoutX="488.0" layoutY="298.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../imagem/salvar.png" />
@@ -121,16 +121,24 @@
                      </image>
                   </ImageView>
                   <ImageView fx:id="viewLupa" fitHeight="27.0" fitWidth="37.0" layoutX="741.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true" />
-                  <TableView fx:id="tabela" layoutY="76.0" prefHeight="200.0" prefWidth="1247.0">
+                  <TableView fx:id="tabela" layoutX="63.0" layoutY="111.0" prefHeight="165.0" prefWidth="1146.0">
                     <columns>
-                      <TableColumn fx:id="idCollumNome" prefWidth="228.00003051757812" text="NOME:" />
-                      <TableColumn fx:id="idCollumCPF" minWidth="0.0" prefWidth="157.0" text="CPF:" />
-                        <TableColumn fx:id="idCollumTelefone" prefWidth="203.0" text="TELEFONE:" />
-                        <TableColumn fx:id="idCollumNascimento" prefWidth="165.0" text="DATA NASC:" />
-                        <TableColumn fx:id="idCollumEnd" prefWidth="216.0" text="ENDEREÇO:" />
-                        <TableColumn fx:id="idCollumCidade" prefWidth="276.0" text="CIDADE:" />
+                      <TableColumn fx:id="idCollumNome" prefWidth="239.0" text="NOME:" />
+                      <TableColumn fx:id="idCollumCPF" minWidth="0.0" prefWidth="143.0" text="CPF:" />
+                        <TableColumn fx:id="idCollumTelefone" prefWidth="197.0" text="TELEFONE:" />
+                        <TableColumn fx:id="idCollumNascimento" prefWidth="126.0" text="DATA NASC:" />
+                        <TableColumn fx:id="idCollumEnd" prefWidth="171.0" text="ENDEREÇO:" />
+                        <TableColumn fx:id="idCollumCidade" prefWidth="143.0" text="CIDADE:" />
+                        <TableColumn fx:id="codCLIENTE" prefWidth="125.0" text="CODIGO" />
                     </columns>
                   </TableView>
+                  <TextField fx:id="campoPesquisa" layoutX="824.0" layoutY="14.0" onAction="#botaoP" prefHeight="38.0" prefWidth="236.0" promptText="Informe o CPF" />
+                  <ImageView fx:id="viewLupa" fitHeight="50.0" fitWidth="37.0" layoutX="1088.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagem/lupa.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="btnp" layoutX="1081.0" layoutY="71.0" mnemonicParsing="false" onAction="#botaoP" text="Button" />
                </children></Pane>
          </children>
     </AnchorPane>

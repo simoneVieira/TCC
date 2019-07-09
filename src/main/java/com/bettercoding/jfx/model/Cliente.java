@@ -6,6 +6,7 @@
 package com.bettercoding.jfx.model;
 
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +25,6 @@ public class Cliente {
     private String rg;
     private String telefone1;
     private String telefone2;
-  
     private Date dataNascimento;
     private String endereco;
     private String complemento;
@@ -41,7 +41,7 @@ public class Cliente {
     public Cliente(){
         
     }
-
+    @Column(name = "cpf", unique = true)
     public String getCpf() {
         return cpf;
     }
