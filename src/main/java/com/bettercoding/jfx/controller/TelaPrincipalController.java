@@ -24,7 +24,6 @@ import javafx.stage.Stage;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
 
-
 /**
  * FXML Controller class
  *
@@ -58,6 +57,7 @@ public class TelaPrincipalController implements Initializable {
     private ImageView imagemOP;
     @FXML
     private ImageView imgRelatorio;
+    private static Stage stage;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -76,33 +76,31 @@ public class TelaPrincipalController implements Initializable {
 
     @FXML
     protected void botaoCliente(ActionEvent e) {
-        Stage stage = new Stage();
+         stage = new Stage();
         Parent root = null;
         try {
-        FXMLLoader fxml = new FXMLLoader();
-        fxml.setControllerFactory(MyApp.springContext::getBean);
-        fxml.setLocation(getClass().getResource("/fxml/TelaCliente.fxml"));
-        root = fxml.load();
-        
+            FXMLLoader fxml = new FXMLLoader();
+            fxml.setControllerFactory(MyApp.springContext::getBean);
+            fxml.setLocation(getClass().getResource("/fxml/TelaCliente.fxml"));
+            root = fxml.load();
+
         } catch (IOException ex) {
             Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        stage.setTitle("TELA PRINCIPAL");
+
         botaoCliente.getScene().getWindow().hide();
 
-        System.out.println("chegouu aqui");
-
-        
-
+    }
+    public static Stage retornaStage(){
+        return stage;
     }
 
     protected void botaoCli(ActionEvent e) {
 
     }
-  
 
 //    @FXML
 //    protected void botaoEmprestimo(ActionEvent e) {
@@ -121,7 +119,6 @@ public class TelaPrincipalController implements Initializable {
 //
 //        //System.out.println("chegouu aqui");
 //    }
- 
 //    @FXML
 //    protected void botaoOP(ActionEvent e) {
 //       Stage stage = new Stage();
@@ -140,5 +137,4 @@ public class TelaPrincipalController implements Initializable {
 //        System.out.println("chegouu aqui");
 //
 //    }
-    
 }

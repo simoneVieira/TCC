@@ -6,6 +6,7 @@
 package com.bettercoding.jfx.controller;
 
 import ch.qos.logback.core.CoreConstants;
+import com.bettercoding.jfx.MyApp;
 import com.bettercoding.jfx.model.Cliente;
 import com.bettercoding.jfx.service.ClienteService;
 import java.io.IOException;
@@ -21,7 +22,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
@@ -35,6 +39,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
@@ -152,7 +157,8 @@ public class TelaClienteController implements Initializable {
     private Label lbAsteriscoCPF;
     @FXML
     private Label labAstersicoRG;
-    public String opcao;
+    @FXML
+    private Button idButtonVoltar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -304,9 +310,10 @@ public class TelaClienteController implements Initializable {
     }
 
     public ObservableList<Cliente> atualizaTabela = FXCollections.observableArrayList();
+
     // metodo q seta o outro metodo de busca pelo o cpf.
     public ObservableList<Cliente> atualizaTabela() {
-         Cliente c = new Cliente();
+        Cliente c = new Cliente();
         cliente = (ObservableList<Cliente>) clienteService.buscaCli(c.getCpf());
         return cliente;
     }
@@ -397,7 +404,7 @@ public class TelaClienteController implements Initializable {
                 dialogoResultado.setContentText("DADOS DELETADOS COM SUCESSO!");
                 dialogoResultado.showAndWait();
             } else {
-               alert.close();
+                alert.close();
 
             }
 
@@ -418,10 +425,41 @@ public class TelaClienteController implements Initializable {
         fieldNumero.setText("");
         idCli.setText("");
     }
-   
-    public void abreTelaPrincipal(){
-        TelaPrincipalController tpc = new TelaPrincipalController();
+
+    public void fechaTela() {
+        Stage sta = new Stage();
+        Parent rot = null;
+        try {
+            FXMLLoader fxml = new FXMLLoader();
+            fxml.setControllerFactory(MyApp.springContext::getBean);
+            fxml.setLocation(getClass().getResource("/fxml/TelaCliente.fxml"));
+            rot = fxml.load();
+           
+
+        } catch (IOException ex) {
+            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Scene scene = new Scene(rot);
+        sta.setScene(scene);
+         sta.close();
+        // TelaClienteController.
+
+    }
+
+    public void abreTelaPrincipal() {
         
+        Stage stage = new Stage();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/fxml/TelaPrincipal.fxml"));
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        TelaPrincipalController.retornaStage().close();
+       
     }
 
 }

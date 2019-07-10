@@ -12,116 +12,82 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bettercoding.jfx.controller.TelaClienteController">
+<VBox prefHeight="300.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bettercoding.jfx.controller.TelaClienteController">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="719.0" prefWidth="1507.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="100.0" prefWidth="1497.0" VBox.vgrow="ALWAYS">
          <children>
-            <Pane fx:id="idVoltarMenu" layoutX="129.0" prefHeight="326.0" prefWidth="1388.0" style="-fx-background-color: #FFFFFF;" AnchorPane.topAnchor="0.0">
+            <Pane fx:id="idVoltarMenu" layoutY="64.0" prefHeight="278.0" prefWidth="1565.0" style="-fx-background-color: #FFFFFF;" AnchorPane.topAnchor="64.0">
                <children>
-                  <TextField fx:id="fieldNome" layoutX="86.0" layoutY="87.0" prefHeight="38.0" prefWidth="453.0" style="-fx-alignment: #FFFFFF;" />
-                  <Label fx:id="labelNome" layoutX="12.0" layoutY="97.0" text="NOME:" />
-                  <TextField fx:id="fieldCPF" layoutX="641.0" layoutY="86.0" onKeyReleased="#validaCPF" prefHeight="38.0" prefWidth="247.0" />
-                  <Label fx:id="labelCpf" layoutX="579.0" layoutY="97.0" text="CPF:" />
-                  <TextField fx:id="fieldRG" layoutX="1005.0" layoutY="213.0" prefHeight="38.0" prefWidth="155.0" />
-                  <Label fx:id="labelRG" layoutX="940.0" layoutY="224.0" text="RG:" />
-                  <TextField fx:id="fielTelefone1" layoutX="86.0" layoutY="144.0" onKeyReleased="#validaTelefone1" prefHeight="38.0" prefWidth="236.0" />
-                  <TextField fx:id="fieldTelefone2" layoutX="643.0" layoutY="135.0" onKeyReleased="#validaTelefone2" prefHeight="38.0" prefWidth="217.0" />
-                  <Label fx:id="labeltelefone1" layoutX="12.0" layoutY="153.0" text="TELEFONE 1:" />
-                  <Label fx:id="labelTelefone2" layoutX="557.0" layoutY="153.0" text="TELEFONE 2:" />
-                  <TextField fx:id="fieldNasciemento" layoutX="86.0" layoutY="194.0" onKeyReleased="#validaDataNascimento" prefHeight="38.0" prefWidth="204.0" />
-                  <Label layoutX="16.0" layoutY="199.0" text="DATA NAS:" />
-                  <TextField fx:id="fieldComplemento" layoutX="1005.0" layoutY="151.0" prefHeight="38.0" prefWidth="175.0" />
-                  <Label fx:id="labelcomple" layoutX="905.0" layoutY="162.0" text="COMPLEMENTO:" />
-                  <TextField fx:id="fieldSetor" layoutX="1005.0" layoutY="86.0" prefHeight="38.0" prefWidth="168.0" />
-                  <Label fx:id="labelsetor" layoutX="942.0" layoutY="97.0" text="SETOR:" />
-                  <TextField fx:id="fieldCidade" layoutX="643.0" layoutY="196.0" prefHeight="38.0" prefWidth="195.0" />
-                  <Label fx:id="labelCidade" layoutX="584.0" layoutY="206.0" text="CIDADE:" />
-                  <TextField fx:id="fieldCep" layoutX="372.0" layoutY="187.0" prefHeight="38.0" prefWidth="195.0" />
-                  <Label fx:id="labelcep" layoutX="331.0" layoutY="196.0" text="CEP:" />
-                  <TextField fx:id="fieldEndereco" layoutX="86.0" layoutY="267.0" prefHeight="38.0" prefWidth="361.0" />
-                  <Label fx:id="labelendereco" layoutX="12.0" layoutY="270.0" text="ENDEREÇO:  " />
-                  <TextField fx:id="fieldNumero" layoutX="665.0" layoutY="249.0" onKeyReleased="#validaNumero" prefHeight="38.0" prefWidth="99.0" />
-                  <Label fx:id="labelnumero" layoutX="590.0" layoutY="259.0" text="NUMERO:" />
-                  <Pane layoutY="-6.0" prefHeight="64.0" prefWidth="1517.0" style="-fx-background-color: #00008B;">
-                     <children>
-                        <Label layoutX="403.0" layoutY="17.0" text="CADASTRO DE CLIENTE " textFill="WHITE">
-                           <font>
-                              <Font name="Bodoni MT" size="24.0" />
-                           </font>
-                        </Label>
-                        <ImageView fx:id="imageViewVolt" fitHeight="38.0" fitWidth="37.0" layoutX="1060.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../imagem/voltar.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </Pane>
-                  <Label layoutX="922.0" layoutY="270.0" prefHeight="17.0" prefWidth="77.0" text="Cod Cliente :" />
-                  <TextField fx:id="idCli" layoutX="1005.0" layoutY="267.0" prefHeight="38.0" prefWidth="89.0" />
-                  <Label fx:id="labelAsteriscoN" layoutX="86.0" layoutY="73.0" prefHeight="27.0" prefWidth="37.0" text="*" textFill="RED">
+                  <TextField fx:id="fieldNome" layoutX="86.0" layoutY="32.0" prefHeight="38.0" prefWidth="453.0" style="-fx-alignment: #FFFFFF;" />
+                  <Label fx:id="labelNome" layoutX="26.0" layoutY="43.0" text="NOME:" />
+                  <TextField fx:id="fieldCPF" layoutX="664.0" layoutY="25.0" onKeyReleased="#validaCPF" prefHeight="38.0" prefWidth="247.0" />
+                  <Label fx:id="labelCpf" layoutX="619.0" layoutY="35.0" text="CPF:" />
+                  <TextField fx:id="fieldRG" layoutX="1180.0" layoutY="200.0" prefHeight="38.0" prefWidth="155.0" />
+                  <Label fx:id="labelRG" layoutX="1112.0" layoutY="211.0" text="RG:" />
+                  <TextField fx:id="fielTelefone1" layoutX="86.0" layoutY="86.0" onKeyReleased="#validaTelefone1" prefHeight="38.0" prefWidth="236.0" />
+                  <TextField fx:id="fieldTelefone2" layoutX="667.0" layoutY="91.0" onKeyReleased="#validaTelefone2" prefHeight="38.0" prefWidth="217.0" />
+                  <Label fx:id="labeltelefone1" layoutX="11.0" layoutY="97.0" text="TELEFONE 1:" />
+                  <Label fx:id="labelTelefone2" layoutX="575.0" layoutY="106.0" text="TELEFONE 2:" />
+                  <TextField fx:id="fieldNasciemento" layoutX="86.0" layoutY="151.0" onKeyReleased="#validaDataNascimento" prefHeight="38.0" prefWidth="204.0" />
+                  <Label layoutX="14.0" layoutY="162.0" text="DATA NAS:" />
+                  <TextField fx:id="fieldComplemento" layoutX="1180.0" layoutY="135.0" prefHeight="38.0" prefWidth="175.0" />
+                  <Label fx:id="labelcomple" layoutX="1077.0" layoutY="146.0" text="COMPLEMENTO:" />
+                  <TextField fx:id="fieldSetor" layoutX="1180.0" layoutY="78.0" prefHeight="38.0" prefWidth="168.0" />
+                  <Label fx:id="labelsetor" layoutX="1122.0" layoutY="88.0" text="SETOR:" />
+                  <TextField fx:id="fieldCidade" layoutX="667.0" layoutY="151.0" prefHeight="38.0" prefWidth="195.0" />
+                  <Label fx:id="labelCidade" layoutX="597.0" layoutY="162.0" text="CIDADE:" />
+                  <TextField fx:id="fieldCep" layoutX="667.0" layoutY="208.0" prefHeight="38.0" prefWidth="195.0" />
+                  <Label fx:id="labelcep" layoutX="619.0" layoutY="219.0" text="CEP:" />
+                  <TextField fx:id="fieldEndereco" layoutX="86.0" layoutY="208.0" prefHeight="38.0" prefWidth="361.0" />
+                  <Label fx:id="labelendereco" layoutX="9.0" layoutY="219.0" text="ENDEREÇO:  " />
+                  <TextField fx:id="fieldNumero" layoutX="956.0" layoutY="143.0" onKeyReleased="#validaNumero" prefHeight="38.0" prefWidth="99.0" />
+                  <Label fx:id="labelnumero" layoutX="892.0" layoutY="154.0" text="NUMERO:" />
+                  <Label layoutX="1121.0" layoutY="22.0" prefHeight="17.0" prefWidth="77.0" text="Cod Cliente :" />
+                  <TextField fx:id="idCli" layoutX="1198.0" layoutY="13.0" prefHeight="38.0" prefWidth="89.0" />
+                  <Label fx:id="labelAsteriscoN" layoutX="62.0" layoutY="30.0" prefHeight="27.0" prefWidth="23.0" text="*" textFill="RED">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="labAsteriscoT" layoutX="86.0" layoutY="130.0" prefHeight="27.0" prefWidth="37.0" text="*" textFill="RED">
+                  <Label fx:id="labAsteriscoT" layoutX="62.0" layoutY="83.0" prefHeight="27.0" prefWidth="23.0" text="*" textFill="RED">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="labAsteriscoD" layoutX="86.0" layoutY="181.0" prefHeight="27.0" prefWidth="37.0" text="*" textFill="RED">
+                  <Label fx:id="labAsteriscoD" layoutX="62.0" layoutY="148.0" prefHeight="25.0" prefWidth="23.0" text="*" textFill="RED">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbAsteriscoCPF" layoutX="641.0" layoutY="70.0" prefHeight="27.0" prefWidth="37.0" text="*" textFill="RED">
+                  <Label fx:id="lbAsteriscoCPF" layoutX="633.0" layoutY="19.0" prefHeight="25.0" prefWidth="18.0" text="*" textFill="RED">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="labAstersicoRG" layoutX="1005.0" layoutY="200.0" prefHeight="27.0" prefWidth="37.0" text="*" textFill="RED">
+                  <Label fx:id="labAstersicoRG" layoutX="1130.0" layoutY="198.0" prefHeight="27.0" prefWidth="37.0" text="*" textFill="RED">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
                </children>
             </Pane>
-            <Pane layoutX="129.0" layoutY="323.0" prefHeight="38.0" prefWidth="1388.0" style="-fx-background-color: #00008B;">
+            <Pane layoutY="377.0" prefHeight="349.0" prefWidth="1568.0" style="-fx-background-color: #FFFFFF;">
                <children>
-                  <Label fx:id="labeldados" layoutX="501.0" layoutY="6.0" text="Buscar Dados" textFill="WHITE">
-                     <font>
-                        <Font name="Arial" size="23.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-            <!--<ButtonBar layoutX="14.0" layoutY="14.0" prefHeight="287.0" prefWidth="68.0" />-->
-            <Pane layoutX="-10.0" prefHeight="719.0" prefWidth="139.0" style="-fx-background-color: #00008B;">
-               <children>
-                  <Label layoutX="14.0" layoutY="90.0" text="*" textFill="WHITE">
-                     <font>
-                        <Font size="48.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="46.0" layoutY="108.0" text="Obrigatório:" textFill="WHITE" />
-               </children>
-            </Pane>
-            <Pane layoutX="129.0" layoutY="368.0" prefHeight="358.0" prefWidth="1388.0" style="-fx-background-color: #FFFFFF;">
-               <children>
-                  <Button fx:id="idSalvar" layoutX="488.0" layoutY="291.0" mnemonicParsing="false" onAction="#salvarCli" prefHeight="50.0" prefWidth="112.0" text="      SALVAR" />
-                  <Button fx:id="idbtnCanccelar" layoutX="629.0" layoutY="290.0" mnemonicParsing="false" onAction="#excluirCliente" prefHeight="50.0" prefWidth="112.0" text="     EXCLUIR" />
+                  <Button fx:id="idSalvar" layoutX="532.0" layoutY="268.0" mnemonicParsing="false" onAction="#salvarCli" prefHeight="50.0" prefWidth="112.0" text="      SALVAR" />
+                  <Button fx:id="idbtnCanccelar" layoutX="728.0" layoutY="268.0" mnemonicParsing="false" onAction="#excluirCliente" prefHeight="50.0" prefWidth="112.0" text="     EXCLUIR" />
                   <Button fx:id="btnPesquisar" layoutX="1077.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="59.0" />
-                  <ImageView fx:id="imageSalvar" fitHeight="37.0" fitWidth="37.0" layoutX="488.0" layoutY="298.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imageSalvar" fitHeight="37.0" fitWidth="37.0" layoutX="532.0" layoutY="274.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../imagem/salvar.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="viewExcluir" fitHeight="37.0" fitWidth="37.0" layoutX="629.0" layoutY="297.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="viewExcluir" fitHeight="37.0" fitWidth="37.0" layoutX="728.0" layoutY="274.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../imagem/Delete-icon-2.png" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="viewLupa" fitHeight="27.0" fitWidth="37.0" layoutX="741.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true" />
-                  <TableView fx:id="tabela" layoutX="63.0" layoutY="111.0" prefHeight="165.0" prefWidth="1146.0">
+                  <TableView fx:id="tabela" layoutX="69.0" layoutY="94.0" prefHeight="158.0" prefWidth="1171.0">
                     <columns>
                       <TableColumn fx:id="idCollumNome" prefWidth="239.0" text="NOME:" />
                       <TableColumn fx:id="idCollumCPF" minWidth="0.0" prefWidth="143.0" text="CPF:" />
@@ -129,7 +95,7 @@
                         <TableColumn fx:id="idCollumNascimento" prefWidth="126.0" text="DATA NASC:" />
                         <TableColumn fx:id="idCollumEnd" prefWidth="171.0" text="ENDEREÇO:" />
                         <TableColumn fx:id="idCollumCidade" prefWidth="143.0" text="CIDADE:" />
-                        <TableColumn fx:id="codCLIENTE" prefWidth="125.0" text="CODIGO" />
+                        <TableColumn fx:id="codCLIENTE" prefWidth="151.0" text="CODIGO" />
                     </columns>
                   </TableView>
                   <TextField fx:id="campoPesquisa" layoutX="824.0" layoutY="14.0" onAction="#botaoP" prefHeight="38.0" prefWidth="236.0" promptText="Informe o CPF" />
@@ -138,8 +104,32 @@
                         <Image url="@../imagem/lupa.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="btnp" layoutX="1081.0" layoutY="71.0" mnemonicParsing="false" onAction="#botaoP" text="Button" />
+                  <Button fx:id="btnp" layoutX="1148.0" layoutY="27.0" mnemonicParsing="false" onAction="#botaoP" text="Button" />
                </children></Pane>
+            <Pane prefHeight="66.0" prefWidth="1574.0" style="-fx-background-color: #00008B;">
+               <children>
+                  <Label layoutX="507.0" layoutY="17.0" text="CADASTRO DE CLIENTE " textFill="WHITE">
+                     <font>
+                        <Font name="Bodoni MT" size="24.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="idButtonVoltar" layoutX="1160.0" layoutY="14.0" mnemonicParsing="false" onAction="#abreTelaPrincipal" prefHeight="38.0" prefWidth="124.0" style="-fx-background-color: white;" text="      VOLTAR" />
+                  <ImageView fx:id="imageViewVolt" fitHeight="38.0" fitWidth="44.0" layoutX="1160.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagem/voltar.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Pane layoutY="341.0" prefHeight="38.0" prefWidth="1568.0" style="-fx-background-color: #00008B;">
+               <children>
+                  <Label fx:id="labeldados" layoutX="639.0" layoutY="6.0" text="Buscar Dados" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="23.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
          </children>
     </AnchorPane>
   </children>
