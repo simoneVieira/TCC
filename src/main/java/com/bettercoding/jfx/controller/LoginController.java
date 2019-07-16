@@ -68,7 +68,7 @@ public class LoginController implements Initializable {
     private ImageView viewCadeado;
     @FXML
     private AnchorPane AnchorPane;
-
+    private static Stage stage;
     // @Override
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -85,7 +85,7 @@ public class LoginController implements Initializable {
     protected void botaoEntrar(ActionEvent event) {
 
         if (idUsuario.getText().equals("simone") && (idSenha.getText().equals("123"))) {
-            Stage stage = new Stage();
+           stage = new Stage();
             Parent root = null;
             try {
                 root = FXMLLoader.load(getClass().getResource("/fxml/TelaPrincipal.fxml"));
@@ -106,6 +106,8 @@ public class LoginController implements Initializable {
         }
 
     }
-
+    public static Stage retornaStage(){
+        return stage;
+    }
 }
 

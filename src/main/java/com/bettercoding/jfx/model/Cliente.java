@@ -6,11 +6,14 @@
 package com.bettercoding.jfx.model;
 
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -19,8 +22,6 @@ public class Cliente {
 
     private Long id;
     private String nome;
-
-   
     private String cpf;
     private String rg;
     private String telefone1;
@@ -32,6 +33,12 @@ public class Cliente {
     private String setor;
     private String cep;
     private String numero;
+    
+    
+    
+    
+ 
+   
     
     
    
@@ -73,7 +80,7 @@ public class Cliente {
     public void setTelefone2(String telefone2) {
         this.telefone2 = telefone2;
     }
-
+   
     public String getCep() {
         return cep;
     }

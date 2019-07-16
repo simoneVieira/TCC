@@ -21,7 +21,7 @@
                   <Font name="Arial Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="botaoEmprestimo" layoutX="139.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="136.0" text="          EMPRÉSTIMOS">
+            <Button fx:id="botaoEmprestimo" layoutX="139.0" mnemonicParsing="false" onAction="#botaoEmprestimo" prefHeight="72.0" prefWidth="136.0" text="          EMPRÉSTIMOS">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -68,5 +68,10 @@
                </font>
             </Label>
          </children></Pane>
+      <Button fx:id="idSair" layoutX="1269.0" layoutY="202.0" mnemonicParsing="false" onAction="#fechaTelaPrincipal" prefHeight="24.0" prefWidth="69.0" text="SAIR " textFill="RED">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

@@ -57,6 +57,7 @@ public class TelaPrincipalController implements Initializable {
     private ImageView imagemOP;
     @FXML
     private ImageView imgRelatorio;
+    
     private static Stage stage;
 
     @Override
@@ -98,27 +99,36 @@ public class TelaPrincipalController implements Initializable {
         return stage;
     }
 
-    protected void botaoCli(ActionEvent e) {
 
+
+    @FXML
+    protected void botaoEmprestimo(ActionEvent e) {
+         stage = new Stage();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/fxml/TelaEmprestimo.fxml"));
+        } catch (IOException ex) {
+            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        
+         botaoEmprestimo.getScene().getWindow().hide();
+
+         
+    }
+   
+    public static Stage retornaCenaEmprestimo(){
+        return stage;
+    }
+    
+    public void fechaTelaPrincipal(){
+        LoginController.retornaStage().close();
     }
 
-//    @FXML
-//    protected void botaoEmprestimo(ActionEvent e) {
-//        Stage stage = new Stage();
-//        Parent root = null;
-//        try {
-//            root = FXMLLoader.load(getClass().getResource("/fxml/TelaCli.fxml"));
-//        } catch (IOException ex) {
-//            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        Scene scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
-//        
-//         botaoEmprestimo.getScene().getWindow().hide();
-//
-//        //System.out.println("chegouu aqui");
-//    }
+
+
 //    @FXML
 //    protected void botaoOP(ActionEvent e) {
 //       Stage stage = new Stage();

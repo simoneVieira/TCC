@@ -97,6 +97,8 @@ public class TelaEmprestimoController implements Initializable {
 
     @FXML
     private ImageView viewNovo;
+      @FXML
+    private MenuButton menuFormaContrato;
 
     @FXML
     private Button buttonSalvar;
@@ -129,6 +131,8 @@ public class TelaEmprestimoController implements Initializable {
     private ImageView viewPesquisa;
 
     
+    
+    TelaClienteController tcc = new TelaClienteController();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Image image = new Image("/imagem/salvar.png");
@@ -142,6 +146,13 @@ public class TelaEmprestimoController implements Initializable {
         Image imageNovo = new Image("/imagem/cliente.png");
         viewNovo.setImage(imageNovo);
         
-    }    
+    } 
+    
+    
+     public void botaoVoltar(){
+     tcc.abreTelaPrincipal();
+     tcc.fechaTela();
+     
+     }
     
 }

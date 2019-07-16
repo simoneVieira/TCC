@@ -15,15 +15,12 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="712.0" prefWidth="1373.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="com.bettercoding.jfx.controller.TelaEmprestimoController">
+<AnchorPane id="AnchorPane" prefHeight="712.0" prefWidth="1373.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bettercoding.jfx.controller.TelaEmprestimoController">
    <children>
       <Pane layoutX="-8.0" prefHeight="697.0" prefWidth="1381.0" style="-fx-background-color: #00008B;" AnchorPane.bottomAnchor="-101.0" AnchorPane.leftAnchor="-8.0" AnchorPane.topAnchor="0.0">
          <children>
             <Pane layoutY="61.0" prefHeight="316.0" prefWidth="1381.0" style="-fx-background-color: #FFFFFF;">
                <children>
-                  <Label layoutX="24.0" layoutY="17.0" text="Empréstimo:" />
-                  <TextField fx:id="idEmprestimo" layoutX="106.0" layoutY="8.0" prefHeight="36.0" prefWidth="347.0" />
                   <Label layoutX="27.0" layoutY="65.0" text="Convênio : " />
                   <MenuButton fx:id="IDCONVENIO" layoutX="106.0" layoutY="61.0" mnemonicParsing="false" text="Selecione">
                     <items>
@@ -39,12 +36,13 @@
                       <MenuItem mnemonicParsing="false" text="Andamento" />
                       <MenuItem mnemonicParsing="false" text="Pendente" />
                         <MenuItem mnemonicParsing="false" text="Pago" />
+                        <MenuItem mnemonicParsing="false" text="Cancelado" />
                     </items>
                   </MenuButton>
                   <Label layoutX="32.0" layoutY="106.0" text="Status : " />
-                  <Label layoutX="213.0" layoutY="64.0" text="Forma de Pagamento :" />
-                  <RadioButton fx:id="radioConta" layoutX="351.0" layoutY="65.0" mnemonicParsing="false" text="Conta" />
-                  <RadioButton fx:id="radioOP" layoutX="351.0" layoutY="106.0" mnemonicParsing="false" text="Ordem de Pagamento" />
+                  <Label layoutX="212.0" layoutY="38.0" text="Forma de Pagamento :" />
+                  <RadioButton fx:id="radioConta" layoutX="353.0" layoutY="21.0" mnemonicParsing="false" text="Conta" />
+                  <RadioButton fx:id="radioOP" layoutX="351.0" layoutY="62.0" mnemonicParsing="false" text="Ordem de Pagamento" />
                   <Label layoutX="511.0" layoutY="20.0" text="Quat. Parcelas : " />
                   <TextField fx:id="idParcelas" layoutX="595.0" layoutY="11.0" prefHeight="36.0" prefWidth="82.0" />
                   <TextField fx:id="fieldMatricula" layoutX="586.0" layoutY="72.0" prefHeight="36.0" prefWidth="135.0" />
@@ -66,19 +64,19 @@
                         <MenuItem mnemonicParsing="false" text="SANTANDER" />
                     </items>
                   </MenuButton>
-                  <Label layoutX="527.0" layoutY="140.0" text="Banco: " />
-                  <TextField fx:id="fieldBeneficio" layoutX="995.0" layoutY="11.0" prefHeight="36.0" prefWidth="103.0" />
-                  <Label layoutX="920.0" layoutY="18.0" text="Nº Beneficio :" />
-                  <TextField fx:id="fieldValor" layoutX="353.0" layoutY="139.0" prefHeight="36.0" prefWidth="135.0" />
-                  <Label layoutX="247.0" layoutY="151.0" text="VALOR PARCELA :" />
-                  <Label layoutX="748.0" layoutY="18.0" text="Taxa :" />
-                  <TextField fx:id="idTaxa" layoutX="786.0" layoutY="12.0" prefHeight="36.0" prefWidth="120.0" />
-                  <Label layoutX="734.0" layoutY="79.0" text="Data Início :" />
-                  <TextField fx:id="fieldDataInicio" layoutX="800.0" layoutY="69.0" prefHeight="36.0" prefWidth="120.0" />
-                  <Label layoutX="736.0" layoutY="135.0" text="Data Final :" />
-                  <TextField fx:id="fieldDataFinal" layoutX="800.0" layoutY="122.0" prefHeight="36.0" prefWidth="120.0" />
-                  <Label layoutX="727.0" layoutY="185.0" text="Nº Contrato :" />
-                  <TextField fx:id="fieldNumContrato" layoutX="800.0" layoutY="175.0" prefHeight="36.0" prefWidth="128.0" />
+                  <Label layoutX="519.0" layoutY="140.0" text="Banco: " />
+                  <TextField fx:id="fieldBeneficio" layoutX="965.0" layoutY="11.0" prefHeight="36.0" prefWidth="103.0" />
+                  <Label layoutX="891.0" layoutY="17.0" text="Nº Beneficio :" />
+                  <TextField fx:id="fieldValor" layoutX="321.0" layoutY="117.0" prefHeight="36.0" prefWidth="135.0" />
+                  <Label layoutX="212.0" layoutY="126.0" text="VALOR PARCELA :" />
+                  <Label layoutX="721.0" layoutY="18.0" text="Taxa :" />
+                  <TextField fx:id="idTaxa" layoutX="762.0" layoutY="11.0" prefHeight="36.0" prefWidth="120.0" />
+                  <Label layoutX="882.0" layoutY="78.0" text="Data Início :" />
+                  <TextField fx:id="fieldDataInicio" layoutX="956.0" layoutY="68.0" prefHeight="36.0" prefWidth="120.0" />
+                  <Label layoutX="692.0" layoutY="128.0" text="Data Final :" />
+                  <TextField fx:id="fieldDataFinal" layoutX="755.0" layoutY="116.0" prefHeight="36.0" prefWidth="120.0" />
+                  <Label layoutX="677.0" layoutY="185.0" text="Nº Contrato :" />
+                  <TextField fx:id="fieldNumContrato" layoutX="751.0" layoutY="175.0" prefHeight="36.0" prefWidth="128.0" />
                   <Label layoutX="1096.0" layoutY="17.0" text=" Valor Solicitado :" />
                   <TextField fx:id="idValorSolicitado" layoutX="1199.0" layoutY="11.0" prefHeight="36.0" prefWidth="156.0" />
                   <Label layoutX="1098.0" layoutY="70.0" text="Valor Liberado :" />
@@ -86,14 +84,14 @@
                   <Label layoutX="1098.0" layoutY="176.0" text="Valor Comissão :" />
                   <TextField fx:id="idComissão" layoutX="1203.0" layoutY="166.0" prefHeight="36.0" prefWidth="156.0" />
                   <Label layoutX="1099.0" layoutY="115.0" text="Porce. Comissão" />
-                  <TextField fx:id="fieldComi" layoutX="1203.0" layoutY="109.0" prefHeight="36.0" prefWidth="120.0" />
+                  <TextField fx:id="fieldComi" layoutX="1203.0" layoutY="106.0" prefHeight="36.0" prefWidth="120.0" />
                   <Button fx:id="buttonSelecionarCliente" layoutX="486.0" layoutY="231.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="120.0" text="        Buscar Cliente" />
                   <Label layoutX="618.0" layoutY="247.0" text="Nome:" />
                   <TextField fx:id="fieldNomeCliente" layoutX="667.0" layoutY="238.0" prefHeight="36.0" prefWidth="395.0" />
                   <Label layoutX="1082.0" layoutY="248.0" text="Cpf :" />
                   <TextField fx:id="fieldCpfCli" layoutX="1128.0" layoutY="246.0" prefHeight="36.0" prefWidth="233.0" />
-                  <Label layoutX="1128.0" layoutY="215.0" text="Financeira :" />
-                  <MenuButton fx:id="boxFinan" layoutX="1203.0" layoutY="211.0" mnemonicParsing="false" text="Selecione">
+                  <Label layoutX="883.0" layoutY="140.0" text="Financeira :" />
+                  <MenuButton fx:id="boxFinan" layoutX="963.0" layoutY="136.0" mnemonicParsing="false" text="Selecione">
                     <items>
                       <MenuItem mnemonicParsing="false" text="Credito Fácil" />
                       <MenuItem mnemonicParsing="false" text="contrato vindo de outra financeira" />
@@ -106,6 +104,14 @@
                         <Image url="@../imagem/cliente.png" />
                      </image>
                   </ImageView>
+                  <Label layoutX="13.0" layoutY="17.0" text="Forma Contrato:" />
+                  <MenuButton fx:id="menuFormaContrato" layoutX="106.0" layoutY="14.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="82.0" text="NOVO">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="CARTÃO CONSIGNADO" />
+                      <MenuItem mnemonicParsing="false" text="REFINANCIAMENTO" />
+                        <MenuItem mnemonicParsing="false" text="PORTABILIDADE" />
+                    </items>
+                  </MenuButton>
                </children>
             </Pane>
             <Label layoutX="482.0" layoutY="14.0" text="CADASTRO DE EMPRÉSTIMO" textFill="WHITE">
@@ -114,7 +120,7 @@
                </font>
             </Label>
             <Button fx:id="buttonSalvar" layoutX="499.0" layoutY="387.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="103.0" text="         SALVAR" />
-            <Button fx:id="buttonVoltar" layoutX="623.0" layoutY="387.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="103.0" text="      VOLTAR" />
+            <Button fx:id="buttonVoltar" layoutX="623.0" layoutY="387.0" mnemonicParsing="false" onAction="#botaoVoltar" prefHeight="49.0" prefWidth="103.0" text="      VOLTAR" />
             <Button fx:id="buttonExcluir" layoutX="757.0" layoutY="387.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="103.0" text="       EXCLUIR" />
             <Pane layoutY="512.0" prefHeight="203.0" prefWidth="1381.0">
                <children>
