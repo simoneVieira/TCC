@@ -85,7 +85,7 @@
                   <TextField fx:id="idComissão" layoutX="1203.0" layoutY="166.0" prefHeight="36.0" prefWidth="156.0" />
                   <Label layoutX="1099.0" layoutY="115.0" text="Porce. Comissão" />
                   <TextField fx:id="fieldComi" layoutX="1203.0" layoutY="106.0" prefHeight="36.0" prefWidth="120.0" />
-                  <Button fx:id="buttonSelecionarCliente" layoutX="486.0" layoutY="231.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="120.0" text="        Buscar Cliente" />
+                  <Button fx:id="buttonSelecionarCliente" layoutX="486.0" layoutY="231.0" mnemonicParsing="false" onAction="#chamaTelaCliente" prefHeight="49.0" prefWidth="120.0" text="        Buscar Cliente" />
                   <Label layoutX="618.0" layoutY="247.0" text="Nome:" />
                   <TextField fx:id="fieldNomeCliente" layoutX="667.0" layoutY="238.0" prefHeight="36.0" prefWidth="395.0" />
                   <Label layoutX="1082.0" layoutY="248.0" text="Cpf :" />
@@ -112,6 +112,7 @@
                         <MenuItem mnemonicParsing="false" text="PORTABILIDADE" />
                     </items>
                   </MenuButton>
+                  <TextField fx:id="idCliente" layoutX="483.0" layoutY="181.0" />
                </children>
             </Pane>
             <Label layoutX="482.0" layoutY="14.0" text="CADASTRO DE EMPRÉSTIMO" textFill="WHITE">
@@ -119,7 +120,7 @@
                   <Font name="Bodoni MT" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="buttonSalvar" layoutX="499.0" layoutY="387.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="103.0" text="         SALVAR" />
+            <Button fx:id="buttonSalvar" layoutX="499.0" layoutY="387.0" mnemonicParsing="false" onAction="#salvarEmprestimo" prefHeight="49.0" prefWidth="103.0" text="         SALVAR" />
             <Button fx:id="buttonVoltar" layoutX="623.0" layoutY="387.0" mnemonicParsing="false" onAction="#botaoVoltar" prefHeight="49.0" prefWidth="103.0" text="      VOLTAR" />
             <Button fx:id="buttonExcluir" layoutX="757.0" layoutY="387.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="103.0" text="       EXCLUIR" />
             <Pane layoutY="512.0" prefHeight="203.0" prefWidth="1381.0">

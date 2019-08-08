@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import static org.hibernate.engine.internal.Cascade.cascade;
 
 /**
  *
@@ -21,8 +22,6 @@ import javax.persistence.OneToOne;
 @Entity
 public class Emprestimo {
     private Long id_Emprestimo;
-
-   
     private String convenio;
     private String status;
     private String observacao;
@@ -44,8 +43,9 @@ public class Emprestimo {
     private Cliente cliente;
 
    
-    @OneToOne(cascade={CascadeType.REFRESH,CascadeType.MERGE,CascadeType.REMOVE})
-    @JoinColumn(name = "id")
+    
+      @OneToOne(cascade={CascadeType.REFRESH,CascadeType.REMOVE})
+    @JoinColumn(name = "id_cliente")
     public Cliente getCliente() {
         return cliente;
     }

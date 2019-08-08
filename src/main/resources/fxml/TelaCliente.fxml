@@ -99,12 +99,18 @@
                     </columns>
                   </TableView>
                   <TextField fx:id="campoPesquisa" layoutX="824.0" layoutY="14.0" onAction="#botaoP" prefHeight="38.0" prefWidth="236.0" promptText="Informe o CPF" />
-                  <ImageView fx:id="viewLupa" fitHeight="50.0" fitWidth="37.0" layoutX="1088.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="viewLupas" fitHeight="50.0" fitWidth="37.0" layoutX="1088.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../imagem/lupa.png" />
                      </image>
                   </ImageView>
                   <Button fx:id="btnp" layoutX="1148.0" layoutY="27.0" mnemonicParsing="false" onAction="#botaoP" text="Button" />
+                  <Button fx:id="adcionarCli" layoutX="922.0" layoutY="268.0" mnemonicParsing="false" onAction="#adcionarCliente" prefHeight="50.0" prefWidth="144.0" text="             ADD CLIENTE" />
+                  <ImageView fx:id="viewAddCliente" fitHeight="50.0" fitWidth="44.0" layoutX="922.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagem/cliente.png" />
+                     </image>
+                  </ImageView>
                </children></Pane>
             <Pane prefHeight="66.0" prefWidth="1574.0" style="-fx-background-color: #00008B;">
                <children>

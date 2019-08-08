@@ -31,6 +31,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -125,6 +126,10 @@ public class TelaClienteController implements Initializable {
     @FXML
     private TextField campoPesquisa;
     @FXML
+    private Button adcionarCli;
+    @FXML
+    private ImageView viewAddCliente;
+    @FXML
     private Button btnp;
     @Value("${my.url}")
     private String myUrl;
@@ -159,6 +164,39 @@ public class TelaClienteController implements Initializable {
     private Label labAstersicoRG;
     @FXML
     private Button idButtonVoltar;
+    private static ReceptorCliente receptorCliente;
+
+    public static String nomeCli;
+    public static String cpfCli;
+
+    public static String getCpfCli() {
+        return cpfCli;
+    }
+
+    public static void setCpfCli(String cpfCli) {
+        TelaClienteController.cpfCli = cpfCli;
+    }
+
+    public static String getNomeCli() {
+        return nomeCli;
+    }
+
+    public static void setNomeCli(String nomeCli) {
+        TelaClienteController.nomeCli = nomeCli;
+    }
+
+    @Autowired
+    TelaPrincipalController tp = new TelaPrincipalController();
+    @Autowired
+    TelaEmprestimoController tec = new TelaEmprestimoController();
+
+    public TelaClienteController(){
+        
+    }
+
+    public  static void setReceptor(ReceptorCliente rc){
+     receptorCliente = rc;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -170,6 +208,8 @@ public class TelaClienteController implements Initializable {
         viewExcluir.setImage(imageCancelar);
         Image imagePesquisar = new Image("/imagem/lupa.png");
         viewLupa.setImage(imagePesquisar);
+        Image imgadd = new Image("/imagem/cliente.png");
+        viewAddCliente.setImage(imgadd);
         listarClientes();
         tabela.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> selecionarItemTableViewClientes(newValue));
@@ -372,6 +412,7 @@ public class TelaClienteController implements Initializable {
         idCli.setText(String.valueOf(cliente.getId()));
     }
 
+    @FXML
     public void excluirCliente() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         ButtonType btnSim = new ButtonType("OK");
@@ -426,28 +467,30 @@ public class TelaClienteController implements Initializable {
         idCli.setText("");
     }
 
-    public void fechaTela() {
-        Stage sta = new Stage();
-        Parent rot = null;
-        try {
-            FXMLLoader fxml = new FXMLLoader();
-            fxml.setControllerFactory(MyApp.springContext::getBean);
-            fxml.setLocation(getClass().getResource("/fxml/TelaCliente.fxml"));
-            rot = fxml.load();
-           
-
-        } catch (IOException ex) {
-            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Scene scene = new Scene(rot);
-        sta.setScene(scene);
-         sta.close();
-        // TelaClienteController.
-
+//    public void fechaTela() {
+//        Stage sta = new Stage();
+//        Parent rot = null;
+//        try {
+//            FXMLLoader fxml = new FXMLLoader();
+//            fxml.setControllerFactory(MyApp.springContext::getBean);
+//            fxml.setLocation(getClass().getResource("/fxml/TelaCliente.fxml"));
+//            rot = fxml.load();
+//            Scene scene = new Scene(rot);
+//            sta.setScene(scene);
+//            sta.close();
+//        } catch (IOException ex) {
+//            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+//
+//        }
+//
+//    }
+    public void fechaTelaCliente() {
+        TelaPrincipalController.fechaCliente().close();
     }
 
+    @FXML
     public void abreTelaPrincipal() {
-        
+
         Stage stage = new Stage();
         Parent root = null;
         try {
@@ -459,7 +502,21 @@ public class TelaClienteController implements Initializable {
         stage.setScene(scene);
         stage.show();
         TelaPrincipalController.retornaStage().close();
-       
+
     }
 
+    @FXML
+    public void adcionarCliente() {
+
+        Cliente c = new Cliente();
+        c = (tabela.getSelectionModel().getSelectedItem());
+        TelaClienteController.setNomeCli(c.getNome());
+        c = (tabela.getSelectionModel().getSelectedItem());
+        TelaClienteController.setCpfCli(c.getCpf());
+         
+        receptorCliente.receberCliente(c);
+        fechaTelaCliente();
+       // fechaTelaCliente();
+        //tp.botaoEmprestimo();
+    }
 }

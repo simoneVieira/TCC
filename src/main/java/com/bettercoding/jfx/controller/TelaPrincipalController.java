@@ -6,6 +6,7 @@
 package com.bettercoding.jfx.controller;
 
 import com.bettercoding.jfx.MyApp;
+import com.bettercoding.jfx.model.Cliente;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -57,7 +58,7 @@ public class TelaPrincipalController implements Initializable {
     private ImageView imagemOP;
     @FXML
     private ImageView imgRelatorio;
-    
+
     private static Stage stage;
 
     @Override
@@ -76,8 +77,8 @@ public class TelaPrincipalController implements Initializable {
     }
 
     @FXML
-    protected void botaoCliente(ActionEvent e) {
-         stage = new Stage();
+    protected void botaoCliente() {
+        stage = new Stage();
         Parent root = null;
         try {
             FXMLLoader fxml = new FXMLLoader();
@@ -95,39 +96,42 @@ public class TelaPrincipalController implements Initializable {
         botaoCliente.getScene().getWindow().hide();
 
     }
-    public static Stage retornaStage(){
+
+    public static Stage retornaStage() {
         return stage;
     }
 
-
-
     @FXML
-    protected void botaoEmprestimo(ActionEvent e) {
-         stage = new Stage();
+    protected void botaoEmprestimo() {
+        stage = new Stage();
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/TelaEmprestimo.fxml"));
+            FXMLLoader fxml = new FXMLLoader();
+            fxml.setControllerFactory(MyApp.springContext::getBean);
+            fxml.setLocation(getClass().getResource("/fxml/TelaEmprestimo.fxml"));
+            root = fxml.load();
         } catch (IOException ex) {
             Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        
-         botaoEmprestimo.getScene().getWindow().hide();
 
-         
+        botaoEmprestimo.getScene().getWindow().hide();
+
     }
-   
-    public static Stage retornaCenaEmprestimo(){
+
+    public static Stage retornaCenaEmprestimo() {
         return stage;
     }
-    
-    public void fechaTelaPrincipal(){
+
+    public void fechaTelaPrincipal() {
         LoginController.retornaStage().close();
     }
 
-
+    public static Stage fechaCliente() {
+        return stage;
+    }
 
 //    @FXML
 //    protected void botaoOP(ActionEvent e) {
