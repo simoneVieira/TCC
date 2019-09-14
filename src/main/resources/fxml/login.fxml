@@ -12,7 +12,7 @@
 <AnchorPane id="AnchorPane" prefHeight="717.0" prefWidth="1372.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bettercoding.jfx.controller.LoginController">
     <children>
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
-      <Pane fx:id="painelLogin" layoutX="556.0" layoutY="148.0" prefHeight="503.0" prefWidth="401.0" style="-fx-background-color: #191970;" AnchorPane.leftAnchor="556.0" AnchorPane.topAnchor="148.0">
+      <Pane fx:id="painelLogin" layoutX="486.0" layoutY="129.0" prefHeight="503.0" prefWidth="401.0" style="-fx-background-color: #191970;" AnchorPane.leftAnchor="486.0" AnchorPane.topAnchor="129.0">
          <children>
             <TextField fx:id="idUsuario" layoutX="14.0" layoutY="88.0" prefHeight="41.0" prefWidth="368.0" promptText="Usuário" style="-fx-background-color: #ffffff;" />
             <PasswordField fx:id="idSenha" layoutX="14.0" layoutY="179.0" prefHeight="41.0" prefWidth="368.0" promptText="Senha" style="-fx-background-color: #ffffff;" />
@@ -32,7 +32,7 @@
             <ImageView fx:id="viewCadeado" fitHeight="34.0" fitWidth="32.0" layoutX="213.0" layoutY="354.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
-      <Label fx:id="labelTitulo" layoutX="539.0" layoutY="26.0" prefHeight="94.0" prefWidth="458.0" text="SYSMONEY" textFill="#000000d4">
+      <Label fx:id="labelTitulo" layoutX="486.0" layoutY="14.0" prefHeight="94.0" prefWidth="458.0" text="SYSMONEY" textFill="#000000d4">
          <font>
             <Font name="Arial" size="72.0" />
          </font>

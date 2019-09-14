@@ -68,10 +68,5 @@
                </font>
             </Label>
          </children></Pane>
-      <Button fx:id="idSair" layoutX="1269.0" layoutY="202.0" mnemonicParsing="false" onAction="#fechaTelaPrincipal" prefHeight="24.0" prefWidth="69.0" text="SAIR " textFill="RED">
-         <font>
-            <Font name="Arial" size="12.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>

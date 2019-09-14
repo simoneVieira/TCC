@@ -18,7 +18,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Cliente {
+public  class Cliente {
 
     private Long id;
     private String nome;

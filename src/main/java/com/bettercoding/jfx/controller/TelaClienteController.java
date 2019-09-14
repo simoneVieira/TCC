@@ -12,12 +12,18 @@ import com.bettercoding.jfx.service.ClienteService;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.FieldPosition;
 import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -114,7 +120,7 @@ public class TelaClienteController implements Initializable {
     @FXML
     private Button idbtnCanccelar;
     @FXML
-    private Button btnPesquisar;
+    private Button btPesquisa;
     @FXML
     private ImageView imageSalvar;
     @FXML
@@ -129,8 +135,6 @@ public class TelaClienteController implements Initializable {
     private Button adcionarCli;
     @FXML
     private ImageView viewAddCliente;
-    @FXML
-    private Button btnp;
     @Value("${my.url}")
     private String myUrl;
     @FXML
@@ -189,14 +193,19 @@ public class TelaClienteController implements Initializable {
     TelaPrincipalController tp = new TelaPrincipalController();
     @Autowired
     TelaEmprestimoController tec = new TelaEmprestimoController();
+    Cliente c = new Cliente();
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-    public TelaClienteController(){
-        
+    public TelaClienteController() {
+    
+    }
+  
+    public static void setReceptor(ReceptorCliente rc) {
+        receptorCliente = rc;
+        // System.out.println("Definiu receptor");
     }
 
-    public  static void setReceptor(ReceptorCliente rc){
-     receptorCliente = rc;
-    }
+    private ObjectProperty<Cliente> clienteObjProperty = new SimpleObjectProperty();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -210,6 +219,7 @@ public class TelaClienteController implements Initializable {
         viewLupa.setImage(imagePesquisar);
         Image imgadd = new Image("/imagem/cliente.png");
         viewAddCliente.setImage(imgadd);
+        initTable();
         listarClientes();
         tabela.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> selecionarItemTableViewClientes(newValue));
@@ -226,6 +236,7 @@ public class TelaClienteController implements Initializable {
 
     }
 
+    
     @FXML
     private void validaTelefone1() {
         TextFieldFormatter formata = new TextFieldFormatter();
@@ -266,9 +277,7 @@ public class TelaClienteController implements Initializable {
 
     }
 
-    public String removerMascara(String str) {
-        return str.replaceAll("\\D", "");
-    }
+  
 
     @FXML
     private void validaDataNascimento() {
@@ -299,6 +308,15 @@ public class TelaClienteController implements Initializable {
             cli.setCep(fieldCep.getText());
             cli.setNumero(fieldNumero.getText());
             cli.setCpf(fieldCPF.getText());
+
+            try {
+                cli.setDataNascimento(sdf.parse(fieldNasciemento.getText()));
+            } catch (ParseException ex) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("AVISO");
+                alert.setHeaderText("favor ,informar uma data");
+                alert.show();
+            }
             cli.setComplemento(fieldComplemento.getText());
             cli.setTelefone1(fielTelefone1.getText());
             cli.setTelefone2(fieldTelefone2.getText());
@@ -306,8 +324,7 @@ public class TelaClienteController implements Initializable {
             cli.setRg(fieldRG.getText());
             cli.setEndereco(fieldEndereco.getText());
 
-            cli.setDataNascimento(new Date());
-
+            //cli.setDataNascimento(new Date());
             if (idCli.getText().equals("")) {
                 try {
                     Cliente salvarCli = clienteService.salvarCli(cli);
@@ -351,17 +368,10 @@ public class TelaClienteController implements Initializable {
 
     public ObservableList<Cliente> atualizaTabela = FXCollections.observableArrayList();
 
-    // metodo q seta o outro metodo de busca pelo o cpf.
-    public ObservableList<Cliente> atualizaTabela() {
-        Cliente c = new Cliente();
-        cliente = (ObservableList<Cliente>) clienteService.buscaCli(c.getCpf());
-        return cliente;
-    }
-
     public void listarClientes() {
         if (!atualizaTabela.isEmpty()) {
             atualizaTabela.clear();
-            System.out.println("Limpou a tabela");
+
         }
 
         for (Cliente cliente : clienteService.clie()) {
@@ -378,31 +388,13 @@ public class TelaClienteController implements Initializable {
         tabela.setItems(atualizaTabela);
     }
 
-    // metodo intitulado para filtro com o cpf
-    private ObservableList<Cliente> buscaCli() {
-        ObservableList<Cliente> clientePesquisa = FXCollections.observableArrayList();
-        for (int x = 0; x < cliente.size(); x++) {
-            if (cliente.get(x).getCpf().contains(campoPesquisa.getText())) {
-                clientePesquisa.add(cliente.get(x));
-            }
-        }
-        return clientePesquisa;
-    }
-
-    //chamada do metodo dentro do botão de busca
-    @FXML
-    public void botaoP() {
-        tabela.setItems(buscaCli());
-        System.out.println("oieee");
-    }
-
     public void selecionarItemTableViewClientes(Cliente cliente) {
         fieldNome.setText(cliente.getNome());
         fieldCPF.setText(cliente.getCpf());
         fieldRG.setText(cliente.getRg());
         fielTelefone1.setText(cliente.getTelefone1());
         fieldTelefone2.setText(cliente.getTelefone2());
-        //fieldNasciemento.setText(cliente.getDataNascimento());
+        fieldNasciemento.setText(sdf.format(cliente.getDataNascimento()));
         fieldComplemento.setText(cliente.getComplemento());
         fieldSetor.setText(cliente.getSetor());
         fieldCidade.setText(cliente.getCidade());
@@ -431,7 +423,7 @@ public class TelaClienteController implements Initializable {
                 fieldRG.setText("");
                 fielTelefone1.setText("");
                 fieldTelefone2.setText("");
-                //fieldNasciemento.setText(cliente.getDataNascimento());
+                fieldNasciemento.setText("");
                 fieldComplemento.setText("");
                 fieldSetor.setText("");
                 fieldCidade.setText("");
@@ -467,23 +459,6 @@ public class TelaClienteController implements Initializable {
         idCli.setText("");
     }
 
-//    public void fechaTela() {
-//        Stage sta = new Stage();
-//        Parent rot = null;
-//        try {
-//            FXMLLoader fxml = new FXMLLoader();
-//            fxml.setControllerFactory(MyApp.springContext::getBean);
-//            fxml.setLocation(getClass().getResource("/fxml/TelaCliente.fxml"));
-//            rot = fxml.load();
-//            Scene scene = new Scene(rot);
-//            sta.setScene(scene);
-//            sta.close();
-//        } catch (IOException ex) {
-//            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-//
-//        }
-//
-//    }
     public void fechaTelaCliente() {
         TelaPrincipalController.fechaCliente().close();
     }
@@ -503,20 +478,89 @@ public class TelaClienteController implements Initializable {
         stage.show();
         TelaPrincipalController.retornaStage().close();
 
+        LoginController lc = new LoginController();
+        LoginController.retornaStage();
     }
+     public void btn_Click()
+        {
+            adcionarCli.setDisable(true);
+        }
 
     @FXML
     public void adcionarCliente() {
-
-        Cliente c = new Cliente();
-        c = (tabela.getSelectionModel().getSelectedItem());
-        TelaClienteController.setNomeCli(c.getNome());
-        c = (tabela.getSelectionModel().getSelectedItem());
-        TelaClienteController.setCpfCli(c.getCpf());
-         
-        receptorCliente.receberCliente(c);
         fechaTelaCliente();
-       // fechaTelaCliente();
-        //tp.botaoEmprestimo();
+        receptorCliente.receberCliente(tabela.getSelectionModel().getSelectedItem());
+        adcionarCli.setDisable(true);
+
     }
+
+    @FXML
+    private void botaoP() {
+
+        String x = campoPesquisa.getText();
+
+        try {
+
+            long cpf = Long.parseLong(x);
+
+            listarClientesByCPF();
+
+        } catch (NumberFormatException ignore) {
+
+            listarClientesByNome();
+     
+
+        } catch (Exception ex) {
+//            Alert alert = new Alert(Alert.AlertType.WARNING);
+//            alert.setTitle("AVISO");
+//            alert.setHeaderText("Cliente Não Cadastrado!");
+//            alert.show();
+        
+        }
+    }
+
+    public void listarClientesByCPF() {
+        if (!atualizaTabela.isEmpty()) {
+            atualizaTabela.clear();
+
+        }
+
+        List<Cliente> listaCpfCliente = clienteService.buscaCli("" + campoPesquisa.getText());
+
+        for (Cliente cliente : listaCpfCliente) {
+            atualizaTabela.add(cliente);
+        }
+
+        idCollumNome.setCellValueFactory(new PropertyValueFactory<Cliente, String>("nome"));
+        idCollumCPF.setCellValueFactory(new PropertyValueFactory<Cliente, String>("cpf"));
+        idCollumTelefone.setCellValueFactory(new PropertyValueFactory<Cliente, String>("telefone1"));
+        idCollumNascimento.setCellValueFactory(new PropertyValueFactory<Cliente, Date>("dataNascimento"));
+        idCollumEnd.setCellValueFactory(new PropertyValueFactory<Cliente, String>("endereco"));
+        idCollumCidade.setCellValueFactory(new PropertyValueFactory<Cliente, String>("cidade"));
+        codCLIENTE.setCellValueFactory(new PropertyValueFactory<Cliente, Long>("id"));
+        tabela.setItems(atualizaTabela);
+    }
+
+    public void listarClientesByNome() {
+        if (!atualizaTabela.isEmpty()) {
+            atualizaTabela.clear();
+
+        }
+
+        List<Cliente> listaNome = clienteService.buscaCliNome("" + campoPesquisa.getText());
+
+        for (Cliente cliente : listaNome) {
+            atualizaTabela.add(cliente);
+        }
+
+        idCollumNome.setCellValueFactory(new PropertyValueFactory<Cliente, String>("nome"));
+        idCollumCPF.setCellValueFactory(new PropertyValueFactory<Cliente, String>("cpf"));
+        idCollumTelefone.setCellValueFactory(new PropertyValueFactory<Cliente, String>("telefone1"));
+        idCollumNascimento.setCellValueFactory(new PropertyValueFactory<Cliente, Date>("dataNascimento"));
+        idCollumEnd.setCellValueFactory(new PropertyValueFactory<Cliente, String>("endereco"));
+        idCollumCidade.setCellValueFactory(new PropertyValueFactory<Cliente, String>("cidade"));
+        codCLIENTE.setCellValueFactory(new PropertyValueFactory<Cliente, Long>("id"));
+        tabela.setItems(atualizaTabela);
+    }
+
 }

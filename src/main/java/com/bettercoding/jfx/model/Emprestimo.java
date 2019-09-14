@@ -21,6 +21,7 @@ import static org.hibernate.engine.internal.Cascade.cascade;
  */
 @Entity
 public class Emprestimo {
+
     private Long id_Emprestimo;
     private String convenio;
     private String status;
@@ -40,11 +41,29 @@ public class Emprestimo {
     private String valorComissao;
     private String financeira;
     private String formaContrato;
+    private String quantidadeParcela;
+
+    
+
+    public Emprestimo(int i, String novo, String convenio, String status, String banco, String financeira) {
+        this.formaContrato = novo;
+        this.convenio = convenio;
+        this.status = status;
+        this.banco = banco;
+        this.financeira = financeira;
+
+    }
+
+    public Emprestimo(int i, String convenio) {
+        this.convenio = convenio;
+    }
+
+    public Emprestimo() {
+
+    }
     private Cliente cliente;
 
-   
-    
-      @OneToOne(cascade={CascadeType.REFRESH,CascadeType.REMOVE})
+    @OneToOne()
     @JoinColumn(name = "id_cliente")
     public Cliente getCliente() {
         return cliente;
@@ -53,7 +72,7 @@ public class Emprestimo {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId_Emprestimo() {
@@ -63,6 +82,7 @@ public class Emprestimo {
     public void setId_Emprestimo(Long id_Emprestimo) {
         this.id_Emprestimo = id_Emprestimo;
     }
+
     public String getConvenio() {
         return convenio;
     }
@@ -94,7 +114,7 @@ public class Emprestimo {
     public void setFormaPagamento(String formaPagamento) {
         this.formaPagamento = formaPagamento;
     }
-    
+
     public String getValorParcela() {
         return valorParcela;
     }
@@ -206,5 +226,18 @@ public class Emprestimo {
     public void setFormaContrato(String formaContrato) {
         this.formaContrato = formaContrato;
     }
-   
+    public String getQuantidadeParcela() {
+        return quantidadeParcela;
+    }
+
+    public void setQuantidadeParcela(String quantidadeParcela) {
+        this.quantidadeParcela = quantidadeParcela;
+    }
+
+    @Override
+    public String toString() {
+        return getFormaContrato();
+
+    }
+
 }

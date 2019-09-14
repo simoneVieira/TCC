@@ -43,7 +43,7 @@
                   <TextField fx:id="fieldNumero" layoutX="956.0" layoutY="143.0" onKeyReleased="#validaNumero" prefHeight="38.0" prefWidth="99.0" />
                   <Label fx:id="labelnumero" layoutX="892.0" layoutY="154.0" text="NUMERO:" />
                   <Label layoutX="1121.0" layoutY="22.0" prefHeight="17.0" prefWidth="77.0" text="Cod Cliente :" />
-                  <TextField fx:id="idCli" layoutX="1198.0" layoutY="13.0" prefHeight="38.0" prefWidth="89.0" />
+                  <TextField fx:id="idCli" editable="false" layoutX="1198.0" layoutY="13.0" prefHeight="38.0" prefWidth="89.0" />
                   <Label fx:id="labelAsteriscoN" layoutX="62.0" layoutY="30.0" prefHeight="27.0" prefWidth="23.0" text="*" textFill="RED">
                      <font>
                         <Font size="18.0" />
@@ -75,7 +75,6 @@
                <children>
                   <Button fx:id="idSalvar" layoutX="532.0" layoutY="268.0" mnemonicParsing="false" onAction="#salvarCli" prefHeight="50.0" prefWidth="112.0" text="      SALVAR" />
                   <Button fx:id="idbtnCanccelar" layoutX="728.0" layoutY="268.0" mnemonicParsing="false" onAction="#excluirCliente" prefHeight="50.0" prefWidth="112.0" text="     EXCLUIR" />
-                  <Button fx:id="btnPesquisar" layoutX="1077.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="59.0" />
                   <ImageView fx:id="imageSalvar" fitHeight="37.0" fitWidth="37.0" layoutX="532.0" layoutY="274.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../imagem/salvar.png" />
@@ -98,19 +97,14 @@
                         <TableColumn fx:id="codCLIENTE" prefWidth="151.0" text="CODIGO" />
                     </columns>
                   </TableView>
-                  <TextField fx:id="campoPesquisa" layoutX="824.0" layoutY="14.0" onAction="#botaoP" prefHeight="38.0" prefWidth="236.0" promptText="Informe o CPF" />
-                  <ImageView fx:id="viewLupas" fitHeight="50.0" fitWidth="37.0" layoutX="1088.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../imagem/lupa.png" />
-                     </image>
-                  </ImageView>
-                  <Button fx:id="btnp" layoutX="1148.0" layoutY="27.0" mnemonicParsing="false" onAction="#botaoP" text="Button" />
+                  <TextField fx:id="campoPesquisa" layoutX="824.0" layoutY="14.0" onAction="#botaoP" prefHeight="38.0" prefWidth="236.0" promptText="Informe o CPF ou nome" />
                   <Button fx:id="adcionarCli" layoutX="922.0" layoutY="268.0" mnemonicParsing="false" onAction="#adcionarCliente" prefHeight="50.0" prefWidth="144.0" text="             ADD CLIENTE" />
                   <ImageView fx:id="viewAddCliente" fitHeight="50.0" fitWidth="44.0" layoutX="922.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../imagem/cliente.png" />
                      </image>
                   </ImageView>
+                  <Button fx:id="btPesquisa" layoutX="1122.0" layoutY="21.0" mnemonicParsing="false" onAction="#botaoP" text="Pesquisar" />
                </children></Pane>
             <Pane prefHeight="66.0" prefWidth="1574.0" style="-fx-background-color: #00008B;">
                <children>

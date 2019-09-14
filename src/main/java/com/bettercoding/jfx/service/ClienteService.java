@@ -19,14 +19,24 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
 
     public Cliente salvarCli(Cliente c) {
+        
+        c.setCpf(c.getCpf().replace(".", ""));
+        c.setCpf(c.getCpf().replace("-", ""));
+       
+        
+        
+        
         return clienteRepository.save(c);
     }
 
     public List<Cliente> clie() {
         return clienteRepository.findAll();
     }
-     public Cliente buscaCli(String cpf) {
-        return clienteRepository.findByCpf(cpf);
+     public List<Cliente> buscaCli(String cpf) {
+        return clienteRepository.findByCpfContaining(cpf);
+    }
+      public List<Cliente> buscaCliNome(String nome) {
+        return clienteRepository.findByNomeContaining(nome);
     }
       
      public void excluirCliente(Long id) {

@@ -89,9 +89,14 @@ public class TelaPrincipalController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,1800,700);
+       
         stage.setScene(scene);
+        
         stage.show();
+        stage.resizableProperty();
+        stage.setResizable(false);
+        
 
         botaoCliente.getScene().getWindow().hide();
 
