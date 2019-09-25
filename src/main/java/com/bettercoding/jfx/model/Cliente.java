@@ -33,15 +33,6 @@ public  class Cliente {
     private String setor;
     private String cep;
     private String numero;
-    
-    
-    
-    
- 
-   
-    
-    
-   
  public Cliente(String nome) {
         this.nome = nome;
     }

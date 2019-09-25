@@ -87,18 +87,18 @@
                <children>
                   <TableView fx:id="tabela" layoutX="8.0" prefHeight="203.0" prefWidth="1373.0">
                     <columns>
-                      <TableColumn prefWidth="348.9999694824219" text="Nome Cliente :" />
-                      <TableColumn prefWidth="239.0" text="cpf :" />
-                        <TableColumn prefWidth="202.0" text="Empréstimo :" />
-                        <TableColumn prefWidth="207.0" text="Banco :" />
-                        <TableColumn prefWidth="207.0" text="Status :" />
-                        <TableColumn prefWidth="207.0" text="Convênio :" />
+                      <TableColumn fx:id="colunaCliente" prefWidth="348.9999694824219" text="Nome Cliente :" />
+                      <TableColumn fx:id="colunaCpf" prefWidth="239.0" text="cpf :" />
+                        <TableColumn fx:id="colunaEmprestimo" prefWidth="202.0" text="Empréstimo :" />
+                        <TableColumn fx:id="colunaBanco" prefWidth="207.0" text="Banco :" />
+                        <TableColumn fx:id="colunaStatus" prefWidth="207.0" text="Status :" />
+                        <TableColumn fx:id="colunaConvenio" prefWidth="207.0" text="Convênio :" />
                     </columns>
                   </TableView>
                </children>
             </Pane>
             <TextField fx:id="fieldPesquisa" layoutX="1014.0" layoutY="458.0" prefHeight="36.0" prefWidth="207.0" />
-            <Button fx:id="buttonP" layoutX="1230.0" layoutY="459.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="135.0" text="           PESQUISAR" />
+            <Button fx:id="buttonP" layoutX="1230.0" layoutY="459.0" mnemonicParsing="false" onAction="#listarEmprestimo" prefHeight="35.0" prefWidth="135.0" text="           PESQUISAR" />
             <ImageView fx:id="viewSalvar" fitHeight="36.0" fitWidth="30.0" layoutX="499.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../imagem/salvar.png" />

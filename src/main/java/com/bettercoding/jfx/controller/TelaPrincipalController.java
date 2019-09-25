@@ -7,6 +7,7 @@ package com.bettercoding.jfx.controller;
 
 import com.bettercoding.jfx.MyApp;
 import com.bettercoding.jfx.model.Cliente;
+import com.bettercoding.jfx.model.Usuario;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,10 +19,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import static javax.management.Query.value;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
 
@@ -42,24 +47,33 @@ public class TelaPrincipalController implements Initializable {
     @FXML
     private Button botaoEmprestimo;
 
-    @FXML
-    private Button botaoContratos;
-
+////    @FXML
+////    private Button botaoContratos;
     @FXML
     private Button botaoOP;
+    @FXML
+    private Button idCadastro;
 
     @FXML
     private ImageView imgCliente;
     @FXML
     private ImageView viewEmprestimo;
     @FXML
-    private ImageView imagemContrato;
-    @FXML
+//    private ImageView imagemContrato;
+//    @FXML
     private ImageView imagemOP;
     @FXML
     private ImageView imgRelatorio;
+    @FXML
+    private Label labelNomeUsuario;
+
+    @FXML
+    private Label labelUsuarioLogado;
 
     private static Stage stage;
+    
+    UsuarioController usc = new UsuarioController();
+    Usuario us;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -67,17 +81,28 @@ public class TelaPrincipalController implements Initializable {
         imgCliente.setImage(image);
         Image img = new Image("/imagem/emp.png");
         viewEmprestimo.setImage(img);
-        Image imgContrato = new Image("/imagem/contratos.png");
-        imagemContrato.setImage(imgContrato);
+//        Image imgContrato = new Image("/imagem/contratos.png");
+//        imagemContrato.setImage(imgContrato);
         Image imgOp = new Image("/imagem/op.png");
         imagemOP.setImage(imgOp);
         Image imgRl = new Image("/imagem/relatorio.png");
         imgRelatorio.setImage(imgRl);
+      
+        if( UsuarioController.userLogado.getTipoUsuario().equals(UsuarioController.TIPO_ADMIN)){
+        
+            botaoRelatorio.setVisible(true);
+            imgRelatorio.setVisible(true);
+            idCadastro.setVisible(true);
+        }
+            
+    
 
     }
+         
 
     @FXML
     protected void botaoCliente() {
+
         stage = new Stage();
         Parent root = null;
         try {
@@ -89,14 +114,13 @@ public class TelaPrincipalController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Scene scene = new Scene(root,1800,700);
-       
+        Scene scene = new Scene(root, 1800, 700);
+
         stage.setScene(scene);
-        
+
         stage.show();
         stage.resizableProperty();
         stage.setResizable(false);
-        
 
         botaoCliente.getScene().getWindow().hide();
 
@@ -126,34 +150,42 @@ public class TelaPrincipalController implements Initializable {
 
     }
 
+    @FXML
+    protected void idCadastro() {
+   
+        stage = new Stage();
+        Parent root = null;
+        try {
+            FXMLLoader fxml = new FXMLLoader();
+            fxml.setControllerFactory(MyApp.springContext::getBean);
+            fxml.setLocation(getClass().getResource("/fxml/TelaUsuario.fxml"));
+            root = fxml.load();
+        } catch (IOException ex) {
+            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        stage.resizableProperty();
+        stage.setResizable(false);
+
+//        botaoOP.getScene().getWindow().hide();
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        alert.setTitle("CONFIRMAÇÃO");
+//        alert.setHeaderText("DADOS SALVOS COM SUCESSO!");
+//        alert.show();
+    }
+
     public static Stage retornaCenaEmprestimo() {
         return stage;
     }
 
     public void fechaTelaPrincipal() {
-        LoginController.retornaStage().close();
+        UsuarioController.retornaStage().close();
     }
 
     public static Stage fechaCliente() {
         return stage;
     }
 
-//    @FXML
-//    protected void botaoOP(ActionEvent e) {
-//       Stage stage = new Stage();
-//        Parent root = null;
-//        try {
-//            root = FXMLLoader.load(getClass().getResource("/fxml/TelaCli.fxml"));
-//        } catch (IOException ex) {
-//            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        Scene scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
-//        stage.setTitle("TELA PRINCIPAL");
-//        botaoCliente.getScene().getWindow().hide();
-//
-//        System.out.println("chegouu aqui");
-//
-//    }
 }

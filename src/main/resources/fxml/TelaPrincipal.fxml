@@ -9,64 +9,59 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1963.0" style="-fx-background-color: #FFFFFF;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bettercoding.jfx.controller.TelaPrincipalController">
+<AnchorPane id="AnchorPane" fx:id="labelNome" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1963.0" style="-fx-background-color: #FFFFFF;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bettercoding.jfx.controller.TelaPrincipalController">
     <stylesheets>
         <URL value="@/fxml/telaprincipal.css" />
     </stylesheets>
    <children>
-      <Pane layoutX="31.0" layoutY="250.0" prefHeight="86.0" prefWidth="798.0">
+      <Pane layoutY="289.0" prefHeight="88.0" prefWidth="808.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="221.0" AnchorPane.topAnchor="289.0">
          <children>
-            <Button fx:id="botaoCliente" mnemonicParsing="false" onAction="#botaoCliente" prefHeight="72.0" prefWidth="129.0" text="              CLIENTE">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button fx:id="botaoEmprestimo" layoutX="139.0" mnemonicParsing="false" onAction="#botaoEmprestimo" prefHeight="72.0" prefWidth="136.0" text="          EMPRÉSTIMOS">
+            <Button fx:id="botaoEmprestimo" layoutX="209.0" layoutY="1.0" mnemonicParsing="false" onAction="#botaoEmprestimo" prefHeight="72.0" prefWidth="151.0" text="          EMPRÉSTIMOS">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="botaoContratos" layoutX="281.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="151.0" text="      ESTEIRA CONTRATOS" />
-            <Button fx:id="botaoOP" layoutX="436.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="186.0" text="          ORDEM PAGAMENTO" />
-            <Button fx:id="botaoRelatorio" layoutX="638.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="143.0" text="            RELATÓRIOS">
+            <Button fx:id="botaoOP" layoutX="394.0" layoutY="1.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="186.0" text="       CADASTRAR USUÁRIO" />
+            <Button fx:id="botaoRelatorio" layoutX="616.0" layoutY="1.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="143.0" text="            RELATÓRIOS" visible="false">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
             </Button>
-            <ImageView fx:id="imgCliente" fitHeight="44.0" fitWidth="47.0" layoutX="7.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@cliente.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="viewEmprestimo" fitHeight="44.0" fitWidth="33.0" layoutX="139.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="viewEmprestimo" fitHeight="44.0" fitWidth="33.0" layoutX="219.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../imagem/emp.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="imagemContrato" fitHeight="55.0" fitWidth="33.0" layoutX="281.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../imagem/contratos.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="imagemOP" fitHeight="44.0" fitWidth="44.0" layoutX="436.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imagemOP" fitHeight="44.0" fitWidth="44.0" layoutX="394.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../imagem/op.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="imgRelatorio" fitHeight="44.0" fitWidth="51.0" layoutX="645.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgRelatorio" fitHeight="44.0" fitWidth="51.0" layoutX="627.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../imagem/relatorio.png" />
                </image>
             </ImageView>
+            <Button fx:id="botaoCliente" layoutX="32.0" layoutY="1.0" mnemonicParsing="false" onAction="#botaoCliente" prefHeight="72.0" prefWidth="143.0" text="              CLIENTE">
+               <font>
+                  <Font name="Arial Bold" size="12.0" />
+               </font>
+            </Button>
+            <ImageView fx:id="imgCliente" fitHeight="44.0" fitWidth="47.0" layoutX="49.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@cliente.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
-      <Pane id="pane.setStyle " minHeight="-Infinity" minWidth="-Infinity" prefHeight="194.0" prefWidth="1964.0" styleClass="telaPrinc" stylesheets="@telaprincipal.css" AnchorPane.bottomAnchor="506.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane id="pane.setStyle " minHeight="-Infinity" minWidth="-Infinity" prefHeight="174.0" prefWidth="1963.0" styleClass="telaPrinc" stylesheets="@telaprincipal.css" AnchorPane.bottomAnchor="526.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label layoutX="29.0" layoutY="14.0" text="SYSMONEY" textFill="WHITE">
+            <Label layoutX="14.0" text="SYSMONEY" textFill="WHITE">
                <font>
                   <Font name="Tw Cen MT" size="57.0" />
                </font>
             </Label>
+            <Button fx:id="idCadastro" layoutX="1179.0" layoutY="127.0" mnemonicParsing="false" onAction="#idCadastro" prefHeight="33.0" prefWidth="174.0" text="Cadastrar Usuario" visible="false" />
          </children></Pane>
    </children>
 </AnchorPane>

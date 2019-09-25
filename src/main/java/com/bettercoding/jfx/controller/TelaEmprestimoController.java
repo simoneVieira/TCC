@@ -5,39 +5,41 @@
  */
 package com.bettercoding.jfx.controller;
 
-import com.bettercoding.jfx.MyApp;
 import com.bettercoding.jfx.model.Cliente;
 import com.bettercoding.jfx.model.Emprestimo;
-import com.bettercoding.jfx.service.ClienteService;
 import com.bettercoding.jfx.service.EmprestimoService;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+
 import javafx.collections.FXCollections;
-import static javafx.collections.FXCollections.observableList;
 import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeTableColumn.CellDataFeatures;
+import javafx.scene.control.cell.PropertyValueFactory;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
+import javafx.util.Callback;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -49,12 +51,11 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class TelaEmprestimoController implements Initializable, ReceptorCliente {
 
-    @FXML
-    private MenuButton IDCONVENIO;
-
-    @FXML
-    private MenuButton boxStatus;
-
+//    @FXML
+//    private MenuButton IDCONVENIO;
+//
+//    @FXML
+//    private MenuButton boxStatus;
     @FXML
     private RadioButton radioConta;
 
@@ -127,7 +128,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     private Button buttonExcluir;
 
     @FXML
-    private TableView<?> tabela;
+    private TableView<Emprestimo> tabela;
 
     @FXML
     private TextField fieldPesquisa;
@@ -143,6 +144,23 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
 
     @FXML
     private ImageView viewCancelar;
+    @FXML
+    private TableColumn<Emprestimo, Cliente> colunaCliente;
+
+    @FXML
+    private TableColumn<Emprestimo, Cliente> colunaCpf;
+
+    @FXML
+    private TableColumn<Emprestimo, String> colunaEmprestimo;
+
+    @FXML
+    private TableColumn<Emprestimo, String> colunaBanco;
+
+    @FXML
+    private TableColumn<Emprestimo, String> colunaStatus;
+
+    @FXML
+    private TableColumn<Emprestimo, String> colunaConvenio;
 
     @FXML
     private TextField idCliente;
@@ -195,7 +213,12 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         carregaStatus();
         carregaEmprestimo();
         carregaFinanceira();
-
+        initTable();
+        listarEmprestimos();
+        tabela.getSelectionModel().selectedItemProperty().addListener(
+                (Emprestimo, oldValue, newValue) -> selecionarItemTableViewEmprestimo(newValue));
+       
+        
     }
 
     @FXML
@@ -210,8 +233,37 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         TelaClienteController.setReceptor(this);
         TelaPrincipalController t = new TelaPrincipalController();
         t.botaoCliente();
-        
 
+    }
+
+    public void initTable() {
+        colunaCliente.setCellValueFactory(new PropertyValueFactory("nome"));
+        colunaCpf.setCellValueFactory(new PropertyValueFactory("cpf"));
+        colunaEmprestimo.setCellValueFactory(new PropertyValueFactory("Emprestimo"));
+        colunaBanco.setCellValueFactory(new PropertyValueFactory("Banco"));
+        colunaStatus.setCellValueFactory(new PropertyValueFactory("Status"));
+        colunaConvenio.setCellValueFactory(new PropertyValueFactory("Convenio"));
+    }
+    public ObservableList<Emprestimo> atualizaTabela = FXCollections.observableArrayList();
+
+    public void listarEmprestimos() {
+        if (!atualizaTabela.isEmpty()) {
+            atualizaTabela.clear();
+
+        }
+
+        for (Emprestimo emprestimo : emprestimoService.emprestimos()) {
+            atualizaTabela.add(emprestimo);
+
+        }
+
+        colunaCliente.setCellValueFactory((TableColumn.CellDataFeatures<Emprestimo, Cliente> p) -> new ReadOnlyObjectWrapper(p.getValue().getCliente().getNome()));
+        colunaCpf.setCellValueFactory((TableColumn.CellDataFeatures<Emprestimo, Cliente> p) -> new ReadOnlyObjectWrapper(p.getValue().getCliente().getCpf()));
+        colunaEmprestimo.setCellValueFactory(new PropertyValueFactory<>("formaContrato"));
+        colunaBanco.setCellValueFactory(new PropertyValueFactory<>("Banco"));
+        colunaStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
+        colunaConvenio.setCellValueFactory(new PropertyValueFactory<>("Convenio"));
+        tabela.setItems(atualizaTabela);
     }
 
     @FXML
@@ -270,6 +322,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         tipoEmprestimo.add(emprestimoCartao);
         obsEmprestimo = FXCollections.observableArrayList(tipoEmprestimo);
         comboEmprestimos.setItems(obsEmprestimo);
+        
     }
 
     public void carregaConvenio() {
@@ -337,4 +390,52 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         observeFinanceira = FXCollections.observableArrayList(emprestimoFinanceira);
         comboFinanceira.setItems(observeFinanceira);
     }
+
+    public void listarEmprestimo() {
+        if (!atualizaTabela.isEmpty()) {
+            atualizaTabela.clear();
+
+        }
+
+        Cliente c = null;
+
+        List<Emprestimo> listaEmprestimo;
+        listaEmprestimo = emprestimoService.buscaNome(c);
+
+        if (listaEmprestimo.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("AVISO");
+            alert.setHeaderText("Não foi possível encontrar um Empréstimo para esse Cliente!");
+            alert.show();
+            return;
+        }
+
+        for (Emprestimo emprestimo : listaEmprestimo) {
+            atualizaTabela.add(emprestimo);
+        }
+
+        colunaCliente.setCellValueFactory((TableColumn.CellDataFeatures<Emprestimo, Cliente> p) -> new ReadOnlyObjectWrapper(p.getValue().getCliente().getNome()));
+        colunaCpf.setCellValueFactory((TableColumn.CellDataFeatures<Emprestimo, Cliente> p) -> new ReadOnlyObjectWrapper(p.getValue().getCliente().getCpf()));
+        colunaEmprestimo.setCellValueFactory(new PropertyValueFactory<>("formaContrato"));
+        colunaBanco.setCellValueFactory(new PropertyValueFactory<>("Banco"));
+        colunaStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
+        colunaConvenio.setCellValueFactory(new PropertyValueFactory<>("Convenio"));
+        tabela.setItems(atualizaTabela);
+    }
+
+    public void selecionarItemTableViewEmprestimo(Emprestimo emprestimo) {
+        fieldValor.setText(emprestimo.getValorParcela());
+        fieldNomeCliente.setText(emprestimo.getCliente().getNome());
+       
+       
+        
+        comboBanco.getSelectionModel().select(emprestimo);
+  
+        
+        
+     
+
+    }
 }
+
+

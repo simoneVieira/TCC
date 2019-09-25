@@ -8,7 +8,9 @@ package com.bettercoding.jfx.controller;
 import ch.qos.logback.core.CoreConstants;
 import com.bettercoding.jfx.MyApp;
 import com.bettercoding.jfx.model.Cliente;
+import com.bettercoding.jfx.model.Usuario;
 import com.bettercoding.jfx.service.ClienteService;
+import com.bettercoding.jfx.service.UsuarioService;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -188,6 +190,9 @@ public class TelaClienteController implements Initializable {
     public static void setNomeCli(String nomeCli) {
         TelaClienteController.nomeCli = nomeCli;
     }
+    @Autowired
+    private UsuarioService loginService;
+//    Usuario login = new Usuario();
 
     @Autowired
     TelaPrincipalController tp = new TelaPrincipalController();
@@ -197,12 +202,12 @@ public class TelaClienteController implements Initializable {
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     public TelaClienteController() {
-    
+
     }
-  
+
     public static void setReceptor(ReceptorCliente rc) {
         receptorCliente = rc;
-        // System.out.println("Definiu receptor");
+       
     }
 
     private ObjectProperty<Cliente> clienteObjProperty = new SimpleObjectProperty();
@@ -236,7 +241,6 @@ public class TelaClienteController implements Initializable {
 
     }
 
-    
     @FXML
     private void validaTelefone1() {
         TextFieldFormatter formata = new TextFieldFormatter();
@@ -276,8 +280,6 @@ public class TelaClienteController implements Initializable {
         mask.setValueContainsLiteralCharacters(false);
 
     }
-
-  
 
     @FXML
     private void validaDataNascimento() {
@@ -378,13 +380,13 @@ public class TelaClienteController implements Initializable {
             atualizaTabela.add(cliente);
         }
 
-        idCollumNome.setCellValueFactory(new PropertyValueFactory<Cliente, String>("nome"));
-        idCollumCPF.setCellValueFactory(new PropertyValueFactory<Cliente, String>("cpf"));
-        idCollumTelefone.setCellValueFactory(new PropertyValueFactory<Cliente, String>("telefone1"));
-        idCollumNascimento.setCellValueFactory(new PropertyValueFactory<Cliente, Date>("dataNascimento"));
-        idCollumEnd.setCellValueFactory(new PropertyValueFactory<Cliente, String>("endereco"));
-        idCollumCidade.setCellValueFactory(new PropertyValueFactory<Cliente, String>("cidade"));
-        codCLIENTE.setCellValueFactory(new PropertyValueFactory<Cliente, Long>("id"));
+        idCollumNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        idCollumCPF.setCellValueFactory(new PropertyValueFactory<>("cpf"));
+        idCollumTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone1"));
+        idCollumNascimento.setCellValueFactory(new PropertyValueFactory<>("dataNascimento"));
+        idCollumEnd.setCellValueFactory(new PropertyValueFactory<>("endereco"));
+        idCollumCidade.setCellValueFactory(new PropertyValueFactory<>("cidade"));
+        codCLIENTE.setCellValueFactory(new PropertyValueFactory<>("id"));
         tabela.setItems(atualizaTabela);
     }
 
@@ -471,20 +473,20 @@ public class TelaClienteController implements Initializable {
         try {
             root = FXMLLoader.load(getClass().getResource("/fxml/TelaPrincipal.fxml"));
         } catch (IOException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
         }
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
         TelaPrincipalController.retornaStage().close();
 
-        LoginController lc = new LoginController();
-        LoginController.retornaStage();
+        UsuarioController lc = new UsuarioController();
+        UsuarioController.retornaStage();
     }
-     public void btn_Click()
-        {
-            adcionarCli.setDisable(true);
-        }
+
+    public void btn_Click() {
+        adcionarCli.setDisable(true);
+    }
 
     @FXML
     public void adcionarCliente() {
@@ -508,15 +510,9 @@ public class TelaClienteController implements Initializable {
         } catch (NumberFormatException ignore) {
 
             listarClientesByNome();
-     
 
-        } catch (Exception ex) {
-//            Alert alert = new Alert(Alert.AlertType.WARNING);
-//            alert.setTitle("AVISO");
-//            alert.setHeaderText("Cliente Não Cadastrado!");
-//            alert.show();
-        
         }
+
     }
 
     public void listarClientesByCPF() {
@@ -526,6 +522,14 @@ public class TelaClienteController implements Initializable {
         }
 
         List<Cliente> listaCpfCliente = clienteService.buscaCli("" + campoPesquisa.getText());
+
+        if (listaCpfCliente.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("AVISO");
+            alert.setHeaderText("Cliente Não Cadastrado!");
+            alert.show();
+            return;
+        }
 
         for (Cliente cliente : listaCpfCliente) {
             atualizaTabela.add(cliente);
@@ -548,6 +552,14 @@ public class TelaClienteController implements Initializable {
         }
 
         List<Cliente> listaNome = clienteService.buscaCliNome("" + campoPesquisa.getText());
+         
+        if (listaNome.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("AVISO");
+            alert.setHeaderText("Cliente Não Cadastrado!");
+            alert.show();
+            return;
+        }
 
         for (Cliente cliente : listaNome) {
             atualizaTabela.add(cliente);

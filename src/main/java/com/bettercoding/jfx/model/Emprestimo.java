@@ -8,10 +8,14 @@ package com.bettercoding.jfx.model;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import static org.hibernate.engine.internal.Cascade.cascade;
 
@@ -42,8 +46,11 @@ public class Emprestimo {
     private String financeira;
     private String formaContrato;
     private String quantidadeParcela;
+    private Cliente cliente;
+    private Usuario login;
 
     
+     
 
     public Emprestimo(int i, String novo, String convenio, String status, String banco, String financeira) {
         this.formaContrato = novo;
@@ -61,9 +68,9 @@ public class Emprestimo {
     public Emprestimo() {
 
     }
-    private Cliente cliente;
+  
 
-    @OneToOne()
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cliente")
     public Cliente getCliente() {
         return cliente;
@@ -71,6 +78,15 @@ public class Emprestimo {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+    @ManyToOne
+    @JoinColumn(name = "id_Login")
+    public Usuario getLogin() {
+        return login;
+    }
+
+    public void setLogin(Usuario login) {
+        this.login = login;
     }
 
     @Id
