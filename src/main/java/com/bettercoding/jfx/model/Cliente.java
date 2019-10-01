@@ -16,8 +16,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
+@SQLDelete(sql = "update Cliente set ativo = 0 where id = ?")
+
+@Where(clause = "ativo = 0")
+//@Where(clause = "ativo is true")
 public  class Cliente {
 
     private Long id;
@@ -33,6 +39,18 @@ public  class Cliente {
     private String setor;
     private String cep;
     private String numero;
+    private int ativo = 0;
+
+    public int getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(int ativo) {
+        this.ativo = ativo;
+    }
+
+    
+    
  public Cliente(String nome) {
         this.nome = nome;
     }

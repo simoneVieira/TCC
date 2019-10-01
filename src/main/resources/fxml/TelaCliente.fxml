@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -71,22 +72,22 @@
                   </Label>
                </children>
             </Pane>
-            <Pane layoutY="377.0" prefHeight="349.0" prefWidth="1568.0" style="-fx-background-color: #FFFFFF;">
+            <Pane layoutY="379.0" prefHeight="349.0" prefWidth="1568.0" style="-fx-background-color: ; -fx-background-color: #FFFFFF;">
                <children>
-                  <Button fx:id="idSalvar" layoutX="532.0" layoutY="268.0" mnemonicParsing="false" onAction="#salvarCli" prefHeight="50.0" prefWidth="112.0" text="      SALVAR" />
-                  <Button fx:id="idbtnCanccelar" layoutX="728.0" layoutY="268.0" mnemonicParsing="false" onAction="#excluirCliente" prefHeight="50.0" prefWidth="112.0" text="     EXCLUIR" />
-                  <ImageView fx:id="imageSalvar" fitHeight="37.0" fitWidth="37.0" layoutX="532.0" layoutY="274.0" pickOnBounds="true" preserveRatio="true">
+                  <Button fx:id="idSalvar" layoutX="286.0" layoutY="268.0" mnemonicParsing="false" onAction="#salvarCli" prefHeight="50.0" prefWidth="112.0" text="      SALVAR" />
+                  <Button fx:id="idbtnCanccelar" layoutX="476.0" layoutY="269.0" mnemonicParsing="false" onAction="#excluirCliente" prefHeight="50.0" prefWidth="112.0" text="     EXCLUIR" />
+                  <ImageView fx:id="imageSalvar" fitHeight="37.0" fitWidth="37.0" layoutX="286.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../imagem/salvar.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="viewExcluir" fitHeight="37.0" fitWidth="37.0" layoutX="728.0" layoutY="274.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="viewExcluir" fitHeight="37.0" fitWidth="37.0" layoutX="476.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../imagem/Delete-icon-2.png" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="viewLupa" fitHeight="27.0" fitWidth="37.0" layoutX="741.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true" />
-                  <TableView fx:id="tabela" layoutX="69.0" layoutY="94.0" prefHeight="158.0" prefWidth="1171.0">
+                  <TableView fx:id="tabela" layoutX="14.0" layoutY="69.0" prefHeight="174.0" prefWidth="1227.0">
                     <columns>
                       <TableColumn fx:id="idCollumNome" prefWidth="239.0" text="NOME:" />
                       <TableColumn fx:id="idCollumCPF" minWidth="0.0" prefWidth="143.0" text="CPF:" />
@@ -97,14 +98,23 @@
                         <TableColumn fx:id="codCLIENTE" prefWidth="151.0" text="CODIGO" />
                     </columns>
                   </TableView>
-                  <TextField fx:id="campoPesquisa" layoutX="824.0" layoutY="14.0" onAction="#botaoP" prefHeight="38.0" prefWidth="236.0" promptText="Informe o CPF ou nome" />
+                  <TextField fx:id="campoPesquisa" layoutX="819.0" layoutY="15.0" onAction="#botaoP" prefHeight="38.0" prefWidth="236.0" promptText="Informe o CPF ou nome" />
                   <Button fx:id="adcionarCli" layoutX="922.0" layoutY="268.0" mnemonicParsing="false" onAction="#adcionarCliente" prefHeight="50.0" prefWidth="144.0" text="             ADD CLIENTE" />
                   <ImageView fx:id="viewAddCliente" fitHeight="50.0" fitWidth="44.0" layoutX="922.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../imagem/cliente.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="btPesquisa" layoutX="1122.0" layoutY="21.0" mnemonicParsing="false" onAction="#botaoP" text="Pesquisar" />
+                  <Button fx:id="btPesquisa" layoutX="1100.0" layoutY="16.0" mnemonicParsing="false" onAction="#botaoP" prefHeight="37.0" prefWidth="77.0" text="Pesquisar" />
+                  <Button fx:id="idAtualizar" layoutX="1250.0" layoutY="161.0" mnemonicParsing="false" onAction="#atualiza" prefHeight="44.0" prefWidth="112.0" style="-fx-background-color: #00008B #00008B;" text="              Atualizar " textFill="WHITE" />
+                  <ImageView fx:id="imageViewAtualiza" fitHeight="50.0" fitWidth="53.0" layoutX="1250.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" style="visibility: #228B22;">
+                     <image>
+                        <Image url="@../imagem/atualizacao.png" />
+                     </image>
+                     <effect>
+                        <Glow />
+                     </effect>
+                  </ImageView>
                </children></Pane>
             <Pane prefHeight="66.0" prefWidth="1574.0" style="-fx-background-color: #00008B;">
                <children>
@@ -119,6 +129,7 @@
                         <Image url="@../imagem/voltar.png" />
                      </image>
                   </ImageView>
+                  <Label fx:id="idLabelNovo" layoutX="998.0" layoutY="25.0" onMouseClicked="#LimpaCampos" text="NOVO CLIENTE" textFill="WHITE" />
                </children>
             </Pane>
             <Pane layoutY="341.0" prefHeight="38.0" prefWidth="1568.0" style="-fx-background-color: #00008B;">

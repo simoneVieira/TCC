@@ -5,10 +5,12 @@
  */
 package com.bettercoding.jfx.controller;
 
+import static com.bettercoding.jfx.controller.UsuarioController.userLogado;
 import com.bettercoding.jfx.model.Usuario;
 import com.bettercoding.jfx.service.UsuarioService;
 import java.net.URL;
 import static java.util.Collections.list;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -64,7 +66,7 @@ public class TelaUsuarioController implements Initializable {
 
     @FXML
     private TextField idPesquisa;
-
+    Usuario usuario = new Usuario();
     @FXML
     private Button pesquisaUsuario;
     @Autowired
@@ -117,7 +119,7 @@ public class TelaUsuarioController implements Initializable {
             alert.setTitle("ALERTA");
             alert.setHeaderText("FAVOR PREENCHER TODOS OS CAMPOS!!");
             alert.show();
-
+             confereSenha();
         } else {
             Usuario user = new Usuario();
             user.setEmail(emailUsuario.getText());
@@ -138,7 +140,7 @@ public class TelaUsuarioController implements Initializable {
                     alert.setTitle("AVISO");
                     alert.setHeaderText("AVISO! CPF JÀ CADASTRADO");
                     alert.show();
-
+                 
                 }
 
             } else {
@@ -152,8 +154,10 @@ public class TelaUsuarioController implements Initializable {
             }
 
         }
-teste() ;
+
     }
+
+   
 
     public void selecionarItemTableViewClientes(Usuario usuario) {
         emailUsuario.setText(usuario.getEmail());
@@ -163,16 +167,20 @@ teste() ;
         idcodigo.setText(String.valueOf(usuario.getId()));
 
     }
-
-    public void teste() {
-        
-      
-      Usuario usuario = usuarioService.buscaPermisao(emailUsuario.getText());
-        if(usuario != null){
-            System.out.println(usuario);
-        }else{
-            System.out.println("error");
-        }
-        
+    public void confereSenha() {
+        //  Usuario senhaLogada = usuarioService.buscaSenhaUsuario(idSenha.getText());
+        // Usuario dadosLogin = usuarioService.buscaUsuarioESenha(idUsuario.getText(), idSenha.getText());
+      //  Usuario us = usuarioService.buscaId(new Long(usuario.getId()));
+        if (1+1==2) {
+            Random ran = new Random();
+            int n = ran.nextInt(1000000) + 1;
+            String valorAleatorio = String.valueOf(n);
+            usuario.setSenha(valorAleatorio);
+            Usuario usua = usuarioService.salvaUsuario(usuario);
+            //System.out.println("senha alterada" + us  );
+//        }
     }
+
 }
+}
+    

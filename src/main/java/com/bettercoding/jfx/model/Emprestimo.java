@@ -17,6 +17,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import static org.hibernate.engine.internal.Cascade.cascade;
 
 /**
@@ -31,44 +33,138 @@ public class Emprestimo {
     private String status;
     private String observacao;
     private String formaPagamento;
-    private String valorParcela;
+    private float valorParcela;
     private String matricula;
     private String banco;
-    private String taxa;
+    private float taxa;
     private Date dataInicio;
     private Date dataFim;
     private String numeroContrato;
     private String beneficio;
-    private String valorSolicitado;
-    private String valorLiberado;
-    private String porcentagemComissao;
-    private String valorComissao;
+    private Double valorSolicitado;
+     private Double valorLiberado;
+    private float porcentagemComissao;
+    private float valorComissao;
     private String financeira;
     private String formaContrato;
-    private String quantidadeParcela;
+    private int quantidadeParcela;
+
+    public int getQuantidadeParcela() {
+        return quantidadeParcela;
+    }
+
+    public void setQuantidadeParcela(int quantidadeParcela) {
+        this.quantidadeParcela = quantidadeParcela;
+    }
+
+
+    public Double getValorSolicitado() {
+        return valorSolicitado;
+    }
+
+    public void setValorSolicitado(Double valorSolicitado) {
+        this.valorSolicitado = valorSolicitado;
+    }
+
+    public Double getValorLiberado() {
+        return valorLiberado;
+    }
+
+    public void setValorLiberado(Double valorLiberado) {
+        this.valorLiberado = valorLiberado;
+    }
+   
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
+    public String getNumeroContrato() {
+        return numeroContrato;
+    }
+
+    public void setNumeroContrato(String numeroContrato) {
+        this.numeroContrato = numeroContrato;
+    }
+
+    public String getBeneficio() {
+        return beneficio;
+    }
+
+    public void setBeneficio(String beneficio) {
+        this.beneficio = beneficio;
+    }
+
+    
     private Cliente cliente;
     private Usuario login;
 
+//    public int getMatricula() {
+//        return matricula;
+//    }
+//
+//    public void setMatricula(int matricula) {
+//        this.matricula = matricula;
+//    }
+//
+//    public int getNumeroContrato() {
+//        return numeroContrato;
+//    }
+//
+//    public void setNumeroContrato(int numeroContrato) {
+//        this.numeroContrato = numeroContrato;
+//    }
+//
+//    public int getBeneficio() {
+//        return beneficio;
+//    }
+//
+//    public void setBeneficio(int beneficio) {
+//        this.beneficio = beneficio;
+//    }
+//
+//    public int getQuantidadeParcela() {
+//        return quantidadeParcela;
+//    }
+//
+//    public void setQuantidadeParcela(int quantidadeParcela) {
+//        this.quantidadeParcela = quantidadeParcela;
+//    }
+//    
+
     
-     
 
-    public Emprestimo(int i, String novo, String convenio, String status, String banco, String financeira) {
-        this.formaContrato = novo;
-        this.convenio = convenio;
-        this.status = status;
-        this.banco = banco;
-        this.financeira = financeira;
-
+    public float getPorcentagemComissao() {
+        return porcentagemComissao;
     }
 
-    public Emprestimo(int i, String convenio) {
-        this.convenio = convenio;
+    public void setPorcentagemComissao(float porcentagemComissao) {
+        this.porcentagemComissao = porcentagemComissao;
     }
 
+    public float getValorComissao() {
+        return valorComissao;
+    }
+
+    public void setValorComissao(float valorComissao) {
+        this.valorComissao = valorComissao;
+    }
+   
+   
     public Emprestimo() {
 
     }
-  
+    
+    public float getTaxa() {
+        return taxa;
+    }
+
+    public void setTaxa(float taxa) {
+        this.taxa = taxa;
+    }
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cliente")
@@ -131,21 +227,7 @@ public class Emprestimo {
         this.formaPagamento = formaPagamento;
     }
 
-    public String getValorParcela() {
-        return valorParcela;
-    }
-
-    public void setValorParcela(String valorParcela) {
-        this.valorParcela = valorParcela;
-    }
-
-    public String getMatricula() {
-        return matricula;
-    }
-
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
-    }
+  
 
     public String getBanco() {
         return banco;
@@ -155,14 +237,8 @@ public class Emprestimo {
         this.banco = banco;
     }
 
-    public String getTaxa() {
-        return taxa;
-    }
-
-    public void setTaxa(String taxa) {
-        this.taxa = taxa;
-    }
-
+ 
+    @Temporal(TemporalType.DATE)
     public Date getDataInicio() {
         return dataInicio;
     }
@@ -179,54 +255,7 @@ public class Emprestimo {
         this.dataFim = dataFim;
     }
 
-    public String getNumeroContrato() {
-        return numeroContrato;
-    }
-
-    public void setNumeroContrato(String numeroContrato) {
-        this.numeroContrato = numeroContrato;
-    }
-
-    public String getBeneficio() {
-        return beneficio;
-    }
-
-    public void setBeneficio(String beneficio) {
-        this.beneficio = beneficio;
-    }
-
-    public String getValorSolicitado() {
-        return valorSolicitado;
-    }
-
-    public void setValorSolicitado(String valorSolicitado) {
-        this.valorSolicitado = valorSolicitado;
-    }
-
-    public String getValorLiberado() {
-        return valorLiberado;
-    }
-
-    public void setValorLiberado(String valorLiberado) {
-        this.valorLiberado = valorLiberado;
-    }
-
-    public String getPorcentagemComissao() {
-        return porcentagemComissao;
-    }
-
-    public void setPorcentagemComissao(String porcentagemComissao) {
-        this.porcentagemComissao = porcentagemComissao;
-    }
-
-    public String getValorComissao() {
-        return valorComissao;
-    }
-
-    public void setValorComissao(String valorComissao) {
-        this.valorComissao = valorComissao;
-    }
-
+   
     public String getFinanceira() {
         return financeira;
     }
@@ -242,12 +271,13 @@ public class Emprestimo {
     public void setFormaContrato(String formaContrato) {
         this.formaContrato = formaContrato;
     }
-    public String getQuantidadeParcela() {
-        return quantidadeParcela;
+   
+     public float getValorParcela() {
+        return valorParcela;
     }
 
-    public void setQuantidadeParcela(String quantidadeParcela) {
-        this.quantidadeParcela = quantidadeParcela;
+    public void setValorParcela(float valorParcela) {
+        this.valorParcela = valorParcela;
     }
 
     @Override

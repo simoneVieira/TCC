@@ -23,8 +23,7 @@ public class ClienteService {
         c.setCpf(c.getCpf().replace(".", ""));
         c.setCpf(c.getCpf().replace("-", ""));
        
-        
-        
+       
         
         return clienteRepository.save(c);
     }
@@ -42,9 +41,11 @@ public class ClienteService {
      public void excluirCliente(Long id) {
         clienteRepository.deleteById(id);
     }
+    public Cliente buscaCliente(Long id) {
+        return clienteRepository.findById(id).get();
+    }
+    
 
-//    public void excluirCliente(Cliente cli) {
-//       
-//    }
+
 
 }

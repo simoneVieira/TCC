@@ -7,6 +7,7 @@ package com.bettercoding.jfx.controller;
 
 import com.bettercoding.jfx.MyApp;
 import com.bettercoding.jfx.model.Cliente;
+import com.bettercoding.jfx.model.Usuario;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,7 +24,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.SimpleEmail;
 import org.springframework.stereotype.Controller;
+
 
 /**
  *
@@ -49,13 +53,40 @@ public class TelaEmailController implements Initializable {
 
     @FXML
     private Button buttonCancelar;
+    TelaUsuarioController usuarioC = new TelaUsuarioController();
+    Usuario u = new Usuario();
+    
     public void initialize(URL location, ResourceBundle resources) {
         
-        
-        
-   
-
+     
     }
- 
+  public void enviarEmail(){
+      String enviarEmail = "emaildetestejavatcc@gmail.com";
+      String minhaSenha = "simone123@";
+      
+   
+        SimpleEmail email = new SimpleEmail();
+        email.setHostName("smtp.gmail.com");
+        email.setSmtpPort(465);
+        email.setAuthenticator(new DefaultAuthenticator(enviarEmail, minhaSenha));
+        email.setSSLOnConnect(true);
+        try
+        {
+          email.setFrom(enviarEmail);
+          email.setSubject("Sua nova senha");
+          email.setMsg(" Senha provisória para acessar o sistema " );
+          email.addTo(enviarEmail);
+          email.send();
+          System.out.println("email enviado com sucesso");
+        }catch ( Exception e){
+        e.printStackTrace();
+        }
+    }
+      
+  }
+    
+    
+    
+    
 
-}
+

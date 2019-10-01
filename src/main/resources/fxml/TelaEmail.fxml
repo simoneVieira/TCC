@@ -16,7 +16,7 @@
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Button fx:id="buttonEnviar" layoutX="296.0" layoutY="209.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="127.0" text="ENVIAR" />
+            <Button fx:id="buttonEnviar" layoutX="296.0" layoutY="209.0" mnemonicParsing="false" onAction="#enviarEmail" prefHeight="48.0" prefWidth="127.0" text="ENVIAR" />
             <Button fx:id="buttonCancelar" layoutX="450.0" layoutY="209.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="116.0" text="CANCELAR" />
          </children>
       </Pane>

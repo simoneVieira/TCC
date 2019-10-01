@@ -89,7 +89,6 @@ public class TelaPrincipalController implements Initializable {
         imgRelatorio.setImage(imgRl);
       
         if( UsuarioController.userLogado.getTipoUsuario().equals(UsuarioController.TIPO_ADMIN)){
-        
             botaoRelatorio.setVisible(true);
             imgRelatorio.setVisible(true);
             idCadastro.setVisible(true);

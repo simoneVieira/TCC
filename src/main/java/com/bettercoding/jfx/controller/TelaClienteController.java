@@ -116,6 +116,8 @@ public class TelaClienteController implements Initializable {
     @FXML
     private ImageView imageViewVolt;
     @FXML
+    private ImageView imageViewAtualiza;
+    @FXML
     private Label labeldados;
     @FXML
     private Button idSalvar;
@@ -123,6 +125,8 @@ public class TelaClienteController implements Initializable {
     private Button idbtnCanccelar;
     @FXML
     private Button btPesquisa;
+    @FXML
+    private Button idAtualizar;
     @FXML
     private ImageView imageSalvar;
     @FXML
@@ -133,6 +137,8 @@ public class TelaClienteController implements Initializable {
     private ImageView viewLupa;
     @FXML
     private TextField campoPesquisa;
+    @FXML
+    private Label idLabelNovo;
     @FXML
     private Button adcionarCli;
     @FXML
@@ -207,7 +213,7 @@ public class TelaClienteController implements Initializable {
 
     public static void setReceptor(ReceptorCliente rc) {
         receptorCliente = rc;
-       
+
     }
 
     private ObjectProperty<Cliente> clienteObjProperty = new SimpleObjectProperty();
@@ -224,11 +230,13 @@ public class TelaClienteController implements Initializable {
         viewLupa.setImage(imagePesquisar);
         Image imgadd = new Image("/imagem/cliente.png");
         viewAddCliente.setImage(imgadd);
+        Image imga= new Image("/imagem/atualizacao.png");
+        imageViewAtualiza.setImage(imga);
         initTable();
         listarClientes();
         tabela.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> selecionarItemTableViewClientes(newValue));
-
+     
     }
 
     @FXML
@@ -325,8 +333,7 @@ public class TelaClienteController implements Initializable {
             cli.setSetor(fieldSetor.getText());
             cli.setRg(fieldRG.getText());
             cli.setEndereco(fieldEndereco.getText());
-
-            //cli.setDataNascimento(new Date());
+           // cli.setDataNascimento(new Date());
             if (idCli.getText().equals("")) {
                 try {
                     Cliente salvarCli = clienteService.salvarCli(cli);
@@ -418,8 +425,23 @@ public class TelaClienteController implements Initializable {
         alert.showAndWait().ifPresent((ButtonType b) -> {
             if (b == btnSim) {
                 Cliente cli = new Cliente();
-                cli.setId(Long.parseLong(idCli.getText()));
-                clienteService.excluirCliente(cli.getId());
+               
+                 cli.setAtivo(1);
+//                   clienteService.salvarCli(cli).getId();
+                   cli.setId(Long.parseLong(idCli.getText()));
+                clienteService.salvarCli(cli);
+//                  cli.setId(Long.parseLong(idCli.getText()));
+//                clienteService.excluirCliente(cli.getId());
+                 
+               
+                
+                
+           
+                
+                
+                
+                
+                
                 fieldNome.setText("");
                 fieldCPF.setText("");
                 fieldRG.setText("");
@@ -459,6 +481,7 @@ public class TelaClienteController implements Initializable {
         fieldEndereco.setText("");
         fieldNumero.setText("");
         idCli.setText("");
+        fieldNasciemento.setText(" ");
     }
 
     public void fechaTelaCliente() {
@@ -484,16 +507,24 @@ public class TelaClienteController implements Initializable {
         UsuarioController.retornaStage();
     }
 
-    public void btn_Click() {
-        adcionarCli.setDisable(true);
-    }
+    
 
     @FXML
     public void adcionarCliente() {
         fechaTelaCliente();
         receptorCliente.receberCliente(tabela.getSelectionModel().getSelectedItem());
-        adcionarCli.setDisable(true);
+//        adcionarCli.setDisable(true);
+        
 
+    }
+    public void inativaButon(boolean tetes){
+     tetes = true;
+     if(tetes == true){
+         adcionarCli.setDisable(true);
+     }else{
+         adcionarCli.setDisable(false);
+     }
+        
     }
 
     @FXML
@@ -552,7 +583,7 @@ public class TelaClienteController implements Initializable {
         }
 
         List<Cliente> listaNome = clienteService.buscaCliNome("" + campoPesquisa.getText());
-         
+
         if (listaNome.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("AVISO");
@@ -575,4 +606,15 @@ public class TelaClienteController implements Initializable {
         tabela.setItems(atualizaTabela);
     }
 
+    public void atualiza() {
+        if (!atualizaTabela.isEmpty()) {
+            atualizaTabela.clear();
+
+        }
+
+        for (Cliente cliente : clienteService.clie()) {
+            atualizaTabela.add(cliente);
+        }
+
+    }
 }

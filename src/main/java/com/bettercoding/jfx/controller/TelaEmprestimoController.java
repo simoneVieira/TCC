@@ -9,11 +9,17 @@ import com.bettercoding.jfx.model.Cliente;
 import com.bettercoding.jfx.model.Emprestimo;
 import com.bettercoding.jfx.service.EmprestimoService;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -42,6 +48,7 @@ import javafx.util.Callback;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import util.TextFieldFormatter;
 
 /**
  * FXML Controller class
@@ -165,7 +172,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     @FXML
     private TextField idCliente;
     @FXML
-    private ComboBox<Emprestimo> comboEmprestimos;
+    private ComboBox<String> comboEmprestimos;
     private List<Emprestimo> tipoEmprestimo = new ArrayList<>();
     private ObservableList<Emprestimo> obsEmprestimo;
     private List<Emprestimo> convenioEmprestimo = new ArrayList<>();
@@ -177,13 +184,13 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     private List<Emprestimo> emprestimoFinanceira = new ArrayList<>();
     private ObservableList<Emprestimo> observeFinanceira;
     @FXML
-    private ComboBox<Emprestimo> comboFinanceira;
+    private ComboBox<String> comboFinanceira;
     @FXML
-    private ComboBox<Emprestimo> comboBoxConvenio;
+    private ComboBox<String> comboBoxConvenio;
     @FXML
-    private ComboBox<Emprestimo> idStatus;
+    private ComboBox<String> idStatus;
     @FXML
-    private ComboBox<Emprestimo> comboBanco;
+    private ComboBox<String> comboBanco;
     @FXML
     private ImageView viewPesquisa;
     @Autowired
@@ -191,10 +198,8 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
 
     Emprestimo emprestimo = new Emprestimo();
     Cliente cliente;
-
-    public TelaEmprestimoController() {
-
-    }
+    private SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
+    DecimalFormat df = new DecimalFormat(",000.00");
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -208,17 +213,21 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         viewPesquisa.setImage(imagePesquisar);
         Image imageNovo = new Image("/imagem/cliente.png");
         viewNovo.setImage(imageNovo);
-        carregaBancos();
-        carregaConvenio();
-        carregaStatus();
+//        carregaBancos();
+////        carregaConvenio();
+//        carregaStatus();
         carregaEmprestimo();
+        comboStatus();
+        carregaBancos();
+//        carregaFinanceira();
+        comboConvenio();
         carregaFinanceira();
         initTable();
         listarEmprestimos();
+        //  mascaraNumero(fieldValor);
         tabela.getSelectionModel().selectedItemProperty().addListener(
                 (Emprestimo, oldValue, newValue) -> selecionarItemTableViewEmprestimo(newValue));
-       
-        
+
     }
 
     @FXML
@@ -231,8 +240,11 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     public void chamaTelaCliente() {
         TelaClienteController tc = new TelaClienteController();
         TelaClienteController.setReceptor(this);
+
         TelaPrincipalController t = new TelaPrincipalController();
+
         t.botaoCliente();
+        tc.inativaButon(true);
 
     }
 
@@ -270,19 +282,27 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     public void salvarEmprestimo() {
         emprestimo.setCliente(cliente);
 
-        emprestimo.setValorParcela(fieldValor.getText());
+        emprestimo.setValorParcela(Float.parseFloat(fieldValor.getText()));
         emprestimo.setObservacao(idTextArea.getText());
         emprestimo.setMatricula(fieldMatricula.getText());
         emprestimo.setBeneficio(fieldBeneficio.getText());
-        emprestimo.setTaxa(idTaxa.getText());
-        //emprestimo.setDataInicio(fieldDataInicio.getDate);
-        //emprestimo.setDataFim(fieldDataFinal.getText());
-        emprestimo.setValorComissao(idComissão.getText());
-        emprestimo.setNumeroContrato(fieldNumContrato.getText());
-        emprestimo.setPorcentagemComissao(fieldComi.getText());
-        emprestimo.setQuantidadeParcela(idParcelas.getText());
-        emprestimo.setValorLiberado(idValorLiberado.getText());
-        emprestimo.setValorSolicitado(idValorSolicitado.getText());
+        emprestimo.setTaxa(Float.parseFloat(idTaxa.getText()));
+        try {
+            emprestimo.setDataInicio(data.parse(fieldDataInicio.getText()));
+            emprestimo.setDataFim(data.parse(fieldDataFinal.getText()));
+        } catch (ParseException ex) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("AVISO");
+            alert.setHeaderText("favor ,informar uma data");
+            alert.show();
+        }
+
+        emprestimo.setValorComissao(Float.parseFloat((idComissão.getText())));
+//        emprestimo.setNumeroContrato(fieldNumContrato.getText());
+        emprestimo.setPorcentagemComissao(Float.parseFloat(fieldComi.getText()));
+        emprestimo.setQuantidadeParcela(Integer.parseInt(idParcelas.getText()));
+        emprestimo.setValorLiberado(Double.parseDouble(idValorLiberado.getText()));
+        emprestimo.setValorSolicitado(Double.parseDouble(idValorSolicitado.getText()));
         emprestimo.setConvenio("" + comboBoxConvenio.getSelectionModel().getSelectedItem());
         emprestimo.setFormaContrato("" + comboEmprestimos.getSelectionModel().getSelectedItem());
         emprestimo.setStatus("" + idStatus.getSelectionModel().getSelectedItem());
@@ -312,83 +332,34 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     }
 
     public void carregaEmprestimo() {
-        Emprestimo emprestimoNovo = new Emprestimo(1, "NOVO", "", "", "", "");
-        Emprestimo emprestimoRefin = new Emprestimo(2, "REFINANCIAMENTO", "", "", "", "");
-        Emprestimo emprestimoPortabi = new Emprestimo(3, "PORTABILIDADE", "", "", "", "");
-        Emprestimo emprestimoCartao = new Emprestimo(4, "CARTÃO CONSIGNADO", "", "", "", "");
-        tipoEmprestimo.add(emprestimoNovo);
-        tipoEmprestimo.add(emprestimoRefin);
-        tipoEmprestimo.add(emprestimoPortabi);
-        tipoEmprestimo.add(emprestimoCartao);
-        obsEmprestimo = FXCollections.observableArrayList(tipoEmprestimo);
-        comboEmprestimos.setItems(obsEmprestimo);
-        
+        ObservableList<String> itens = FXCollections.observableArrayList();
+        itens.addAll("Novo", "Refinanciamento", "Portabilidade", "Cartao Consignado");
+        comboEmprestimos.setItems(itens);
     }
 
-    public void carregaConvenio() {
-        Emprestimo inss = new Emprestimo(5, "INSS", "", "", "", "");
-        Emprestimo siape = new Emprestimo(5, "SIAPE", "", "", "", "");
-        Emprestimo estado = new Emprestimo(5, "GOVERNO", "", "", "", "");
-        Emprestimo marinha = new Emprestimo(5, "MARINHA", "", "", "", "");
-        Emprestimo saneago = new Emprestimo(5, "SANEAGO", "", "", "", "");
-        convenioEmprestimo.add(inss);
-        convenioEmprestimo.add(siape);
-        convenioEmprestimo.add(estado);
-        convenioEmprestimo.add(marinha);
-        convenioEmprestimo.add(saneago);
-        observeEmprestimo = FXCollections.observableArrayList(convenioEmprestimo);
-        comboBoxConvenio.setItems(observeEmprestimo);
+    public void comboConvenio() {
+        ObservableList<String> itens = FXCollections.observableArrayList();
+        itens.addAll("inss", "siape", "estado", "marinha", "saneago", "exército");
+        comboBoxConvenio.setItems(itens);
     }
 
-    public void carregaStatus() {
-        Emprestimo pendente = new Emprestimo(5, "PENDENTE", "", "", "", "");
-        Emprestimo cancelado = new Emprestimo(5, "CANCELADO", "", "", "", "");
-        Emprestimo pago = new Emprestimo(5, "PAGO", "", "", "", "");
-        statusEmprestimo.add(pendente);
-        statusEmprestimo.add(cancelado);
-        statusEmprestimo.add(pago);
-        observeEmp = FXCollections.observableArrayList(statusEmprestimo);
-        idStatus.setItems(observeEmp);
-
+    public void comboStatus() {
+        ObservableList<String> itens = FXCollections.observableArrayList();
+        itens.addAll("Andamento", "Pendente", "Pago", "Cancelado");
+        idStatus.setItems(itens);
     }
 
     public void carregaBancos() {
-        Emprestimo bmg = new Emprestimo(5, "BMG", "", "", "", "");
-        Emprestimo pan = new Emprestimo(5, "PAN", "", "", "", "");
-        Emprestimo jvItau = new Emprestimo(5, "JV_ITAU", "", "", "", "");
-        Emprestimo bgn = new Emprestimo(5, "BGN", "", "", "", "");
-        Emprestimo safra = new Emprestimo(5, "SAFRA", "", "", "", "");
-        Emprestimo ole = new Emprestimo(5, "OLE", "", "", "", "");
-        Emprestimo mercantil = new Emprestimo(5, "MERCANTIL", "", "", "", "");
-        Emprestimo bradescoBmc = new Emprestimo(5, "BRADESCO_BMC", "", "", "", "");
-        Emprestimo daycoval = new Emprestimo(5, "DAYCOVAL", "", "", "", "");
-        Emprestimo intermedium = new Emprestimo(5, "INTERMEDIUM", "", "", "", "");
-        Emprestimo bv = new Emprestimo(5, "BV", "", "", "", "");
-        Emprestimo banrisul = new Emprestimo(5, "BANRISUL", "", "", "", "");
-        Emprestimo santander = new Emprestimo(5, "SANTANDER", "", "", "", "");
-        bancoEmprestimo.add(bmg);
-        bancoEmprestimo.add(pan);
-        bancoEmprestimo.add(jvItau);
-        bancoEmprestimo.add(bgn);
-        bancoEmprestimo.add(safra);
-        bancoEmprestimo.add(ole);
-        bancoEmprestimo.add(mercantil);
-        bancoEmprestimo.add(bradescoBmc);
-        bancoEmprestimo.add(daycoval);
-        bancoEmprestimo.add(intermedium);
-        bancoEmprestimo.add(bv);
-        bancoEmprestimo.add(banrisul);
-        bancoEmprestimo.add(santander);
-        observebanco = FXCollections.observableArrayList(bancoEmprestimo);
-        comboBanco.setItems(observebanco);
-
+        ObservableList<String> itens = FXCollections.observableArrayList();
+        itens.addAll("Bmg", "Pan", "JV-Itau", "Bgn", "Safra", "Olé", "Mercantil", "Bradesco_Bmc", "Daycoval", "Intermedio,"
+                + "Bv", "Banrisul", "Santander");
+        comboBanco.setItems(itens);
     }
 
     public void carregaFinanceira() {
-        Emprestimo financeira = new Emprestimo(5, "Contrato Vindo De Outra Financeira", "", "", "", "");
-        emprestimoFinanceira.add(financeira);
-        observeFinanceira = FXCollections.observableArrayList(emprestimoFinanceira);
-        comboFinanceira.setItems(observeFinanceira);
+        ObservableList<String> itens = FXCollections.observableArrayList();
+        itens.addAll("Financeira Externa");
+        comboFinanceira.setItems(itens);
     }
 
     public void listarEmprestimo() {
@@ -424,18 +395,57 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     }
 
     public void selecionarItemTableViewEmprestimo(Emprestimo emprestimo) {
-        fieldValor.setText(emprestimo.getValorParcela());
+        fieldValor.setText(String.valueOf(emprestimo.getValorParcela()));
+        idValorSolicitado.setText(String.valueOf(emprestimo.getValorSolicitado()));
+        idValorLiberado.setText(String.valueOf(emprestimo.getValorLiberado()));
+        idComissão.setText(String.valueOf(emprestimo.getValorComissao()));
+        fieldComi.setText(String.valueOf(emprestimo.getPorcentagemComissao()));
+        idTaxa.setText(String.valueOf(emprestimo.getTaxa()));
+
         fieldNomeCliente.setText(emprestimo.getCliente().getNome());
-       
-       
-        
-        comboBanco.getSelectionModel().select(emprestimo);
-  
-        
-        
-     
+        fieldDataInicio.setText(data.format(emprestimo.getDataInicio()));
+        fieldDataFinal.setText(data.format(emprestimo.getDataFim()));
+        comboBoxConvenio.setValue(emprestimo.getConvenio());
+        comboEmprestimos.setValue(emprestimo.getFormaContrato());
+        idStatus.setValue(emprestimo.getStatus());
+        comboBanco.setValue(emprestimo.getBanco());
+        comboFinanceira.setValue(emprestimo.getFinanceira());
+
+    }
+
+    @FXML
+    private void validaDataInicio() {
+        TextFieldFormatter formata = new TextFieldFormatter();
+        formata.setMask("##/##/####");
+        formata.setCaracteresValidos("0123456789");
+        formata.setTf(fieldDataInicio);
+        formata.formatter();
+
+    }
+//    @FXML
+//     public static void  mascaraNumero(){
+//         TextField textField = new  TextField();
+//       
+//        textField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+//            newValue = newValue.replaceAll(",",".");
+//            if(newValue.length()>0){
+//                try{
+//                    Double.parseDouble(newValue);
+//                    textField.setText(newValue.replaceAll(",","."));
+//                }catch(Exception e){
+//                    textField.setText(oldValue);
+//                }
+//            }
+//        });
+//       
+//    } 
+     @FXML
+    public void formata() {
+        TextFieldFormatter formata = new TextFieldFormatter();
+        formata.setMask("###.##" + " "+ "R$");
+        formata.setCaracteresValidos("0123456789");
+        formata.setTf(fieldValor);
+        formata.formatter();
 
     }
 }
-
-

@@ -12,6 +12,7 @@ import com.bettercoding.jfx.model.Usuario;
 import com.bettercoding.jfx.service.UsuarioService;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -81,20 +82,20 @@ public class UsuarioController implements Initializable {
     private static Stage stage;
     @FXML
     private AnchorPane AnchorPane;
-
+    Usuario usuario = new Usuario();
     @Autowired
     UsuarioService usuarioService;
+    TelaUsuarioController tc;
     public static Usuario userLogado;
-    public static final String TIPO_ADMIN ="Adm";
-    public static final String TIPO_COMUM ="User";
+    public static final String TIPO_ADMIN = "Adm";
+    public static final String TIPO_COMUM = "User";
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //  Image image = new Image("/recursos/sifraoLogin.jpg");
         // imageview.setImage(image);
-          
 
     }
-    
 
     @FXML
     protected void botaoEntrar(ActionEvent event) {
@@ -115,16 +116,17 @@ public class UsuarioController implements Initializable {
             stage.setScene(scene);
             stage.show();
             stage.setTitle("TELA PRINCIPAL");
-
+              // confereSenha();
             botaoEntrar.getScene().getWindow().hide();
+         
 
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("DADOS PARA LOGAR");
-            alert.setHeaderText("dados errados");
+            alert.setHeaderText(" Usuário ou senha Incorreto!");
             alert.show();
-        }
 
+        }
     }
 
     public static Stage retornaStage() {
@@ -153,7 +155,25 @@ public class UsuarioController implements Initializable {
         //    labelRecuperaSenha.getScene().getWindow().hide();
     }
 
+    
+
+//    public void confereSenha() {
+//        //  Usuario senhaLogada = usuarioService.buscaSenhaUsuario(idSenha.getText());
+//       Usuario dadosLogin = usuarioService.buscaUsuarioESenha(idUsuario.getText(), idSenha.getText());
+//        if (dadosLogin != userLogado) {
+//            Random ran = new Random();
+//            int n = ran.nextInt(1000000) + 1;
+//            String valorAleatorio = String.valueOf(n);
+//            
+//            usuario.setSenha(valorAleatorio);
+//         
+//            Usuario usua = usuarioService.salvaUsuario(usuario);
+//            System.out.println(" senha alterada");
+//        }
+//
+//    }
 }
+
 //                FXMLLoader fxmlLoader = new FXMLLoader();
 //                Region root = null;
 //             AnchorPane pane = (pane) = FXMLLoader.load(getClass().getResource("/fxml/TelaPrincipal.fxml"));
