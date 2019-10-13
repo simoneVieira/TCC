@@ -6,9 +6,9 @@
 package com.bettercoding.jfx.repository;
 
 import com.bettercoding.jfx.model.Usuario;
-import java.util.List;
-import org.jboss.logging.Param;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -18,10 +18,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-    public Usuario findByUsuarioAndSenha(String usuario, String senha);
-    public Usuario findBySenha(String senha);
-    public Usuario findById(Usuario id);
-    
-    
+    public Usuario findByUsuarioAndSenha(@Param("nome") String usuario, @Param("senha") String senha);
+    //public Usuario findBySenha(String senha);
+
+    public Usuario findByEmail(String email);
 
 }

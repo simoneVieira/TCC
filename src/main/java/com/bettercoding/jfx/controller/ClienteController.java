@@ -24,8 +24,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,6 +41,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -63,7 +67,7 @@ import util.TextFieldFormatter;
  * @author SimoneBarbosa
  */
 @Controller
-public class TelaClienteController implements Initializable {
+public class ClienteController implements Initializable {
 
     @FXML
     private Pane idVoltarMenu;
@@ -87,6 +91,15 @@ public class TelaClienteController implements Initializable {
     private Label labeltelefone1;
     @FXML
     private Label labelTelefone2;
+    @FXML
+    private TextField primeiraData;
+
+    @FXML
+    private TextField segundaData;
+
+    @FXML
+    private Button botaoBuscar;
+
     @FXML
     private TextField fieldNasciemento;
     @FXML
@@ -120,6 +133,10 @@ public class TelaClienteController implements Initializable {
     @FXML
     private Label labeldados;
     @FXML
+    private Label labelAte;
+    @FXML
+    private ImageView viewData;
+    @FXML
     private Button idSalvar;
     @FXML
     private Button idbtnCanccelar;
@@ -128,13 +145,19 @@ public class TelaClienteController implements Initializable {
     @FXML
     private Button idAtualizar;
     @FXML
+    private CheckBox chekBox;
+    @FXML
     private ImageView imageSalvar;
     @FXML
     private TextField idCli;
     @FXML
+    private ImageView pesquisaNome;
+    @FXML
     private ImageView viewExcluir;
     @FXML
     private ImageView viewLupa;
+    @FXML
+    private TextField dataCadastro;
     @FXML
     private TextField campoPesquisa;
     @FXML
@@ -186,7 +209,7 @@ public class TelaClienteController implements Initializable {
     }
 
     public static void setCpfCli(String cpfCli) {
-        TelaClienteController.cpfCli = cpfCli;
+        ClienteController.cpfCli = cpfCli;
     }
 
     public static String getNomeCli() {
@@ -194,11 +217,10 @@ public class TelaClienteController implements Initializable {
     }
 
     public static void setNomeCli(String nomeCli) {
-        TelaClienteController.nomeCli = nomeCli;
+        ClienteController.nomeCli = nomeCli;
     }
     @Autowired
     private UsuarioService loginService;
-//    Usuario login = new Usuario();
 
     @Autowired
     TelaPrincipalController tp = new TelaPrincipalController();
@@ -206,8 +228,9 @@ public class TelaClienteController implements Initializable {
     TelaEmprestimoController tec = new TelaEmprestimoController();
     Cliente c = new Cliente();
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    private SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
 
-    public TelaClienteController() {
+    public ClienteController() {
 
     }
 
@@ -220,6 +243,9 @@ public class TelaClienteController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        adcionarCli.setDisable(receptorCliente == null);
+
         Image imageVoltar = new Image("/imagem/voltar.png");
         imageViewVolt.setImage(imageVoltar);
         Image image = new Image("/imagem/salvar.png");
@@ -230,13 +256,39 @@ public class TelaClienteController implements Initializable {
         viewLupa.setImage(imagePesquisar);
         Image imgadd = new Image("/imagem/cliente.png");
         viewAddCliente.setImage(imgadd);
-        Image imga= new Image("/imagem/atualizacao.png");
+        Image imga = new Image("/imagem/atualizacao.png");
         imageViewAtualiza.setImage(imga);
+        Image imglupa = new Image("/imagem/pesquisa4.png");
+        viewData.setImage(imglupa);
+        Image imglupaCli = new Image("/imagem/lupa.png");
+        pesquisaNome.setImage(imglupaCli);
         initTable();
         listarClientes();
+
         tabela.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> selecionarItemTableViewClientes(newValue));
-     
+
+    }
+
+    private static void positionCaret(final TextField textField) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                // Posiciona o cursor sempre a direita.
+                textField.positionCaret(textField.getText().length());
+            }
+        });
+    }
+
+    private static void maxField(final TextField textField, final Integer length) {
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if (newValue.length() > length) {
+                    textField.setText(oldValue);
+                }
+            }
+        });
     }
 
     @FXML
@@ -245,6 +297,18 @@ public class TelaClienteController implements Initializable {
         formata.setMask("(##)-#####-####");
         formata.setCaracteresValidos("0123456789");
         formata.setTf(fieldTelefone2);
+
+        formata.formatter();
+
+    }
+
+    @FXML
+    private void validaRg() {
+        TextFieldFormatter formata = new TextFieldFormatter();
+        formata.setMask("#######");
+        formata.setCaracteresValidos("0123456789");
+        formata.setTf(fieldRG);
+
         formata.formatter();
 
     }
@@ -268,14 +332,15 @@ public class TelaClienteController implements Initializable {
         formata.formatter();
     }
 
-//    @FXML
-//    private void validaCep() {
-//        TextFieldFormatter formata = new TextFieldFormatter();
-//        formata.setMask("#####-###");
-//        formata.setCaracteresValidos("0123456789");
-//        formata.setTf(fieldCep);
-//        formata.formatter();
-//    }
+    @FXML
+    private void validaCep() {
+        TextFieldFormatter formata = new TextFieldFormatter();
+        formata.setMask("#####-###");
+        formata.setCaracteresValidos("0123456789");
+        formata.setTf(fieldCep);
+        formata.formatter();
+    }
+
     @FXML
     private void validaNumero() {
 
@@ -290,11 +355,67 @@ public class TelaClienteController implements Initializable {
     }
 
     @FXML
-    private void validaDataNascimento() {
+    public void validaDataNascimento() {
+        maxField(fieldNasciemento, 10);
+
+        fieldNasciemento.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (newValue.intValue() < 11) {
+                    String value = fieldNasciemento.getText();
+                    value = value.replaceAll("[^0-9]", "");
+                    value = value.replaceFirst("(\\d{2})(\\d)", "$1/$2");
+                    value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d)", "$1/$2/$3");
+                    fieldNasciemento.setText(value);
+                    positionCaret(fieldNasciemento);
+                }
+            }
+        });
+    }
+
+    @FXML
+    public void validaDataS() {
+        maxField(segundaData, 10);
+
+        segundaData.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (newValue.intValue() < 11) {
+                    String value = segundaData.getText();
+                    value = value.replaceAll("[^0-9]", "");
+                    value = value.replaceFirst("(\\d{2})(\\d)", "$1/$2");
+                    value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d)", "$1/$2/$3");
+                    segundaData.setText(value);
+                    positionCaret(segundaData);
+                }
+            }
+        });
+    }
+
+    @FXML
+    public void validaDataP() {
+        maxField(primeiraData, 10);
+        primeiraData.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (newValue.intValue() < 11) {
+                    String value = primeiraData.getText();
+                    value = value.replaceAll("[^0-9]", "");
+                    value = value.replaceFirst("(\\d{2})(\\d)", "$1/$2");
+                    value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d)", "$1/$2/$3");
+                    primeiraData.setText(value);
+                    positionCaret(primeiraData);
+                }
+            }
+        });
+    }
+
+    @FXML
+    private void validaDataCadastro() {
         TextFieldFormatter formata = new TextFieldFormatter();
         formata.setMask("##/##/####");
         formata.setCaracteresValidos("0123456789");
-        formata.setTf(fieldNasciemento);
+        formata.setTf(dataCadastro);
         formata.formatter();
 
     }
@@ -315,12 +436,13 @@ public class TelaClienteController implements Initializable {
 
             cli.setNome(fieldNome.getText());
             cli.setCidade(fieldCidade.getText());
-            cli.setCep(fieldCep.getText());
-            cli.setNumero(fieldNumero.getText());
-            cli.setCpf(fieldCPF.getText());
+            cli.setCep(Integer.parseInt(fieldCep.getText().replaceAll("[^0-9]", "")));
+            cli.setNumero(Integer.parseInt(fieldNumero.getText().replaceAll("[^0-9]", "")));
+            cli.setCpf(Long.parseLong(fieldCPF.getText().replace(".", "").replace("-", "")));
 
             try {
                 cli.setDataNascimento(sdf.parse(fieldNasciemento.getText()));
+                cli.setDataCadastro(sdf.parse(dataCadastro.getText()));
             } catch (ParseException ex) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("AVISO");
@@ -328,12 +450,12 @@ public class TelaClienteController implements Initializable {
                 alert.show();
             }
             cli.setComplemento(fieldComplemento.getText());
-            cli.setTelefone1(fielTelefone1.getText());
-            cli.setTelefone2(fieldTelefone2.getText());
+            cli.setTelefone1(Long.parseLong(fielTelefone1.getText().replaceAll("[^0-9]", "")));
+            cli.setTelefone2(Long.parseLong(fieldTelefone2.getText().replaceAll("[^0-9]", "")));
             cli.setSetor(fieldSetor.getText());
-            cli.setRg(fieldRG.getText());
+            cli.setRg(Integer.parseInt(fieldRG.getText().replaceAll("[^0-9]", "")));
             cli.setEndereco(fieldEndereco.getText());
-           // cli.setDataNascimento(new Date());
+            // cli.setDataNascimento(new Date());
             if (idCli.getText().equals("")) {
                 try {
                     Cliente salvarCli = clienteService.salvarCli(cli);
@@ -347,7 +469,7 @@ public class TelaClienteController implements Initializable {
                     alert.setTitle("AVISO");
                     alert.setHeaderText("AVISO! CPF JÀ CADASTRADO");
                     alert.show();
-                    LimpaCampos();
+
                 }
 
             } else {
@@ -357,7 +479,6 @@ public class TelaClienteController implements Initializable {
                 alert.setTitle("CONFIRMAÇÃO");
                 alert.setHeaderText("DADOS ALTERADOS COM SUCESSO!");
                 alert.show();
-                LimpaCampos();
 
             }
 
@@ -399,18 +520,19 @@ public class TelaClienteController implements Initializable {
 
     public void selecionarItemTableViewClientes(Cliente cliente) {
         fieldNome.setText(cliente.getNome());
-        fieldCPF.setText(cliente.getCpf());
-        fieldRG.setText(cliente.getRg());
-        fielTelefone1.setText(cliente.getTelefone1());
-        fieldTelefone2.setText(cliente.getTelefone2());
+        fieldCPF.setText(String.valueOf(cliente.getCpf()));
+        fieldRG.setText(String.valueOf(cliente.getRg()));
+        fielTelefone1.setText(String.valueOf(cliente.getTelefone1()));
+        fieldTelefone2.setText(String.valueOf(cliente.getTelefone2()));
         fieldNasciemento.setText(sdf.format(cliente.getDataNascimento()));
         fieldComplemento.setText(cliente.getComplemento());
         fieldSetor.setText(cliente.getSetor());
         fieldCidade.setText(cliente.getCidade());
-        fieldCep.setText(cliente.getCep());
+        fieldCep.setText(String.valueOf(cliente.getCep()));
         fieldEndereco.setText(cliente.getEndereco());
-        fieldNumero.setText(cliente.getNumero());
+        fieldNumero.setText(String.valueOf(cliente.getNumero()));
         idCli.setText(String.valueOf(cliente.getId()));
+
     }
 
     @FXML
@@ -425,23 +547,8 @@ public class TelaClienteController implements Initializable {
         alert.showAndWait().ifPresent((ButtonType b) -> {
             if (b == btnSim) {
                 Cliente cli = new Cliente();
-               
-                 cli.setAtivo(1);
-//                   clienteService.salvarCli(cli).getId();
-                   cli.setId(Long.parseLong(idCli.getText()));
-                clienteService.salvarCli(cli);
-//                  cli.setId(Long.parseLong(idCli.getText()));
-//                clienteService.excluirCliente(cli.getId());
-                 
-               
-                
-                
-           
-                
-                
-                
-                
-                
+                cli.setId(Long.parseLong(idCli.getText()));
+                clienteService.excluirCliente(cli.getId());
                 fieldNome.setText("");
                 fieldCPF.setText("");
                 fieldRG.setText("");
@@ -482,6 +589,7 @@ public class TelaClienteController implements Initializable {
         fieldNumero.setText("");
         idCli.setText("");
         fieldNasciemento.setText(" ");
+
     }
 
     public void fechaTelaCliente() {
@@ -507,24 +615,22 @@ public class TelaClienteController implements Initializable {
         UsuarioController.retornaStage();
     }
 
-    
-
     @FXML
     public void adcionarCliente() {
         fechaTelaCliente();
         receptorCliente.receberCliente(tabela.getSelectionModel().getSelectedItem());
-//        adcionarCli.setDisable(true);
-        
+        receptorCliente = null;
 
     }
-    public void inativaButon(boolean tetes){
-     tetes = true;
-     if(tetes == true){
-         adcionarCli.setDisable(true);
-     }else{
-         adcionarCli.setDisable(false);
-     }
-        
+
+    public void inativaButon(boolean tetes) {
+        tetes = true;
+        if (tetes == true) {
+            adcionarCli.setDisable(true);
+        } else {
+            adcionarCli.setDisable(false);
+        }
+
     }
 
     @FXML
@@ -616,5 +722,53 @@ public class TelaClienteController implements Initializable {
             atualizaTabela.add(cliente);
         }
 
+    }
+
+    @FXML
+    public void buscaClientePorData() {
+
+        if (!atualizaTabela.isEmpty()) {
+            atualizaTabela.clear();
+            List<Cliente> listaData = null;
+            try {
+                listaData = clienteService.buscaData(sd.parse(primeiraData.getText()), (sd.parse(segundaData.getText())));
+
+                if (listaData.isEmpty()) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("AVISO");
+                    alert.setHeaderText("Não foi encontrado cadastro de cliente nessa data!");
+                    alert.show();
+
+                    return;
+                }
+
+                for (Cliente cliente : listaData) {
+                    atualizaTabela.add(cliente);
+                }
+
+                idCollumNome.setCellValueFactory(new PropertyValueFactory<Cliente, String>("nome"));
+                idCollumCPF.setCellValueFactory(new PropertyValueFactory<Cliente, String>("cpf"));
+                idCollumTelefone.setCellValueFactory(new PropertyValueFactory<Cliente, String>("telefone1"));
+                idCollumNascimento.setCellValueFactory(new PropertyValueFactory<Cliente, Date>("dataNascimento"));
+                idCollumEnd.setCellValueFactory(new PropertyValueFactory<Cliente, String>("endereco"));
+                idCollumCidade.setCellValueFactory(new PropertyValueFactory<Cliente, String>("cidade"));
+                codCLIENTE.setCellValueFactory(new PropertyValueFactory<Cliente, Long>("id"));
+                tabela.setItems(atualizaTabela);
+
+            } catch (ParseException ex) {
+                System.out.println("ERRORRR!!!" + ex);
+            }
+
+        }
+    }
+
+    public void mostraCamposDatas() {
+        if (chekBox.isSelected()) {
+            primeiraData.setVisible(true);
+            segundaData.setVisible(true);
+            labelAte.setVisible(true);
+            botaoBuscar.setVisible(true);
+            pesquisaNome.setVisible(true);
+        }
     }
 }

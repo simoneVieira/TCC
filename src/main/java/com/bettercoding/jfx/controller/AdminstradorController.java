@@ -32,7 +32,7 @@ import org.springframework.stereotype.Controller;
  * @author SimoneBarbosa
  */
 @Controller
-public class TelaUsuarioController implements Initializable {
+public class AdminstradorController implements Initializable {
 
     @FXML
     private TextField idNomeUsuario;
@@ -107,10 +107,11 @@ public class TelaUsuarioController implements Initializable {
 
     public void combos() {
         ObservableList<String> itens = FXCollections.observableArrayList();
-        itens.addAll(UsuarioController.TIPO_COMUM, UsuarioController.TIPO_ADMIN);
+        itens.addAll(UsuarioController.TIPO_ATENDENTE, UsuarioController.TIPO_ADMIN);
         comBoUsuario.setItems(itens);
     }
 
+    @FXML
     public void salvaUsuario() {
 
         if (idNomeUsuario.getText().equals("") || senhaUsuario.getText().equals("") || emailUsuario.getText().equals("")
@@ -119,7 +120,7 @@ public class TelaUsuarioController implements Initializable {
             alert.setTitle("ALERTA");
             alert.setHeaderText("FAVOR PREENCHER TODOS OS CAMPOS!!");
             alert.show();
-             confereSenha();
+            geraSenha();
         } else {
             Usuario user = new Usuario();
             user.setEmail(emailUsuario.getText());
@@ -140,7 +141,7 @@ public class TelaUsuarioController implements Initializable {
                     alert.setTitle("AVISO");
                     alert.setHeaderText("AVISO! CPF JÀ CADASTRADO");
                     alert.show();
-                 
+
                 }
 
             } else {
@@ -157,8 +158,6 @@ public class TelaUsuarioController implements Initializable {
 
     }
 
-   
-
     public void selecionarItemTableViewClientes(Usuario usuario) {
         emailUsuario.setText(usuario.getEmail());
         comBoUsuario.setValue(usuario.getTipoUsuario());
@@ -167,20 +166,13 @@ public class TelaUsuarioController implements Initializable {
         idcodigo.setText(String.valueOf(usuario.getId()));
 
     }
-    public void confereSenha() {
-        //  Usuario senhaLogada = usuarioService.buscaSenhaUsuario(idSenha.getText());
-        // Usuario dadosLogin = usuarioService.buscaUsuarioESenha(idUsuario.getText(), idSenha.getText());
-      //  Usuario us = usuarioService.buscaId(new Long(usuario.getId()));
-        if (1+1==2) {
-            Random ran = new Random();
-            int n = ran.nextInt(1000000) + 1;
-            String valorAleatorio = String.valueOf(n);
-            usuario.setSenha(valorAleatorio);
-            Usuario usua = usuarioService.salvaUsuario(usuario);
-            //System.out.println("senha alterada" + us  );
-//        }
+
+    public static String geraSenha() {
+        Random ran = new Random();
+        int n = ran.nextInt(1000000) + 1;
+        String valorAleatorio = String.valueOf(n);
+        return valorAleatorio;
+
     }
 
 }
-}
-    

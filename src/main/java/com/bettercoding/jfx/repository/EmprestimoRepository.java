@@ -7,6 +7,7 @@ package com.bettercoding.jfx.repository;
 
 import com.bettercoding.jfx.model.Cliente;
 import com.bettercoding.jfx.model.Emprestimo;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -21,5 +22,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EmprestimoRepository extends JpaRepository<Emprestimo, Long> {
    public List<Emprestimo> findByCliente(Cliente c );
-
+     public Emprestimo findByDataNotificacaoAndHoraNotificacao( Date dataNotificacao,  Date horaNotificacao);
+   
+//   @Query(value = "SELECT  banco, SUM(valor_comissao)AS total FROM Emprestimo GROUP BY banco")
+//   public List<Emprestimo> buscaESomaPorBanco();
 }

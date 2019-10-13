@@ -49,11 +49,12 @@ public class TelaPrincipalController implements Initializable {
 
 ////    @FXML
 ////    private Button botaoContratos;
-    @FXML
-    private Button botaoOP;
+//    @FXML
+//    private Button botaoOP;
     @FXML
     private Button idCadastro;
-
+     @FXML
+    private Label painelNotificacao;
     @FXML
     private ImageView imgCliente;
     @FXML
@@ -66,14 +67,19 @@ public class TelaPrincipalController implements Initializable {
     private ImageView imgRelatorio;
     @FXML
     private Label labelNomeUsuario;
-
+    @FXML
+    private Label voltarLogin;
     @FXML
     private Label labelUsuarioLogado;
-
+    @FXML
+    private Label labelRedefineSenha;
+    private static Scene cenaLogin;
+  
     private static Stage stage;
-    
+
     UsuarioController usc = new UsuarioController();
     Usuario us;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -83,21 +89,20 @@ public class TelaPrincipalController implements Initializable {
         viewEmprestimo.setImage(img);
 //        Image imgContrato = new Image("/imagem/contratos.png");
 //        imagemContrato.setImage(imgContrato);
-        Image imgOp = new Image("/imagem/op.png");
-        imagemOP.setImage(imgOp);
+//        Image imgOp = new Image("/imagem/notificacao.png");
+//        imagemOP.setImage(imgOp);
         Image imgRl = new Image("/imagem/relatorio.png");
         imgRelatorio.setImage(imgRl);
-      
-        if( UsuarioController.userLogado.getTipoUsuario().equals(UsuarioController.TIPO_ADMIN)){
+
+        if (UsuarioController.userLogado.getTipoUsuario().equals(UsuarioController.TIPO_ADMIN)) {
             botaoRelatorio.setVisible(true);
             imgRelatorio.setVisible(true);
             idCadastro.setVisible(true);
+            labelRedefineSenha.setVisible(false);
         }
-            
-    
+        
 
     }
-         
 
     @FXML
     protected void botaoCliente() {
@@ -151,7 +156,7 @@ public class TelaPrincipalController implements Initializable {
 
     @FXML
     protected void idCadastro() {
-   
+
         stage = new Stage();
         Parent root = null;
         try {
@@ -187,4 +192,49 @@ public class TelaPrincipalController implements Initializable {
         return stage;
     }
 
+    @FXML
+    public void abreTelaNovaSenha() {
+        Stage stage = new Stage();
+        Parent root = null;
+        try {
+            FXMLLoader fxml = new FXMLLoader();
+            fxml.setControllerFactory(MyApp.springContext::getBean);
+            fxml.setLocation(getClass().getResource("/fxml/TelaAlterarSenha.fxml"));
+            root = fxml.load();
+        } catch (IOException ex) {
+            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        stage.setResizable(false);
+        stage.setTitle("Redefinir Senha");
+        stage.setResizable(false);
+
+    }
+    public void reiniciar( ){
+
+     Stage stage = new Stage();
+        Parent root = null;
+        try {
+            FXMLLoader fxml = new FXMLLoader();
+            fxml.setControllerFactory(MyApp.springContext::getBean);
+            fxml.setLocation(getClass().getResource("/fxml/login.fxml"));
+            root = fxml.load();
+        } catch (IOException ex) {
+            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        stage.setTitle("TELA LOGIN");
+       fechaTelaPrincipal();
+        retornaStage();
+       voltarLogin.getScene().getWindow().hide();
+    }
+   @FXML
+    public void chamaTelaPainel(){
+        NotificacaoController ntc = new NotificacaoController();
+        ntc.chamaTelaPainelNotificacao();
+    }
 }

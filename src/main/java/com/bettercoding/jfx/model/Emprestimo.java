@@ -34,20 +34,64 @@ public class Emprestimo {
     private String observacao;
     private String formaPagamento;
     private float valorParcela;
-    private String matricula;
+    private int matricula;
     private String banco;
     private float taxa;
     private Date dataInicio;
     private Date dataFim;
-    private String numeroContrato;
+    private int numeroContrato;
     private String beneficio;
     private Double valorSolicitado;
-     private Double valorLiberado;
+    private Double valorLiberado;
     private float porcentagemComissao;
     private float valorComissao;
     private String financeira;
     private String formaContrato;
     private int quantidadeParcela;
+    private Date dataNotificacao;
+    private Date horaNotificacao;
+    private String gerarNotificacao;
+
+    public String getGerarNotificacao() {
+        return gerarNotificacao;
+    }
+
+    public void setGerarNotificacao(String gerarNotificacao) {
+        this.gerarNotificacao = gerarNotificacao;
+    }
+
+    public int getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(int matricula) {
+        this.matricula = matricula;
+    }
+
+    public int getNumeroContrato() {
+        return numeroContrato;
+    }
+
+    public void setNumeroContrato(int numeroContrato) {
+        this.numeroContrato = numeroContrato;
+    }
+
+    public Date getHoraNotificacao() {
+        return horaNotificacao;
+    }
+
+    public void setHoraNotificacao(Date horaNotificacao) {
+        this.horaNotificacao = horaNotificacao;
+    }
+
+    @Temporal(TemporalType.DATE)
+    public Date getDataNotificacao() {
+        return dataNotificacao;
+    }
+
+    public void setDataNotificacao(Date dataNotificacao) {
+        this.dataNotificacao = dataNotificacao;
+    }
 
     public int getQuantidadeParcela() {
         return quantidadeParcela;
@@ -56,7 +100,6 @@ public class Emprestimo {
     public void setQuantidadeParcela(int quantidadeParcela) {
         this.quantidadeParcela = quantidadeParcela;
     }
-
 
     public Double getValorSolicitado() {
         return valorSolicitado;
@@ -73,22 +116,6 @@ public class Emprestimo {
     public void setValorLiberado(Double valorLiberado) {
         this.valorLiberado = valorLiberado;
     }
-   
-    public String getMatricula() {
-        return matricula;
-    }
-
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
-    }
-
-    public String getNumeroContrato() {
-        return numeroContrato;
-    }
-
-    public void setNumeroContrato(String numeroContrato) {
-        this.numeroContrato = numeroContrato;
-    }
 
     public String getBeneficio() {
         return beneficio;
@@ -98,7 +125,6 @@ public class Emprestimo {
         this.beneficio = beneficio;
     }
 
-    
     private Cliente cliente;
     private Usuario login;
 
@@ -134,9 +160,6 @@ public class Emprestimo {
 //        this.quantidadeParcela = quantidadeParcela;
 //    }
 //    
-
-    
-
     public float getPorcentagemComissao() {
         return porcentagemComissao;
     }
@@ -152,12 +175,11 @@ public class Emprestimo {
     public void setValorComissao(float valorComissao) {
         this.valorComissao = valorComissao;
     }
-   
-   
+
     public Emprestimo() {
 
     }
-    
+
     public float getTaxa() {
         return taxa;
     }
@@ -175,6 +197,7 @@ public class Emprestimo {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+
     @ManyToOne
     @JoinColumn(name = "id_Login")
     public Usuario getLogin() {
@@ -227,8 +250,6 @@ public class Emprestimo {
         this.formaPagamento = formaPagamento;
     }
 
-  
-
     public String getBanco() {
         return banco;
     }
@@ -237,7 +258,6 @@ public class Emprestimo {
         this.banco = banco;
     }
 
- 
     @Temporal(TemporalType.DATE)
     public Date getDataInicio() {
         return dataInicio;
@@ -247,6 +267,7 @@ public class Emprestimo {
         this.dataInicio = dataInicio;
     }
 
+    @Temporal(TemporalType.DATE)
     public Date getDataFim() {
         return dataFim;
     }
@@ -255,7 +276,6 @@ public class Emprestimo {
         this.dataFim = dataFim;
     }
 
-   
     public String getFinanceira() {
         return financeira;
     }
@@ -271,8 +291,8 @@ public class Emprestimo {
     public void setFormaContrato(String formaContrato) {
         this.formaContrato = formaContrato;
     }
-   
-     public float getValorParcela() {
+
+    public float getValorParcela() {
         return valorParcela;
     }
 

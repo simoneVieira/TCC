@@ -85,10 +85,10 @@ public class UsuarioController implements Initializable {
     Usuario usuario = new Usuario();
     @Autowired
     UsuarioService usuarioService;
-    TelaUsuarioController tc;
+    AdminstradorController tc;
     public static Usuario userLogado;
     public static final String TIPO_ADMIN = "Adm";
-    public static final String TIPO_COMUM = "User";
+    public static final String TIPO_ATENDENTE = "ATEN";
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -102,7 +102,8 @@ public class UsuarioController implements Initializable {
 
         userLogado = usuarioService.buscaUsuarioESenha(idUsuario.getText(), idSenha.getText());
 
-        if (userLogado != null) {
+       
+ if (userLogado != null) {
             stage = new Stage();
 
             Parent root = null;

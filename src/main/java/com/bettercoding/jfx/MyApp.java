@@ -48,7 +48,7 @@ public class MyApp extends Application {
 
         cenaLogin = new Scene(root);
 
-        primaryStage.setTitle("Carteira");
+        primaryStage.setTitle("TELA LOGIN");
 
         primaryStage.setScene(cenaLogin);
      

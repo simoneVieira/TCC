@@ -16,97 +16,108 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import static javax.swing.text.StyleConstants.Size;
+import javax.validation.constraints.Size;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
-@SQLDelete(sql = "update Cliente set ativo = 0 where id = ?")
+@SQLDelete(sql = "update Cliente set ativo = false where id = ?")
 
-@Where(clause = "ativo = 0")
+@Where(clause = "ativo = true")
 //@Where(clause = "ativo is true")
-public  class Cliente {
+public class Cliente {
 
     private Long id;
     private String nome;
-    private String cpf;
-    private String rg;
-    private String telefone1;
-    private String telefone2;
+    private Long cpf;
+    private int rg;
+    private Long telefone1;
+    private Long telefone2;
     private Date dataNascimento;
     private String endereco;
     private String complemento;
     private String cidade;
     private String setor;
-    private String cep;
-    private String numero;
-    private int ativo = 0;
+    private Date dataCadastro;
+    private int cep;
+    private int numero;
 
-    public int getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(int ativo) {
-        this.ativo = ativo;
+    public Date getDataCadastro() {
+        return dataCadastro;
     }
 
-    
-    
- public Cliente(String nome) {
-        this.nome = nome;
-    }
-    public Cliente(){
-        
-    }
-    @Column(name = "cpf", unique = true)
-    public String getCpf() {
-        return cpf;
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getRg() {
+    public int getRg() {
         return rg;
     }
 
-    public void setRg(String rg) {
+    public void setRg(int rg) {
         this.rg = rg;
     }
 
-    public String getTelefone1() {
+    public Long getTelefone1() {
         return telefone1;
     }
 
-    public void setTelefone1(String telefone1) {
+    public void setTelefone1(Long telefone1) {
         this.telefone1 = telefone1;
     }
 
-    public String getTelefone2() {
+    public Long getTelefone2() {
         return telefone2;
     }
 
-    public void setTelefone2(String telefone2) {
+    public void setTelefone2(Long telefone2) {
         this.telefone2 = telefone2;
     }
-   
-    public String getCep() {
+
+    public int getCep() {
         return cep;
     }
 
-    public void setCep(String cep) {
+    public void setCep(int cep) {
         this.cep = cep;
     }
-
-    public String getNumero() {
+     @Size(min = 3, max = 4, message="numero maior")
+    public int getNumero() {
         return numero;
     }
 
-    public void setNumero(String numero) {
+    public void setNumero(int numero) {
         this.numero = numero;
     }
-     
-    
+
+    private boolean ativo = true;
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public Cliente(String nome) {
+        this.nome = nome;
+    }
+
+    public Cliente() {
+
+    }
+
+    @Column(name = "cpf", unique = true)
+    public Long getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(Long cpf) {
+        this.cpf = cpf;
+    }
+
     @Temporal(TemporalType.DATE)
     public Date getDataNascimento() {
         return dataNascimento;

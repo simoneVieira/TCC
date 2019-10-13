@@ -32,10 +32,13 @@ public class UsuarioService {
     public Usuario salvaUsuario(Usuario usu) {
         return logRepository.save(usu);
     }
-    public Usuario buscaSenhaUsuario(String senha){
-        return logRepository.findBySenha(senha);
-    }
+//    public Usuario buscaSenhaUsuario(String senha){
+//        return logRepository.findBySenha(senha);
+//    }
     public Usuario buscaId(Long id) {
         return logRepository.findById(id).get();
+    }
+    public Usuario buscaPorEmail(String email) {
+        return logRepository.findByEmail(email);
     }
 }

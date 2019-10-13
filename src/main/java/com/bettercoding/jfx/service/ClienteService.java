@@ -7,6 +7,7 @@ package com.bettercoding.jfx.service;
 
 import com.bettercoding.jfx.model.Cliente;
 import com.bettercoding.jfx.repository.ClienteRepository;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,12 +20,7 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
 
     public Cliente salvarCli(Cliente c) {
-        
-        c.setCpf(c.getCpf().replace(".", ""));
-        c.setCpf(c.getCpf().replace("-", ""));
-       
-       
-        
+ 
         return clienteRepository.save(c);
     }
 
@@ -44,7 +40,9 @@ public class ClienteService {
     public Cliente buscaCliente(Long id) {
         return clienteRepository.findById(id).get();
     }
-    
+    public List<Cliente> buscaData(Date primeiraData, Date segundaData){
+        return clienteRepository.findByDataCadastroBetween(primeiraData, segundaData);
+    }
 
 
 

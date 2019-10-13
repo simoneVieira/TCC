@@ -8,6 +8,7 @@ package com.bettercoding.jfx.service;
 import com.bettercoding.jfx.model.Cliente;
 import com.bettercoding.jfx.model.Emprestimo;
 import com.bettercoding.jfx.repository.EmprestimoRepository;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,21 +19,29 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EmprestimoService {
-     @Autowired
+
+    @Autowired
     private EmprestimoRepository emprestimoRepository;
-     
-    public Emprestimo salvaEmprestimo(Emprestimo ep){
-       
-       
+
+    public Emprestimo salvaEmprestimo(Emprestimo ep) {
+
         return emprestimoRepository.save(ep);
-}
-    
+    }
 
     public List<Emprestimo> emprestimos() {
         return emprestimoRepository.findAll();
-      
+
     }
-     public List<Emprestimo> buscaNome(Cliente cl) {
+
+    public List<Emprestimo> buscaNome(Cliente cl) {
         return emprestimoRepository.findByCliente(cl);
-}
+    }
+//    public List<Emprestimo>somaComissao(){
+//        return emprestimoRepository.buscaESomaPorBanco();
+//    }
+    
+   public Emprestimo buscaDataEHora(Date dataNotificacao, Date horaNotificacao) {
+        return emprestimoRepository.findByDataNotificacaoAndHoraNotificacao(dataNotificacao, horaNotificacao);
+    }
+
 }

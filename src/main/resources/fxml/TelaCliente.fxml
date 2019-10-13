@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -13,38 +14,38 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="300.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bettercoding.jfx.controller.TelaClienteController">
+<VBox prefHeight="300.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bettercoding.jfx.controller.ClienteController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="100.0" prefWidth="1497.0" VBox.vgrow="ALWAYS">
          <children>
-            <Pane fx:id="idVoltarMenu" layoutY="64.0" prefHeight="278.0" prefWidth="1565.0" style="-fx-background-color: #FFFFFF;" AnchorPane.topAnchor="64.0">
+            <Pane fx:id="idVoltarMenu" layoutY="64.0" prefHeight="278.0" prefWidth="1574.0" style="-fx-background-color: #FFFFFF;" AnchorPane.topAnchor="64.0">
                <children>
-                  <TextField fx:id="fieldNome" layoutX="86.0" layoutY="32.0" prefHeight="38.0" prefWidth="453.0" style="-fx-alignment: #FFFFFF;" />
+                  <TextField fx:id="fieldNome" layoutX="86.0" layoutY="32.0" prefHeight="38.0" prefWidth="314.0" style="-fx-alignment: #FFFFFF;" />
                   <Label fx:id="labelNome" layoutX="26.0" layoutY="43.0" text="NOME:" />
-                  <TextField fx:id="fieldCPF" layoutX="664.0" layoutY="25.0" onKeyReleased="#validaCPF" prefHeight="38.0" prefWidth="247.0" />
+                  <TextField fx:id="fieldCPF" layoutX="667.0" layoutY="25.0" onKeyReleased="#validaCPF" prefHeight="38.0" prefWidth="247.0" />
                   <Label fx:id="labelCpf" layoutX="619.0" layoutY="35.0" text="CPF:" />
-                  <TextField fx:id="fieldRG" layoutX="1180.0" layoutY="200.0" prefHeight="38.0" prefWidth="155.0" />
-                  <Label fx:id="labelRG" layoutX="1112.0" layoutY="211.0" text="RG:" />
-                  <TextField fx:id="fielTelefone1" layoutX="86.0" layoutY="86.0" onKeyReleased="#validaTelefone1" prefHeight="38.0" prefWidth="236.0" />
-                  <TextField fx:id="fieldTelefone2" layoutX="667.0" layoutY="91.0" onKeyReleased="#validaTelefone2" prefHeight="38.0" prefWidth="217.0" />
+                  <TextField fx:id="fieldRG" layoutX="1028.0" layoutY="198.0" onKeyReleased="#validaRg" prefHeight="44.0" prefWidth="182.0" />
+                  <Label fx:id="labelRG" layoutX="963.0" layoutY="211.0" text="RG:" />
+                  <TextField fx:id="fielTelefone1" layoutX="86.0" layoutY="86.0" onKeyReleased="#validaTelefone1" prefHeight="44.0" prefWidth="264.0" />
+                  <TextField fx:id="fieldTelefone2" layoutX="667.0" layoutY="91.0" onKeyReleased="#validaTelefone2" prefHeight="38.0" prefWidth="247.0" />
                   <Label fx:id="labeltelefone1" layoutX="11.0" layoutY="97.0" text="TELEFONE 1:" />
                   <Label fx:id="labelTelefone2" layoutX="575.0" layoutY="106.0" text="TELEFONE 2:" />
-                  <TextField fx:id="fieldNasciemento" layoutX="86.0" layoutY="151.0" onKeyReleased="#validaDataNascimento" prefHeight="38.0" prefWidth="204.0" />
+                  <TextField fx:id="fieldNasciemento" layoutX="86.0" layoutY="151.0" onKeyReleased="#validaDataNascimento" prefHeight="44.0" prefWidth="264.0" />
                   <Label layoutX="14.0" layoutY="162.0" text="DATA NAS:" />
-                  <TextField fx:id="fieldComplemento" layoutX="1180.0" layoutY="135.0" prefHeight="38.0" prefWidth="175.0" />
-                  <Label fx:id="labelcomple" layoutX="1077.0" layoutY="146.0" text="COMPLEMENTO:" />
-                  <TextField fx:id="fieldSetor" layoutX="1180.0" layoutY="78.0" prefHeight="38.0" prefWidth="168.0" />
-                  <Label fx:id="labelsetor" layoutX="1122.0" layoutY="88.0" text="SETOR:" />
-                  <TextField fx:id="fieldCidade" layoutX="667.0" layoutY="151.0" prefHeight="38.0" prefWidth="195.0" />
+                  <TextField fx:id="fieldComplemento" layoutX="1031.0" layoutY="134.0" prefHeight="44.0" prefWidth="175.0" />
+                  <Label fx:id="labelcomple" layoutX="928.0" layoutY="147.0" text="COMPLEMENTO:" />
+                  <TextField fx:id="fieldSetor" layoutX="1031.0" layoutY="74.0" prefHeight="46.0" prefWidth="175.0" />
+                  <Label fx:id="labelsetor" layoutX="954.0" layoutY="83.0" text="SETOR:" />
+                  <TextField fx:id="fieldCidade" layoutX="667.0" layoutY="151.0" prefHeight="37.0" prefWidth="247.0" />
                   <Label fx:id="labelCidade" layoutX="597.0" layoutY="162.0" text="CIDADE:" />
-                  <TextField fx:id="fieldCep" layoutX="667.0" layoutY="208.0" prefHeight="38.0" prefWidth="195.0" />
+                  <TextField fx:id="fieldCep" layoutX="667.0" layoutY="208.0" onKeyReleased="#validaCep" prefHeight="38.0" prefWidth="247.0" />
                   <Label fx:id="labelcep" layoutX="619.0" layoutY="219.0" text="CEP:" />
-                  <TextField fx:id="fieldEndereco" layoutX="86.0" layoutY="208.0" prefHeight="38.0" prefWidth="361.0" />
+                  <TextField fx:id="fieldEndereco" layoutX="86.0" layoutY="208.0" prefHeight="44.0" prefWidth="264.0" />
                   <Label fx:id="labelendereco" layoutX="9.0" layoutY="219.0" text="ENDEREÇO:  " />
-                  <TextField fx:id="fieldNumero" layoutX="956.0" layoutY="143.0" onKeyReleased="#validaNumero" prefHeight="38.0" prefWidth="99.0" />
-                  <Label fx:id="labelnumero" layoutX="892.0" layoutY="154.0" text="NUMERO:" />
-                  <Label layoutX="1121.0" layoutY="22.0" prefHeight="17.0" prefWidth="77.0" text="Cod Cliente :" />
-                  <TextField fx:id="idCli" editable="false" layoutX="1198.0" layoutY="13.0" prefHeight="38.0" prefWidth="89.0" />
+                  <TextField fx:id="fieldNumero" layoutX="1251.0" layoutY="134.0" onKeyReleased="#validaNumero" prefHeight="38.0" prefWidth="68.0" />
+                  <Label fx:id="labelnumero" layoutX="1227.0" layoutY="144.0" text="Nº" />
+                  <Label layoutX="1213.0" layoutY="28.0" prefHeight="17.0" prefWidth="77.0" text="Cod Cliente :" />
+                  <TextField fx:id="idCli" editable="false" layoutX="1285.0" layoutY="17.0" prefHeight="38.0" prefWidth="89.0" />
                   <Label fx:id="labelAsteriscoN" layoutX="62.0" layoutY="30.0" prefHeight="27.0" prefWidth="23.0" text="*" textFill="RED">
                      <font>
                         <Font size="18.0" />
@@ -65,14 +66,16 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="labAstersicoRG" layoutX="1130.0" layoutY="198.0" prefHeight="27.0" prefWidth="37.0" text="*" textFill="RED">
+                  <Label fx:id="labAstersicoRG" layoutX="983.0" layoutY="198.0" prefHeight="17.0" prefWidth="18.0" text="*" textFill="RED">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
+                  <Label layoutX="934.0" layoutY="24.0" text="Data Cadastro:" />
+                  <TextField fx:id="dataCadastro" layoutX="1031.0" layoutY="14.0" onKeyReleased="#validaDataCadastro" prefHeight="44.0" prefWidth="175.0" />
                </children>
             </Pane>
-            <Pane layoutY="379.0" prefHeight="349.0" prefWidth="1568.0" style="-fx-background-color: ; -fx-background-color: #FFFFFF;">
+            <Pane layoutY="377.0" prefHeight="351.0" prefWidth="1574.0" style="-fx-background-color: ; -fx-background-color: #FFFFFF;">
                <children>
                   <Button fx:id="idSalvar" layoutX="286.0" layoutY="268.0" mnemonicParsing="false" onAction="#salvarCli" prefHeight="50.0" prefWidth="112.0" text="      SALVAR" />
                   <Button fx:id="idbtnCanccelar" layoutX="476.0" layoutY="269.0" mnemonicParsing="false" onAction="#excluirCliente" prefHeight="50.0" prefWidth="112.0" text="     EXCLUIR" />
@@ -105,7 +108,7 @@
                         <Image url="@../imagem/cliente.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="btPesquisa" layoutX="1100.0" layoutY="16.0" mnemonicParsing="false" onAction="#botaoP" prefHeight="37.0" prefWidth="77.0" text="Pesquisar" />
+                  <Button fx:id="btPesquisa" layoutX="1120.0" layoutY="16.0" mnemonicParsing="false" onAction="#botaoP" prefHeight="38.0" prefWidth="137.0" text="Pesquisar" />
                   <Button fx:id="idAtualizar" layoutX="1250.0" layoutY="161.0" mnemonicParsing="false" onAction="#atualiza" prefHeight="44.0" prefWidth="112.0" style="-fx-background-color: #00008B #00008B;" text="              Atualizar " textFill="WHITE" />
                   <ImageView fx:id="imageViewAtualiza" fitHeight="50.0" fitWidth="53.0" layoutX="1250.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" style="visibility: #228B22;">
                      <image>
@@ -114,6 +117,21 @@
                      <effect>
                         <Glow />
                      </effect>
+                  </ImageView>
+                  <TextField fx:id="primeiraData" layoutX="148.0" layoutY="22.0" onKeyReleased="#validaDataP" promptText="Informe uma data" visible="false" />
+                  <TextField fx:id="segundaData" layoutX="371.0" layoutY="22.0" onKeyReleased="#validaDataS" promptText="Informe a segunda data" visible="false" />
+                  <Button fx:id="botaoBuscar" layoutX="552.0" layoutY="19.0" mnemonicParsing="false" onAction="#buscaClientePorData" prefHeight="37.0" prefWidth="112.0" text="Buscar" visible="false" />
+                  <Label fx:id="labelAte" layoutX="323.0" layoutY="26.0" text="Até" visible="false" />
+                  <CheckBox fx:id="chekBox" layoutX="14.0" layoutY="18.0" mnemonicParsing="false" onAction="#mostraCamposDatas" text="Pesquisar por data ?" />
+                  <ImageView fx:id="viewData" fitHeight="37.0" fitWidth="37.0" layoutX="628.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../imagem/pesquisa4.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="pesquisaNome" fitHeight="37.0" fitWidth="44.0" layoutX="1215.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagem/lupa.png" />
+                     </image>
                   </ImageView>
                </children></Pane>
             <Pane prefHeight="66.0" prefWidth="1574.0" style="-fx-background-color: #00008B;">
@@ -132,7 +150,7 @@
                   <Label fx:id="idLabelNovo" layoutX="998.0" layoutY="25.0" onMouseClicked="#LimpaCampos" text="NOVO CLIENTE" textFill="WHITE" />
                </children>
             </Pane>
-            <Pane layoutY="341.0" prefHeight="38.0" prefWidth="1568.0" style="-fx-background-color: #00008B;">
+            <Pane layoutY="341.0" prefHeight="38.0" prefWidth="1574.0" style="-fx-background-color: #00008B;">
                <children>
                   <Label fx:id="labeldados" layoutX="639.0" layoutY="6.0" text="Buscar Dados" textFill="WHITE">
                      <font>

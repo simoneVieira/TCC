@@ -21,8 +21,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="botaoOP" layoutX="394.0" layoutY="1.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="186.0" text="       CADASTRAR USUÁRIO" />
-            <Button fx:id="botaoRelatorio" layoutX="616.0" layoutY="1.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="143.0" text="            RELATÓRIOS" visible="false">
+            <Button fx:id="botaoRelatorio" layoutX="386.0" layoutY="1.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="143.0" text="            RELATÓRIOS" visible="false">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
@@ -32,12 +31,7 @@
                   <Image url="@../imagem/emp.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="imagemOP" fitHeight="44.0" fitWidth="44.0" layoutX="394.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../imagem/op.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="imgRelatorio" fitHeight="44.0" fitWidth="51.0" layoutX="627.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <ImageView fx:id="imgRelatorio" fitHeight="44.0" fitWidth="51.0" layoutX="386.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../imagem/relatorio.png" />
                </image>
@@ -54,7 +48,7 @@
             </ImageView>
          </children>
       </Pane>
-      <Pane id="pane.setStyle " minHeight="-Infinity" minWidth="-Infinity" prefHeight="174.0" prefWidth="1963.0" styleClass="telaPrinc" stylesheets="@telaprincipal.css" AnchorPane.bottomAnchor="526.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane id="pane.setStyle " layoutX="-4.0" layoutY="-3.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="194.0" prefWidth="1974.0" styleClass="telaPrinc" stylesheets="@telaprincipal.css" AnchorPane.bottomAnchor="509.0" AnchorPane.leftAnchor="-4.0" AnchorPane.topAnchor="-3.0">
          <children>
             <Label layoutX="14.0" text="SYSMONEY" textFill="WHITE">
                <font>
@@ -62,6 +56,13 @@
                </font>
             </Label>
             <Button fx:id="idCadastro" layoutX="1179.0" layoutY="127.0" mnemonicParsing="false" onAction="#idCadastro" prefHeight="33.0" prefWidth="174.0" text="Cadastrar Usuario" visible="false" />
+            <Label fx:id="labelRedefineSenha" layoutX="929.0" layoutY="130.0" onKeyReleased="#abreTelaNovaSenha" onMouseClicked="#abreTelaNovaSenha" text="Redefinir Senha" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="voltarLogin" layoutX="1095.0" layoutY="135.0" onMouseClicked="#reiniciar" text="VOLTAR" textFill="WHITE" />
+            <Label fx:id="painelNotificacao" layoutX="36.0" layoutY="152.0" onMouseReleased="#chamaTelaPainel" text="PAINEL DE NOTIFICAÇÃO" textFill="WHITE" />
          </children></Pane>
    </children>
 </AnchorPane>

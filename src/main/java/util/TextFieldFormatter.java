@@ -6,6 +6,7 @@
 package util;
 
 import java.text.ParseException;
+import javafx.application.Platform;
 import javafx.scene.control.TextField;
 import javax.swing.text.MaskFormatter;
 import org.springframework.stereotype.Controller;
@@ -107,8 +108,10 @@ public class TextFieldFormatter {
      * @param mask the mask to set
      */
     public void setMask(String mask) {
+        
         this.mask = mask;
     }
+    
 }
 
 
