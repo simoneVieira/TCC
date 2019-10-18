@@ -140,7 +140,6 @@
             </RadioButton>
             <RadioButton fx:id="radioNao" layoutX="163.0" layoutY="453.0" mnemonicParsing="false" onMouseClicked="#radioButton" text="NÃO" textFill="WHITE" toggleGroup="$grupoRadio" />
             <TextField fx:id="fieldData" layoutX="253.0" layoutY="389.0" prefHeight="36.0" prefWidth="162.0" promptText="Informe a data" visible="false" />
-            <TextField fx:id="fieldHora" layoutX="253.0" layoutY="452.0" prefHeight="36.0" prefWidth="162.0" promptText="Informe a Hora" visible="false" />
          </children>
       </Pane>
    </children>

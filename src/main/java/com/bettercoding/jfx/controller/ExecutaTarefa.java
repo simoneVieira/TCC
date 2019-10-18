@@ -6,6 +6,7 @@
 package com.bettercoding.jfx.controller;
 
 import com.bettercoding.jfx.MyApp;
+import com.bettercoding.jfx.service.NotificacaoService;
 import static java.awt.SystemColor.desktop;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -39,12 +40,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.swing.JOptionPane;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 /**
  *
  * @author SimoneBarbosa
  */
+@Controller
 public class ExecutaTarefa extends TimerTask {
+    
     TelaEmprestimoController tec = new TelaEmprestimoController();
 
     private void completeTask() {
@@ -72,22 +77,14 @@ public class ExecutaTarefa extends TimerTask {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        Stage stage = new Stage();
-                        Parent root = null;
-                        try {
-                            FXMLLoader fxml = new FXMLLoader();
-                            fxml.setControllerFactory(MyApp.springContext::getBean);
-                            fxml.setLocation(getClass().getResource("/fxml/TelaNotificacao.fxml"));
-                            root = fxml.load();
-                        } catch (IOException ex) {
-                            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        Scene scene = new Scene(root);
-                        stage.setScene(scene);
-                        stage.show();
-                        stage.setResizable(false);
-                        stage.setTitle("Tela de Messagem!");
-                        stage.setResizable(false);
+                  
+                        tec.verificaDataNotificacao();
+                        
+                        
+                        
+                        
+                        
+                       
                     }
                 });
             }

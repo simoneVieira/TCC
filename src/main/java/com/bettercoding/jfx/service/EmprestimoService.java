@@ -40,8 +40,8 @@ public class EmprestimoService {
 //        return emprestimoRepository.buscaESomaPorBanco();
 //    }
     
-   public Emprestimo buscaDataEHora(Date dataNotificacao, Date horaNotificacao) {
-        return emprestimoRepository.findByDataNotificacaoAndHoraNotificacao(dataNotificacao, horaNotificacao);
-    }
+//   public Emprestimo buscaDataEHora(Date dataNotificacao, Date horaNotificacao) {
+//        //return emprestimoRepository.findByDataNotificacaoAndHoraNotificacao(dataNotificacao, horaNotificacao);
+//    }
 
 }

@@ -79,7 +79,8 @@ public class TelaPrincipalController implements Initializable {
 
     UsuarioController usc = new UsuarioController();
     Usuario us;
-    
+    ExecutaTarefa exect = new ExecutaTarefa();
+      
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -87,10 +88,6 @@ public class TelaPrincipalController implements Initializable {
         imgCliente.setImage(image);
         Image img = new Image("/imagem/emp.png");
         viewEmprestimo.setImage(img);
-//        Image imgContrato = new Image("/imagem/contratos.png");
-//        imagemContrato.setImage(imgContrato);
-//        Image imgOp = new Image("/imagem/notificacao.png");
-//        imagemOP.setImage(imgOp);
         Image imgRl = new Image("/imagem/relatorio.png");
         imgRelatorio.setImage(imgRl);
 
@@ -100,7 +97,7 @@ public class TelaPrincipalController implements Initializable {
             idCadastro.setVisible(true);
             labelRedefineSenha.setVisible(false);
         }
-        
+       exect.run();
 
     }
 
@@ -172,12 +169,6 @@ public class TelaPrincipalController implements Initializable {
         stage.show();
         stage.resizableProperty();
         stage.setResizable(false);
-
-//        botaoOP.getScene().getWindow().hide();
-//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//        alert.setTitle("CONFIRMAÇÃO");
-//        alert.setHeaderText("DADOS SALVOS COM SUCESSO!");
-//        alert.show();
     }
 
     public static Stage retornaCenaEmprestimo() {

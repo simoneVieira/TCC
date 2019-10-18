@@ -76,7 +76,7 @@ public class TelaEmailController implements Initializable {
             return;
         }
 
-        usuario.setSenha(AdminstradorController.geraSenha());
+        usuario.setSenha(AdminstradorController.geraNumeroAleatorio());
         usuario = usuarioService.salvaUsuario(usuario);
 
         SimpleEmail email = new SimpleEmail();

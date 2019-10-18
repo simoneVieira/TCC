@@ -120,7 +120,7 @@ public class AdminstradorController implements Initializable {
             alert.setTitle("ALERTA");
             alert.setHeaderText("FAVOR PREENCHER TODOS OS CAMPOS!!");
             alert.show();
-            geraSenha();
+            geraNumeroAleatorio();
         } else {
             Usuario user = new Usuario();
             user.setEmail(emailUsuario.getText());
@@ -167,7 +167,7 @@ public class AdminstradorController implements Initializable {
 
     }
 
-    public static String geraSenha() {
+    public static String geraNumeroAleatorio() {
         Random ran = new Random();
         int n = ran.nextInt(1000000) + 1;
         String valorAleatorio = String.valueOf(n);

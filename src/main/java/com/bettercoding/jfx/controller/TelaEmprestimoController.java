@@ -10,8 +10,11 @@ import com.bettercoding.jfx.MyApp;
 import static com.bettercoding.jfx.controller.TelaPrincipalController.retornaStage;
 import com.bettercoding.jfx.model.Cliente;
 import com.bettercoding.jfx.model.Emprestimo;
+import com.bettercoding.jfx.model.Notificacao;
 import com.bettercoding.jfx.service.EmprestimoService;
+import com.bettercoding.jfx.service.NotificacaoService;
 import java.io.IOException;
+import static java.lang.String.format;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -163,9 +166,8 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     @FXML
     private TextField fieldData;
 
-    @FXML
-    private TextField fieldHora;
-
+//    @FXML
+//    private TextField fieldHora;
     @FXML
     private Button buttonExcluir;
 
@@ -234,8 +236,14 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
 
     Emprestimo emprestimo = new Emprestimo();
     Cliente cliente;
-    private SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
-    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+    Notificacao notificacao;
+    @Autowired
+    NotificacaoService notificacaoService;
+    
+
+    private SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");    
+  
+    //  SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
     DecimalFormat df = new DecimalFormat(",000.00");
 
@@ -324,15 +332,14 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         try {
             emprestimo.setDataInicio(data.parse(fieldDataInicio.getText()));
             emprestimo.setDataFim(data.parse(fieldDataFinal.getText()));
-
         } catch (ParseException ex) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("AVISO");
             alert.setHeaderText("favor ,informar uma data");
             alert.show();
         }
-
         emprestimo.setValorComissao(Float.parseFloat((idComissão.getText().replace(".", ""))));
+
         emprestimo.setNumeroContrato(Integer.parseInt(fieldNumContrato.getText()));
         emprestimo.setPorcentagemComissao(Float.parseFloat(fieldComi.getText()));
         emprestimo.setQuantidadeParcela(Integer.parseInt(idParcelas.getText()));
@@ -349,14 +356,38 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         RadioButton rad = (RadioButton) grupoRadio.getSelectedToggle();
         emprestimo.setGerarNotificacao(rad.getText());
         emprestimo.setGerarNotificacao(rad.getText());
-        if (idCodigoEmprestimo.getText().equals("")) {
+
+        radioButton();
+
+        //emprestimo não tem obj notificação? Criar
+        //-> new Notificação();
+        //notficação setx y z..
+        if (idCodigoEmprestimo.getText().equals("")) {//Novo empréstimo
+
+            
+            // ciar notificação?   
+            //if(radio = radioSim.isSelected()){
+            //criar nova instância de Notificação
+            emprestimo.getNotificacao().setStatus("Andamento");
+            // emprestimo.getNotificacao() -> Coloca a data que está no campo no obj (texto para data) ( data normal) 
+            // emprestimo.getNotificacao() -> copiar a data para data de próxima notificação
+            //}
             emprestimo = emprestimoService.salvaEmprestimo(emprestimo);
-            radioButton();
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("CONFIRMAÇÃO");
             alert.setHeaderText("DADOS SALVOS COM SUCESSO!");
             alert.show();
-        } else {
+        } else { //editar empréstimo
+
+            
+             //if(radio = radioSim.isSelected()){
+                //status
+                // emprestimo.getNotificacao() -> Coloca a data que está no campo no obj (texto para data) ( data normal) 
+                // emprestimo.getNotificacao() -> copiar a data para data de próxima notificação
+            //se não, remover a notificação..
+            //se só colocar notificação = null resolve?
+            
             emprestimo.setId_Emprestimo((Long.parseLong(idCodigoEmprestimo.getText())));
             Emprestimo AlterarEmpres = emprestimoService.salvaEmprestimo(emprestimo);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -474,6 +505,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         idParcelas.setText(String.valueOf(emprestimo.getQuantidadeParcela()));
         fieldBeneficio.setText(String.valueOf(emprestimo.getBeneficio()));
         idCodigoEmprestimo.setText(String.valueOf(emprestimo.getId_Emprestimo()));
+        cliente = emprestimo.getCliente();
 
         comboFinanceira.setValue(emprestimo.getFinanceira());
 
@@ -484,16 +516,16 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         }
         if (emprestimo.getGerarNotificacao().equals("SIM")) {
             radioSim.setSelected(true);
-            fieldData.setText(sdf.format(emprestimo.getGerarNotificacao()));
-            fieldHora.setText(sdf.format(emprestimo.getGerarNotificacao()));
+            fieldData.setText(data.format(emprestimo.getGerarNotificacao()));
+//            fieldHora.setText(sdf.format(emprestimo.getGerarNotificacao()));
 
             fieldData.setVisible(true);
-            fieldHora.setVisible(true);
+//            fieldHora.setVisible(true);
 
         } else {
             radioNao.setSelected(true);
             fieldData.setVisible(false);
-            fieldHora.setVisible(false);
+//            fieldHora.setVisible(false);
         }
 
     }
@@ -525,49 +557,56 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     }
 
     public void radioButton() {
+        emprestimo.setNotificacao(notificacao);
         boolean radio;
         radio = radioSim.isSelected();
         if (radio == true) {
             fieldData.setVisible(true);
-            fieldHora.setVisible(true);
+//            fieldHora.setVisible(true);
             try {
-                emprestimo.setDataNotificacao(data.parse(fieldData.getText()));
-                emprestimo.setHoraNotificacao(sdf.parse(fieldHora.getText()));
 
-                emprestimo = emprestimoService.salvaEmprestimo(emprestimo);
+                if (emprestimo.getNotificacao() == null) {
+                    emprestimo.setNotificacao(new Notificacao());
+                    emprestimo.getNotificacao().setData(data.parse(fieldData.getText()));
+                    emprestimo = emprestimoService.salvaEmprestimo(emprestimo);
+                }
 
             } catch (ParseException ex) {
 
             }
         } else {
             fieldData.setVisible(false);
-            fieldHora.setVisible(false);
+
         }
+
     }
+//    public void trocadata(){
+//       
+//        if (emprestimo.getNotificacao().getProximaAlerta() == null) {
+//            emprestimo.setNotificacao(new Notificacao());
+//            emprestimo.getNotificacao().setProximaAlerta(emprestimo.getNotificacao().getData());
+//        }
+//    }
 
     @FXML
     public void monetaryField() {
         fieldValor.setAlignment(Pos.CENTER_RIGHT);
-        fieldValor.lengthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                String value = fieldValor.getText();
-                value = value.replaceAll("[^0-9]", "");
-                value = value.replaceAll("([0-9]{1})([0-9]{14})$", "$1.$2");
-                value = value.replaceAll("([0-9]{1})([0-9]{11})$", "$1.$2");
-                value = value.replaceAll("([0-9]{1})([0-9]{8})$", "$1.$2");
-                value = value.replaceAll("([0-9]{1})([0-9]{5})$", "$1.$2");
-                value = value.replaceAll("([0-9]{1})([0-9]{2})$", "$1,$2");
-                fieldValor.setText(value);
-                fieldValor.textProperty().addListener(new ChangeListener<String>() {
-                    @Override
-                    public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                        if (newValue.length() > 17) {
-                            fieldValor.setText(oldValue);
-                        }
-                    }
-                });
-            }
+        fieldValor.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            String value = fieldValor.getText();
+            value = value.replaceAll("[^0-9]", "");
+            value = value.replaceAll("([0-9]{1})([0-9]{14})$", "$1.$2");
+            value = value.replaceAll("([0-9]{1})([0-9]{11})$", "$1.$2");
+            value = value.replaceAll("([0-9]{1})([0-9]{8})$", "$1.$2");
+            value = value.replaceAll("([0-9]{1})([0-9]{5})$", "$1.$2");
+            value = value.replaceAll("([0-9]{1})([0-9]{2})$", "$1,$2");
+            fieldValor.setText(value);
+            System.out.println("teste");
+            fieldValor.textProperty().addListener((ObservableValue<? extends String> observableValue, String oldValue1, String newValue1) -> {
+                if (newValue1.length() > 17) {
+                    fieldValor.setText(oldValue1);
+                }
+                System.out.println("mudou");
+            });
         });
     }
 
@@ -654,12 +693,69 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
 
         try {
             Date data = df.parse(fieldData.getText());
-            Date hora = df.parse(fieldHora.getText());
-            Emprestimo emp = emprestimoService.buscaDataEHora(data, hora);
-            System.out.println("hora vida do banco   " + emp);
+//            Date hora = df.parse(fieldHora.getText());
+//            Emprestimo emp = emprestimoService.buscaDataEHora(data, hora);
+//            System.out.println("hora vida do banco   " + emp);
         } catch (ParseException ex) {
             System.out.println("data não convertida");
         }
 
     }
+
+    public void verificaDataNotificacao() {
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
+       // Date dataFormatada = formato.parse(fieldData.getText()); 
+        Date dataAtual = new Date();
+        Date dataAtua = new Date();
+        
+        
+       // Notificacao noti ;
+        
+        //notificacao = notificacaoService.buscaStatus(emprestimo.getNotificacao().getStatus());
+        //String c = ""+notificacao;
+//        try {
+           //Notificacao notiData = null;
+        try {
+            Notificacao notiData = notificacaoService.buscaData(data.parse(emprestimo.getDataNotificacao()+""));
+            if(notiData != null){
+             if ((dataAtual.equals(notiData))){
+                 System.out.println("chegou");
+             }         
+             }
+        
+        
+        
+        } catch (ParseException ex) {
+             System.out.println("Errado"+ex);
+           
+        }
+            
+//        } catch (ParseException ex) {
+//
+//        }
+        
+//        if ((notiData).equals (dataAtual)){
+//            
+//             Stage stage = new Stage();
+//                        Parent root = null;
+//                        try {
+//                            FXMLLoader fxml = new FXMLLoader();
+//                            fxml.setControllerFactory(MyApp.springContext::getBean);
+//                            fxml.setLocation(getClass().getResource("/fxml/TelaNotificacao.fxml"));
+//                            root = fxml.load();
+//                        } catch (IOException ex) {
+//                            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
+//                        Scene scene = new Scene(root);
+//                        stage.setScene(scene);
+//                        stage.show();
+//                        stage.setResizable(false);
+//                        stage.setTitle("Tela de Messagem!");
+//                        stage.setResizable(false);
+//            
+//        }
+
+        
+    }
 }
+

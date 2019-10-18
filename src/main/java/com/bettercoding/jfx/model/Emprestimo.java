@@ -6,6 +6,7 @@
 package com.bettercoding.jfx.model;
 
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -49,9 +50,24 @@ public class Emprestimo {
     private String formaContrato;
     private int quantidadeParcela;
     private Date dataNotificacao;
-    private Date horaNotificacao;
+//    private Date horaNotificacao;
     private String gerarNotificacao;
+    private Cliente cliente;
+    private Usuario login;
+    private Notificacao notificacao;
 
+   
+ @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_Notificacao")
+    public Notificacao getNotificacao() {
+        return notificacao;
+    }
+
+    public void setNotificacao(Notificacao notificacao) {
+        this.notificacao = notificacao;
+    }
+    
+   
     public String getGerarNotificacao() {
         return gerarNotificacao;
     }
@@ -76,13 +92,13 @@ public class Emprestimo {
         this.numeroContrato = numeroContrato;
     }
 
-    public Date getHoraNotificacao() {
-        return horaNotificacao;
-    }
-
-    public void setHoraNotificacao(Date horaNotificacao) {
-        this.horaNotificacao = horaNotificacao;
-    }
+//    public Date getHoraNotificacao() {
+//        return horaNotificacao;
+//    }
+//
+//    public void setHoraNotificacao(Date horaNotificacao) {
+//        this.horaNotificacao = horaNotificacao;
+//    }
 
     @Temporal(TemporalType.DATE)
     public Date getDataNotificacao() {
@@ -124,9 +140,6 @@ public class Emprestimo {
     public void setBeneficio(String beneficio) {
         this.beneficio = beneficio;
     }
-
-    private Cliente cliente;
-    private Usuario login;
 
 //    public int getMatricula() {
 //        return matricula;
