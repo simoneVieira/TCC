@@ -30,7 +30,7 @@ public class Cliente {
 
     private Long id;
     private String nome;
-    private Long cpf;
+    private String cpf;
     private int rg;
     private Long telefone1;
     private Long telefone2;
@@ -110,11 +110,11 @@ public class Cliente {
     }
 
     @Column(name = "cpf", unique = true)
-    public Long getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(Long cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 

@@ -9,7 +9,10 @@ import com.bettercoding.jfx.model.Cliente;
 import com.bettercoding.jfx.model.Emprestimo;
 import com.bettercoding.jfx.repository.EmprestimoRepository;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,12 +39,17 @@ public class EmprestimoService {
     public List<Emprestimo> buscaNome(Cliente cl) {
         return emprestimoRepository.findByCliente(cl);
     }
-//    public List<Emprestimo>somaComissao(){
-//        return emprestimoRepository.buscaESomaPorBanco();
-//    }
+    public List<Emprestimo> buscaEmprestimoObjCli(String nome,String cpf){
+        return emprestimoRepository.findClienteByNome(nome,cpf);
+        
+    }
     
-//   public Emprestimo buscaDataEHora(Date dataNotificacao, Date horaNotificacao) {
-//        //return emprestimoRepository.findByDataNotificacaoAndHoraNotificacao(dataNotificacao, horaNotificacao);
-//    }
+    public List<Emprestimo> buscaNumeroContrato(int numeroContrato){
+        return emprestimoRepository.findByNumeroContrato(numeroContrato);
+        
+    }
+    public List<Emprestimo>somaComissao(String banco, float valorComissao){
+        return emprestimoRepository.findBancoAndValorComissao(banco, valorComissao);
+    }
 
 }

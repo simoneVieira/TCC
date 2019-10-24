@@ -102,24 +102,36 @@ public class UsuarioController implements Initializable {
 
         userLogado = usuarioService.buscaUsuarioESenha(idUsuario.getText(), idSenha.getText());
 
-       
- if (userLogado != null) {
+        if (userLogado != null) {
             stage = new Stage();
 
+           // stage = new Stage();
             Parent root = null;
-
             try {
-                root = FXMLLoader.load(getClass().getResource("/fxml/TelaPrincipal.fxml"));
+                FXMLLoader fxml = new FXMLLoader();
+                fxml.setControllerFactory(MyApp.springContext::getBean);
+                fxml.setLocation(getClass().getResource("/fxml/TelaPrincipal.fxml"));
+                root = fxml.load();
             } catch (IOException ex) {
-                Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
             }
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-            stage.setTitle("TELA PRINCIPAL");
-              // confereSenha();
+
+//            Parent root = null;
+//
+//            try {
+//                root = FXMLLoader.load(getClass().getResource("/fxml/TelaPrincipal.fxml"));
+//            } catch (IOException ex) {
+//                Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            Scene scene = new Scene(root);
+//            stage.setScene(scene);
+//            stage.show();
+//            stage.setTitle("TELA PRINCIPAL");
+//              // confereSenha();
             botaoEntrar.getScene().getWindow().hide();
-         
 
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -155,8 +167,6 @@ public class UsuarioController implements Initializable {
 
         //    labelRecuperaSenha.getScene().getWindow().hide();
     }
-
-    
 
 //    public void confereSenha() {
 //        //  Usuario senhaLogada = usuarioService.buscaSenhaUsuario(idSenha.getText());

@@ -21,7 +21,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="botaoRelatorio" layoutX="386.0" layoutY="1.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="143.0" text="            RELATÓRIOS" visible="false">
+            <Button fx:id="botaoRelatorio" layoutX="386.0" layoutY="1.0" mnemonicParsing="false" onAction="#TelaRelatorio" prefHeight="72.0" prefWidth="143.0" text="            RELATÓRIOS" visible="false">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>

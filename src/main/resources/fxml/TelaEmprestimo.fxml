@@ -17,9 +17,9 @@
 
 <AnchorPane id="AnchorPane" prefHeight="712.0" prefWidth="1373.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bettercoding.jfx.controller.TelaEmprestimoController">
    <children>
-      <Pane layoutX="-8.0" prefHeight="697.0" prefWidth="1381.0" style="-fx-background-color: #00008B;" AnchorPane.bottomAnchor="-101.0" AnchorPane.leftAnchor="-8.0" AnchorPane.topAnchor="0.0">
+      <Pane prefHeight="827.0" prefWidth="1555.0" style="-fx-background-color: #00008B;" AnchorPane.bottomAnchor="-115.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Pane layoutX="8.0" layoutY="61.0" prefHeight="316.0" prefWidth="1373.0" style="-fx-background-color: #FFFFFF;">
+            <Pane layoutX="-3.0" layoutY="61.0" prefHeight="316.0" prefWidth="1373.0" style="-fx-background-color: #FFFFFF;">
                <children>
                   <Label layoutX="23.0" layoutY="69.0" text="Convênio : " />
                   <Label layoutX="31.0" layoutY="124.0" text="Status : " />
@@ -59,7 +59,6 @@
                   <TextField fx:id="fieldNomeCliente" layoutX="667.0" layoutY="238.0" prefHeight="36.0" prefWidth="395.0" />
                   <Label layoutX="1082.0" layoutY="248.0" text="Cpf :" />
                   <TextField fx:id="fieldCpfCli" layoutX="1128.0" layoutY="246.0" prefHeight="36.0" prefWidth="233.0" />
-                  <Label layoutX="667.0" layoutY="177.0" text="Financeira :" />
                   <Label layoutX="11.0" layoutY="203.0" text="OBS:" />
                   <TextArea fx:id="idTextArea" layoutX="14.0" layoutY="226.0" prefHeight="80.0" prefWidth="385.0" />
                   <ImageView fx:id="viewNovo" fitHeight="30.0" fitWidth="35.0" layoutX="486.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true">
@@ -72,10 +71,9 @@
                   <ComboBox fx:id="comboBoxConvenio" layoutX="94.0" layoutY="64.0" prefHeight="30.0" prefWidth="120.0" />
                   <ComboBox fx:id="idStatus" layoutX="90.0" layoutY="114.0" prefHeight="30.0" prefWidth="128.0" />
                   <ComboBox fx:id="comboBanco" layoutX="90.0" layoutY="170.0" prefHeight="30.0" prefWidth="111.0" />
-                  <ComboBox fx:id="comboFinanceira" layoutX="741.0" layoutY="171.0" prefHeight="30.0" prefWidth="120.0" />
                   <Button fx:id="calcular" layoutX="1194.0" layoutY="125.0" mnemonicParsing="false" onAction="#somaComissao" prefHeight="27.0" prefWidth="72.0" text="Button" />
-                  <TextField fx:id="idCodigoEmprestimo" editable="false" layoutX="1299.0" layoutY="17.0" prefHeight="36.0" prefWidth="70.0" />
-                  <Label layoutX="1205.0" layoutY="26.0" text="Cod. Emprestimo:" />
+                  <TextField fx:id="idCodigoEmprestimo" editable="false" layoutX="1298.0" layoutY="16.0" prefHeight="35.0" prefWidth="52.0" />
+                  <Label layoutX="1201.0" layoutY="21.0" prefHeight="17.0" prefWidth="103.0" text="Cod. Emprestimo:" />
                </children>
             </Pane>
             <Label layoutX="482.0" layoutY="14.0" text="CADASTRO DE EMPRÉSTIMO" textFill="WHITE">
@@ -83,9 +81,9 @@
                   <Font name="Bodoni MT" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="buttonSalvar" layoutX="666.0" layoutY="389.0" mnemonicParsing="false" onAction="#salvarEmprestimo" prefHeight="49.0" prefWidth="103.0" text="         SALVAR" />
+            <Button fx:id="buttonSalvar" layoutX="536.0" layoutY="387.0" mnemonicParsing="false" onAction="#salvarEmprestimo" prefHeight="49.0" prefWidth="103.0" text="         SALVAR" />
             <Button fx:id="buttonVoltar" layoutX="1246.0" layoutY="5.0" mnemonicParsing="false" onAction="#botaoVoltar" prefHeight="49.0" prefWidth="103.0" text="      VOLTAR" />
-            <Button fx:id="buttonExcluir" layoutX="823.0" layoutY="387.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="103.0" text="       EXCLUIR" />
+            <Button fx:id="buttonExcluir" layoutX="691.0" layoutY="389.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="103.0" text="       EXCLUIR" />
             <Pane layoutY="512.0" prefHeight="203.0" prefWidth="1381.0">
                <children>
                   <TableView fx:id="tabela" layoutX="8.0" prefHeight="203.0" prefWidth="1373.0">
@@ -100,9 +98,9 @@
                   </TableView>
                </children>
             </Pane>
-            <TextField fx:id="fieldPesquisa" layoutX="1014.0" layoutY="458.0" prefHeight="36.0" prefWidth="207.0" />
-            <Button fx:id="buttonP" layoutX="1230.0" layoutY="459.0" mnemonicParsing="false" onAction="#listarEmprestimo" prefHeight="35.0" prefWidth="135.0" text="           PESQUISAR" />
-            <ImageView fx:id="viewSalvar" fitHeight="36.0" fitWidth="30.0" layoutX="676.0" layoutY="398.0" pickOnBounds="true" preserveRatio="true">
+            <TextField fx:id="fieldPesquisa" layoutX="987.0" layoutY="383.0" prefHeight="36.0" prefWidth="207.0" />
+            <Button fx:id="buttonP" layoutX="1222.0" layoutY="384.0" mnemonicParsing="false" onAction="#botaoPesquisa" prefHeight="35.0" prefWidth="135.0" text="           PESQUISAR" />
+            <ImageView fx:id="viewSalvar" fitHeight="36.0" fitWidth="30.0" layoutX="541.0" layoutY="397.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../imagem/salvar.png" />
                </image>
@@ -112,12 +110,12 @@
                   <Image url="@../imagem/voltar.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="viewCancelar" fitHeight="36.0" fitWidth="30.0" layoutX="823.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="viewCancelar" fitHeight="36.0" fitWidth="30.0" layoutX="695.0" layoutY="397.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../imagem/Delete-icon-2.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="viewPesquisa" fitHeight="30.0" fitWidth="38.0" layoutX="1248.0" layoutY="461.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="viewPesquisa" fitHeight="30.0" fitWidth="38.0" layoutX="1233.0" layoutY="386.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../imagem/pesquisa4.png" />
                </image>
@@ -133,13 +131,18 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <RadioButton fx:id="radioSim" layoutX="163.0" layoutY="401.0" mnemonicParsing="false" onMouseClicked="#radioButton" text="SIM" textFill="WHITE">
+            <RadioButton fx:id="radioSim" layoutX="163.0" layoutY="401.0" mnemonicParsing="false" text="SIM" textFill="WHITE">
                <toggleGroup>
                   <ToggleGroup fx:id="grupoRadio" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="radioNao" layoutX="163.0" layoutY="453.0" mnemonicParsing="false" onMouseClicked="#radioButton" text="NÃO" textFill="WHITE" toggleGroup="$grupoRadio" />
-            <TextField fx:id="fieldData" layoutX="253.0" layoutY="389.0" prefHeight="36.0" prefWidth="162.0" promptText="Informe a data" visible="false" />
+            <RadioButton fx:id="radioNao" layoutX="163.0" layoutY="453.0" mnemonicParsing="false" text="NÃO" textFill="WHITE" toggleGroup="$grupoRadio" />
+            <TextField fx:id="fieldData" layoutX="253.0" layoutY="389.0" prefHeight="36.0" prefWidth="162.0" promptText="Informe a data" />
+            <Label fx:id="idAtualiza" layoutX="1290.0" layoutY="476.0" onMouseClicked="#atualizaEmprestimo" text="Atualizar" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

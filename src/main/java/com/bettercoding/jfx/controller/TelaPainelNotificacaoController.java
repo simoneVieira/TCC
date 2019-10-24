@@ -47,8 +47,6 @@ public class TelaPainelNotificacaoController implements Initializable {
     @FXML
     private TableColumn<?, ?> dataCliente;
 
-    @FXML
-    private Button botaoAnexarArquivo;
 
     @FXML
     private TextField fieldCpf;

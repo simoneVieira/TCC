@@ -5,28 +5,24 @@
  */
 package com.bettercoding.jfx.controller;
 
-import util.CurrencyField;
 import com.bettercoding.jfx.MyApp;
-import static com.bettercoding.jfx.controller.TelaPrincipalController.retornaStage;
 import com.bettercoding.jfx.model.Cliente;
 import com.bettercoding.jfx.model.Emprestimo;
 import com.bettercoding.jfx.model.Notificacao;
 import com.bettercoding.jfx.service.EmprestimoService;
 import com.bettercoding.jfx.service.NotificacaoService;
 import java.io.IOException;
-import static java.lang.String.format;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +39,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -56,16 +51,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.TreeTableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import javax.swing.JTextField;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -116,6 +106,8 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
 
     @FXML
     private TextField fieldNumContrato;
+    @FXML
+    private Label idAtualiza;
 
     @FXML
     private TextField idValorSolicitado;
@@ -222,8 +214,6 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     private List<Emprestimo> emprestimoFinanceira = new ArrayList<>();
     private ObservableList<Emprestimo> observeFinanceira;
     @FXML
-    private ComboBox<String> comboFinanceira;
-    @FXML
     private ComboBox<String> comboBoxConvenio;
     @FXML
     private ComboBox<String> idStatus;
@@ -239,12 +229,12 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     Notificacao notificacao;
     @Autowired
     NotificacaoService notificacaoService;
-    
 
-    private SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");    
-  
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    // private SimpleDateFormat d = new SimpleDateFormat("dd/MM/yyyy");
+
     //  SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-
     DecimalFormat df = new DecimalFormat(",000.00");
 
     @Override
@@ -263,21 +253,33 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         comboStatus();
         carregaBancos();
         comboConvenio();
-        carregaFinanceira();
         initTable();
-        recebeDataDoBanco();
-        listarEmprestimos();
 
         tabela.getSelectionModel().selectedItemProperty().addListener(
                 (Emprestimo, oldValue, newValue) -> selecionarItemTableViewEmprestimo(newValue));
-
+        listarEmprestimos();
     }
 
     @FXML
     public void botaoVoltar() {
-        ClienteController tcc = new ClienteController();
-        tcc.abreTelaPrincipal();
+        Stage stage = new Stage();
+        Parent root = null;
+        try {
+            FXMLLoader fxml = new FXMLLoader();
+            fxml.setControllerFactory(MyApp.springContext::getBean);
+            fxml.setLocation(getClass().getResource("/fxml/TelaPrincipal.fxml"));
+            root = fxml.load();
+        } catch (IOException ex) {
+            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        TelaPrincipalController.retornaStage().close();
 
+        UsuarioController lc = new UsuarioController();
+        UsuarioController.retornaStage();
+        TelaPrincipalController.fechaEmprestimo().close();
     }
 
     public void chamaTelaCliente() {
@@ -321,6 +323,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     @FXML
     public void salvarEmprestimo() {
         emprestimo.setCliente(cliente);
+        // emprestimo.setNotificacao(notificacao);
 
         emprestimo.setValorParcela(Float.parseFloat(fieldValor.getText().replace(".", "").replace(",", ".")));
 
@@ -330,9 +333,9 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         emprestimo.setBeneficio(fieldBeneficio.getText());
         emprestimo.setTaxa(Float.parseFloat(idTaxa.getText()));
         try {
-            emprestimo.setDataInicio(data.parse(fieldDataInicio.getText()));
-            emprestimo.setDataFim(data.parse(fieldDataFinal.getText()));
-        } catch (ParseException ex) {
+            emprestimo.setDataInicio(LocalDate.parse(fieldDataInicio.getText(), formatter));
+            emprestimo.setDataFim(LocalDate.parse(fieldDataFinal.getText(), formatter));
+        } catch (DateTimeParseException ex) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("AVISO");
             alert.setHeaderText("favor ,informar uma data");
@@ -348,7 +351,6 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         emprestimo.setConvenio("" + comboBoxConvenio.getSelectionModel().getSelectedItem());
         emprestimo.setFormaContrato("" + comboEmprestimos.getSelectionModel().getSelectedItem());
         emprestimo.setStatus("" + idStatus.getSelectionModel().getSelectedItem());
-        emprestimo.setFinanceira("" + comboFinanceira.getSelectionModel().getSelectedItem());
         emprestimo.setBanco("" + comboBanco.getSelectionModel().getSelectedItem());
         RadioButton radio = (RadioButton) grupo.getSelectedToggle();
         emprestimo.setFormaPagamento(radio.getText());
@@ -357,18 +359,25 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         emprestimo.setGerarNotificacao(rad.getText());
         emprestimo.setGerarNotificacao(rad.getText());
 
-        radioButton();
+        //  radioButton();
+        if (idCodigoEmprestimo.getText().equals("")) {
 
-        //emprestimo não tem obj notificação? Criar
-        //-> new Notificação();
-        //notficação setx y z..
-        if (idCodigoEmprestimo.getText().equals("")) {//Novo empréstimo
+            if (radioSim.isSelected() && emprestimo.getNotificacao() == null) {
+                emprestimo.setNotificacao(new Notificacao());
+                emprestimo.getNotificacao().setData(LocalDateTime.parse(fieldData.getText(), formater));
+                emprestimo.getNotificacao().setProximaAlerta(emprestimo.getNotificacao().getData());
+                emprestimo.getNotificacao().setEmprestimo(emprestimo);
+                emprestimo.getNotificacao().setStatus("Andamento");
+            }
+//            try {
+//
+//                 emprestimo.getNotificacao().setData(LocalDateTime.parse(fieldData.getText(), formatter));
+//              
+//            } catch (DateTimeParseException ex) {
+//                System.out.println("error" + ex);
+//            }
+            // emprestimo.getNotificacao().setProximaAlerta(emprestimo.getNotificacao().getData());
 
-            
-            // ciar notificação?   
-            //if(radio = radioSim.isSelected()){
-            //criar nova instância de Notificação
-            emprestimo.getNotificacao().setStatus("Andamento");
             // emprestimo.getNotificacao() -> Coloca a data que está no campo no obj (texto para data) ( data normal) 
             // emprestimo.getNotificacao() -> copiar a data para data de próxima notificação
             //}
@@ -378,16 +387,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
             alert.setTitle("CONFIRMAÇÃO");
             alert.setHeaderText("DADOS SALVOS COM SUCESSO!");
             alert.show();
-        } else { //editar empréstimo
-
-            
-             //if(radio = radioSim.isSelected()){
-                //status
-                // emprestimo.getNotificacao() -> Coloca a data que está no campo no obj (texto para data) ( data normal) 
-                // emprestimo.getNotificacao() -> copiar a data para data de próxima notificação
-            //se não, remover a notificação..
-            //se só colocar notificação = null resolve?
-            
+        } else {
             emprestimo.setId_Emprestimo((Long.parseLong(idCodigoEmprestimo.getText())));
             Emprestimo AlterarEmpres = emprestimoService.salvaEmprestimo(emprestimo);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -395,20 +395,42 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
             alert.setHeaderText("DADOS ALTERADOS COM SUCESSO!");
             alert.show();
         }
+
     }
 
     @Override
     public void receberCliente(Cliente c) {
         this.cliente = c;
         fieldNomeCliente.setText(c.getNome());
-        fieldCpfCli.setText(String.valueOf(c.getCpf()));
+        fieldCpfCli.setText(c.getCpf());
 
     }
 
     public void novoEmprestimo() {
         fieldValor.setText("");
         idComissão.setText("");
-
+        idValorSolicitado.setText("");
+        idValorLiberado.setText("");
+        fieldComi.setText("");
+        idTaxa.setText("");
+        fieldNomeCliente.setText("");
+        fieldCpfCli.setText("");
+        fieldDataInicio.setText("");
+        fieldDataFinal.setText("");
+        comboBoxConvenio.setValue("");
+        comboEmprestimos.setValue("");
+        idStatus.setValue("");
+        comboBanco.setValue("");
+        fieldNumContrato.setText("");
+        fieldMatricula.setText("");
+        idParcelas.setText("");
+        fieldBeneficio.setText("");
+        idCodigoEmprestimo.setText("");
+        fieldData.setText("");
+        radioSim.setSelected(false);
+        radioNao.setSelected(false);
+        radioConta.setSelected(false);
+        radioOP.setSelected(false);
         emprestimo = new Emprestimo();
     }
 
@@ -447,24 +469,33 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         comboBanco.setItems(itens);
     }
 
-    public void carregaFinanceira() {
-        ObservableList<String> itens = FXCollections.observableArrayList();
-        itens.addAll("Financeira Externa");
-        comboFinanceira.setItems(itens);
+    @FXML
+    private void botaoPesquisa() {
+
+        String x = fieldPesquisa.getText();
+
+        try {
+
+            long cpf = Long.parseLong(x);
+
+            listarEmprestimoPorNumero();
+
+        } catch (NumberFormatException ignore) {
+
+            listarClienteEmprestimo();
+
+        }
+
     }
 
-    public void listarEmprestimo() {
+    public void listarClienteEmprestimo() {
         if (!atualizaTabela.isEmpty()) {
             atualizaTabela.clear();
 
         }
+        List<Emprestimo> listaPeloNomeCli = emprestimoService.buscaEmprestimoObjCli(fieldPesquisa.getText(), fieldPesquisa.getText());
 
-        Cliente c = null;
-
-        List<Emprestimo> listaEmprestimo;
-        listaEmprestimo = emprestimoService.buscaNome(c);
-
-        if (listaEmprestimo.isEmpty()) {
+        if (listaPeloNomeCli.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("AVISO");
             alert.setHeaderText("Não foi possível encontrar um Empréstimo para esse Cliente!");
@@ -472,7 +503,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
             return;
         }
 
-        for (Emprestimo emprestimo : listaEmprestimo) {
+        for (Emprestimo emprestimo : listaPeloNomeCli) {
             atualizaTabela.add(emprestimo);
         }
 
@@ -483,6 +514,36 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         colunaStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
         colunaConvenio.setCellValueFactory(new PropertyValueFactory<>("Convenio"));
         tabela.setItems(atualizaTabela);
+
+    }
+
+    public void listarEmprestimoPorNumero() {
+        if (!atualizaTabela.isEmpty()) {
+            atualizaTabela.clear();
+
+        }
+        List<Emprestimo> listaPeloNomeCli = emprestimoService.buscaNumeroContrato(Integer.parseInt(fieldPesquisa.getText()));
+
+        if (listaPeloNomeCli.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("AVISO");
+            alert.setHeaderText("Não foi possível encontrar um Empréstimo para esse Cliente!");
+            alert.show();
+            return;
+        }
+
+        for (Emprestimo emprestimo : listaPeloNomeCli) {
+            atualizaTabela.add(emprestimo);
+        }
+
+        colunaCliente.setCellValueFactory((TableColumn.CellDataFeatures<Emprestimo, Cliente> p) -> new ReadOnlyObjectWrapper(p.getValue().getCliente().getNome()));
+        colunaCpf.setCellValueFactory((TableColumn.CellDataFeatures<Emprestimo, Cliente> p) -> new ReadOnlyObjectWrapper(p.getValue().getCliente().getCpf()));
+        colunaEmprestimo.setCellValueFactory(new PropertyValueFactory<>("formaContrato"));
+        colunaBanco.setCellValueFactory(new PropertyValueFactory<>("Banco"));
+        colunaStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
+        colunaConvenio.setCellValueFactory(new PropertyValueFactory<>("Convenio"));
+        tabela.setItems(atualizaTabela);
+
     }
 
     public void selecionarItemTableViewEmprestimo(Emprestimo emprestimo) {
@@ -494,8 +555,8 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         idTaxa.setText(String.valueOf(emprestimo.getTaxa()));
         fieldNomeCliente.setText(emprestimo.getCliente().getNome());
         fieldCpfCli.setText(String.valueOf(emprestimo.getCliente().getCpf()));
-        fieldDataInicio.setText(data.format(emprestimo.getDataInicio()));
-        fieldDataFinal.setText(data.format(emprestimo.getDataFim()));
+        fieldDataInicio.setText(formatter.format(emprestimo.getDataInicio()));
+        fieldDataFinal.setText(formatter.format(emprestimo.getDataFim()));
         comboBoxConvenio.setValue(emprestimo.getConvenio());
         comboEmprestimos.setValue(emprestimo.getFormaContrato());
         idStatus.setValue(emprestimo.getStatus());
@@ -505,26 +566,24 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         idParcelas.setText(String.valueOf(emprestimo.getQuantidadeParcela()));
         fieldBeneficio.setText(String.valueOf(emprestimo.getBeneficio()));
         idCodigoEmprestimo.setText(String.valueOf(emprestimo.getId_Emprestimo()));
+        fieldData.setText(formatter.format(emprestimo.getNotificacao().getProximaAlerta()));
         cliente = emprestimo.getCliente();
 
-        comboFinanceira.setValue(emprestimo.getFinanceira());
-
-        if (emprestimo.getFormaPagamento().equals("Conta")) {
+        if (emprestimo.getFormaPagamento().equals("Contaaa")) {
             radioConta.setSelected(true);
         } else {
             radioOP.setSelected(true);
         }
-        if (emprestimo.getGerarNotificacao().equals("SIM")) {
+        if (emprestimo.getNotificacao() != null) {
             radioSim.setSelected(true);
-            fieldData.setText(data.format(emprestimo.getGerarNotificacao()));
-//            fieldHora.setText(sdf.format(emprestimo.getGerarNotificacao()));
+            fieldData.setText(formatter.format(emprestimo.getNotificacao().getProximaAlerta()));
+            //fieldData.setText(emprestimo.getGerarNotificacao().format(formatter));
 
-            fieldData.setVisible(true);
+            //fieldData.setVisible(true);
 //            fieldHora.setVisible(true);
-
         } else {
             radioNao.setSelected(true);
-            fieldData.setVisible(false);
+            // fieldData.setVisible(false);
 //            fieldHora.setVisible(false);
         }
 
@@ -555,39 +614,28 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         ExecutaTarefa exect = new ExecutaTarefa();
         exect.run();
     }
+//
 
-    public void radioButton() {
-        emprestimo.setNotificacao(notificacao);
-        boolean radio;
-        radio = radioSim.isSelected();
-        if (radio == true) {
-            fieldData.setVisible(true);
-//            fieldHora.setVisible(true);
-            try {
-
-                if (emprestimo.getNotificacao() == null) {
-                    emprestimo.setNotificacao(new Notificacao());
-                    emprestimo.getNotificacao().setData(data.parse(fieldData.getText()));
-                    emprestimo = emprestimoService.salvaEmprestimo(emprestimo);
-                }
-
-            } catch (ParseException ex) {
-
-            }
-        } else {
-            fieldData.setVisible(false);
-
-        }
-
-    }
-//    public void trocadata(){
-//       
-//        if (emprestimo.getNotificacao().getProximaAlerta() == null) {
-//            emprestimo.setNotificacao(new Notificacao());
-//            emprestimo.getNotificacao().setProximaAlerta(emprestimo.getNotificacao().getData());
+//    public void radioButton() {
+//        emprestimo.setNotificacao(notificacao);
+//        boolean radio;
+//        radio = radioSim.isSelected();
+//        if (radio == true) {
+//            fieldData.setVisible(true);
+////            fieldHora.setVisible(true);
+//            if (emprestimo.getNotificacao() == null) {
+//                emprestimo.setNotificacao(new Notificacao());
+//                emprestimo.getNotificacao().setData(LocalDateTime.parse(fieldData.getText(), formater));
+//                emprestimo.getNotificacao().setProximaAlerta(emprestimo.getNotificacao().getData());
+//                emprestimo.getNotificacao().setStatus("Andamento");
+//                emprestimo = emprestimoService.salvaEmprestimo(emprestimo);
+//            }
+//        } else {
+//            fieldData.setVisible(false);
+//
 //        }
+//
 //    }
-
     @FXML
     public void monetaryField() {
         fieldValor.setAlignment(Pos.CENTER_RIGHT);
@@ -688,52 +736,6 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         });
     }
 
-    public void recebeDataDoBanco() {
-        DateFormat df = DateFormat.getInstance();
-
-        try {
-            Date data = df.parse(fieldData.getText());
-//            Date hora = df.parse(fieldHora.getText());
-//            Emprestimo emp = emprestimoService.buscaDataEHora(data, hora);
-//            System.out.println("hora vida do banco   " + emp);
-        } catch (ParseException ex) {
-            System.out.println("data não convertida");
-        }
-
-    }
-
-    public void verificaDataNotificacao() {
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
-       // Date dataFormatada = formato.parse(fieldData.getText()); 
-        Date dataAtual = new Date();
-        Date dataAtua = new Date();
-        
-        
-       // Notificacao noti ;
-        
-        //notificacao = notificacaoService.buscaStatus(emprestimo.getNotificacao().getStatus());
-        //String c = ""+notificacao;
-//        try {
-           //Notificacao notiData = null;
-        try {
-            Notificacao notiData = notificacaoService.buscaData(data.parse(emprestimo.getDataNotificacao()+""));
-            if(notiData != null){
-             if ((dataAtual.equals(notiData))){
-                 System.out.println("chegou");
-             }         
-             }
-        
-        
-        
-        } catch (ParseException ex) {
-             System.out.println("Errado"+ex);
-           
-        }
-            
-//        } catch (ParseException ex) {
-//
-//        }
-        
 //        if ((notiData).equals (dataAtual)){
 //            
 //             Stage stage = new Stage();
@@ -754,8 +756,20 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
 //                        stage.setResizable(false);
 //            
 //        }
+//    }
+    @FXML
+    public void atualizaEmprestimo() {
 
-        
+        if (!atualizaTabela.isEmpty()) {
+            atualizaTabela.clear();
+
+        }
+
+        for (Emprestimo emprestimo : emprestimoService.emprestimos()) {
+            atualizaTabela.add(emprestimo);
+
+        }
+
     }
-}
 
+}

@@ -6,11 +6,15 @@
 package com.bettercoding.jfx.controller;
 
 import com.bettercoding.jfx.MyApp;
+import com.bettercoding.jfx.model.Notificacao;
 import com.bettercoding.jfx.service.NotificacaoService;
 import static java.awt.SystemColor.desktop;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,19 +43,28 @@ import javafx.scene.layout.Priority;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javax.annotation.PostConstruct;
 import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.orm.hibernate5.SpringBeanContainer;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author SimoneBarbosa
  */
-@Controller
+@Service
 public class ExecutaTarefa extends TimerTask {
-    
-    TelaEmprestimoController tec = new TelaEmprestimoController();
 
+
+    @Autowired
+    private NotificacaoService notificacaoService;
+
+   private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    
     private void completeTask() {
         try {
             //assuming it takes 20 secs to complete the task
@@ -69,6 +82,7 @@ public class ExecutaTarefa extends TimerTask {
     }
 
     @Override
+   // @PostConstruct
     public void run() {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -77,18 +91,31 @@ public class ExecutaTarefa extends TimerTask {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                  
-                        tec.verificaDataNotificacao();
-                        
-                        
-                        
-                        
-                        
-                       
+                        LocalDateTime agora = LocalDateTime.now();
+
+                        List<Notificacao> listNotificacao;
+                        listNotificacao = notificacaoService.buscaData(agora);
+                        if (!listNotificacao.isEmpty()) {
+
+                            listNotificacao.forEach(notfi -> {
+
+                                System.out.println("id empréstimo: " + notfi.getEmprestimo().getId_Emprestimo());
+                                System.out.println("cliente id: " + notfi.getEmprestimo().getCliente().getId());
+                                System.out.println("cliente: " + notfi.getEmprestimo().getCliente().getNome());
+                                System.out.println("banco: " + notfi.getEmprestimo().getBanco());
+                                System.out.println("data: " + notfi.getData());
+                                System.out.println("data: " + notfi.getProximaAlerta());
+                                
+                            });
+
+                        }else{
+                            System.out.println("Não há notificações");
+                        }
+
                     }
                 });
             }
-        }, 0, 40 * 1000);
+        }, 0, 10 * 1000 * 1);
     }
 
 }

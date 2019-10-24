@@ -5,6 +5,7 @@
  */
 package com.bettercoding.jfx.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -38,8 +39,8 @@ public class Emprestimo {
     private int matricula;
     private String banco;
     private float taxa;
-    private Date dataInicio;
-    private Date dataFim;
+    private LocalDate dataInicio;
+    private LocalDate dataFim;
     private int numeroContrato;
     private String beneficio;
     private Double valorSolicitado;
@@ -49,15 +50,28 @@ public class Emprestimo {
     private String financeira;
     private String formaContrato;
     private int quantidadeParcela;
-    private Date dataNotificacao;
-//    private Date horaNotificacao;
     private String gerarNotificacao;
     private Cliente cliente;
     private Usuario login;
     private Notificacao notificacao;
+  
 
-   
- @OneToOne(cascade = CascadeType.PERSIST)
+    public LocalDate getDataInicio() {
+        return dataInicio;
+    }
+    public void setDataInicio(LocalDate dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public LocalDate getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(LocalDate dataFim) {
+        this.dataFim = dataFim;
+    }
+
+    @OneToOne(cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JoinColumn(name = "id_Notificacao")
     public Notificacao getNotificacao() {
         return notificacao;
@@ -66,8 +80,7 @@ public class Emprestimo {
     public void setNotificacao(Notificacao notificacao) {
         this.notificacao = notificacao;
     }
-    
-   
+
     public String getGerarNotificacao() {
         return gerarNotificacao;
     }
@@ -91,24 +104,6 @@ public class Emprestimo {
     public void setNumeroContrato(int numeroContrato) {
         this.numeroContrato = numeroContrato;
     }
-
-//    public Date getHoraNotificacao() {
-//        return horaNotificacao;
-//    }
-//
-//    public void setHoraNotificacao(Date horaNotificacao) {
-//        this.horaNotificacao = horaNotificacao;
-//    }
-
-    @Temporal(TemporalType.DATE)
-    public Date getDataNotificacao() {
-        return dataNotificacao;
-    }
-
-    public void setDataNotificacao(Date dataNotificacao) {
-        this.dataNotificacao = dataNotificacao;
-    }
-
     public int getQuantidadeParcela() {
         return quantidadeParcela;
     }
@@ -140,39 +135,6 @@ public class Emprestimo {
     public void setBeneficio(String beneficio) {
         this.beneficio = beneficio;
     }
-
-//    public int getMatricula() {
-//        return matricula;
-//    }
-//
-//    public void setMatricula(int matricula) {
-//        this.matricula = matricula;
-//    }
-//
-//    public int getNumeroContrato() {
-//        return numeroContrato;
-//    }
-//
-//    public void setNumeroContrato(int numeroContrato) {
-//        this.numeroContrato = numeroContrato;
-//    }
-//
-//    public int getBeneficio() {
-//        return beneficio;
-//    }
-//
-//    public void setBeneficio(int beneficio) {
-//        this.beneficio = beneficio;
-//    }
-//
-//    public int getQuantidadeParcela() {
-//        return quantidadeParcela;
-//    }
-//
-//    public void setQuantidadeParcela(int quantidadeParcela) {
-//        this.quantidadeParcela = quantidadeParcela;
-//    }
-//    
     public float getPorcentagemComissao() {
         return porcentagemComissao;
     }
@@ -269,24 +231,6 @@ public class Emprestimo {
 
     public void setBanco(String banco) {
         this.banco = banco;
-    }
-
-    @Temporal(TemporalType.DATE)
-    public Date getDataInicio() {
-        return dataInicio;
-    }
-
-    public void setDataInicio(Date dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
-    @Temporal(TemporalType.DATE)
-    public Date getDataFim() {
-        return dataFim;
-    }
-
-    public void setDataFim(Date dataFim) {
-        this.dataFim = dataFim;
     }
 
     public String getFinanceira() {

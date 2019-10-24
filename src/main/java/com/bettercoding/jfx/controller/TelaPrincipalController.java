@@ -24,9 +24,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import static javax.management.Query.value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
 
@@ -46,41 +48,30 @@ public class TelaPrincipalController implements Initializable {
 
     @FXML
     private Button botaoEmprestimo;
-
-////    @FXML
-////    private Button botaoContratos;
-//    @FXML
-//    private Button botaoOP;
     @FXML
     private Button idCadastro;
-     @FXML
+    @FXML
     private Label painelNotificacao;
     @FXML
     private ImageView imgCliente;
     @FXML
     private ImageView viewEmprestimo;
     @FXML
-//    private ImageView imagemContrato;
-//    @FXML
-    private ImageView imagemOP;
-    @FXML
     private ImageView imgRelatorio;
-    @FXML
-    private Label labelNomeUsuario;
     @FXML
     private Label voltarLogin;
     @FXML
-    private Label labelUsuarioLogado;
-    @FXML
     private Label labelRedefineSenha;
     private static Scene cenaLogin;
-  
+
     private static Stage stage;
 
     UsuarioController usc = new UsuarioController();
     Usuario us;
-    ExecutaTarefa exect = new ExecutaTarefa();
-      
+    @Autowired
+    ExecutaTarefa exect;
+    @FXML
+    private AnchorPane labelNome;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -97,8 +88,9 @@ public class TelaPrincipalController implements Initializable {
             idCadastro.setVisible(true);
             labelRedefineSenha.setVisible(false);
         }
-       exect.run();
-
+       
+            exect.run();
+        
     }
 
     @FXML
@@ -123,7 +115,7 @@ public class TelaPrincipalController implements Initializable {
         stage.resizableProperty();
         stage.setResizable(false);
 
-        botaoCliente.getScene().getWindow().hide();
+     //   botaoCliente.getScene().getWindow().hide();
 
     }
 
@@ -183,6 +175,10 @@ public class TelaPrincipalController implements Initializable {
         return stage;
     }
 
+    public static Stage fechaEmprestimo() {
+        return stage;
+    }
+
     @FXML
     public void abreTelaNovaSenha() {
         Stage stage = new Stage();
@@ -203,9 +199,11 @@ public class TelaPrincipalController implements Initializable {
         stage.setResizable(false);
 
     }
-    public void reiniciar( ){
 
-     Stage stage = new Stage();
+    @FXML
+    public void reiniciar() {
+
+        Stage stage = new Stage();
         Parent root = null;
         try {
             FXMLLoader fxml = new FXMLLoader();
@@ -219,13 +217,38 @@ public class TelaPrincipalController implements Initializable {
         stage.setScene(scene);
         stage.show();
         stage.setTitle("TELA LOGIN");
-       fechaTelaPrincipal();
+        fechaTelaPrincipal();
         retornaStage();
-       voltarLogin.getScene().getWindow().hide();
+        voltarLogin.getScene().getWindow().hide();
     }
-   @FXML
-    public void chamaTelaPainel(){
+
+    @FXML
+    public void chamaTelaPainel() {
         NotificacaoController ntc = new NotificacaoController();
         ntc.chamaTelaPainelNotificacao();
+    }
+
+    @FXML
+    public void TelaRelatorio() {
+        stage = new Stage();
+        Parent root = null;
+        try {
+            FXMLLoader fxml = new FXMLLoader();
+            fxml.setControllerFactory(MyApp.springContext::getBean);
+            fxml.setLocation(getClass().getResource("/fxml/TelaRelatorio.fxml"));
+            root = fxml.load();
+        } catch (IOException ex) {
+            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        stage.resizableProperty();
+        stage.setResizable(false);
+
+    }
+
+    @FXML
+    private void chamaRelatorio(ActionEvent event) {
     }
 }

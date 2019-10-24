@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -21,9 +22,13 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface EmprestimoRepository extends JpaRepository<Emprestimo, Long> {
-   public List<Emprestimo> findByCliente(Cliente c );
-    // public Emprestimo findByDataNotificacaoAndHoraNotificacao( Date dataNotificacao,  Date horaNotificacao);
-   
-//   @Query(value = "SELECT  banco, SUM(valor_comissao)AS total FROM Emprestimo GROUP BY banco")
-//   public List<Emprestimo> buscaESomaPorBanco();
+
+    public List<Emprestimo> findByCliente(Cliente c);
+     public List<Emprestimo> findByNumeroContrato(int numeroContrato);
+    
+    @Query("select e from Emprestimo e  JOIN e.cliente c where c.nome like concat(:nome,'%') OR c.cpf=:cpf")
+    public List<Emprestimo> findClienteByNome(@Param("nome") String nome, @Param("cpf") String cpf);
+    
+    @Query("select b.banco, sum(b.valorComissao)from Emprestimo b group by b.banco")
+    public List<Emprestimo> findBancoAndValorComissao(String banco, float valorComissao);
 }

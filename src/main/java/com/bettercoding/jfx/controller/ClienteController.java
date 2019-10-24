@@ -99,7 +99,7 @@ public class ClienteController implements Initializable {
 
     @FXML
     private Button botaoBuscar;
-
+    
     @FXML
     private TextField fieldNasciemento;
     @FXML
@@ -438,7 +438,7 @@ public class ClienteController implements Initializable {
             cli.setCidade(fieldCidade.getText());
             cli.setCep(Integer.parseInt(fieldCep.getText().replaceAll("[^0-9]", "")));
             cli.setNumero(Integer.parseInt(fieldNumero.getText().replaceAll("[^0-9]", "")));
-            cli.setCpf(Long.parseLong(fieldCPF.getText().replace(".", "").replace("-", "")));
+            cli.setCpf(fieldCPF.getText());
 
             try {
                 cli.setDataNascimento(sdf.parse(fieldNasciemento.getText()));
@@ -520,7 +520,7 @@ public class ClienteController implements Initializable {
 
     public void selecionarItemTableViewClientes(Cliente cliente) {
         fieldNome.setText(cliente.getNome());
-        fieldCPF.setText(String.valueOf(cliente.getCpf()));
+        fieldCPF.setText(cliente.getCpf());
         fieldRG.setText(String.valueOf(cliente.getRg()));
         fielTelefone1.setText(String.valueOf(cliente.getTelefone1()));
         fieldTelefone2.setText(String.valueOf(cliente.getTelefone2()));
@@ -600,15 +600,18 @@ public class ClienteController implements Initializable {
     public void abreTelaPrincipal() {
 
         Stage stage = new Stage();
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/TelaPrincipal.fxml"));
-        } catch (IOException ex) {
-            Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+            Parent root = null;
+            try {
+                FXMLLoader fxml = new FXMLLoader();
+                fxml.setControllerFactory(MyApp.springContext::getBean);
+                fxml.setLocation(getClass().getResource("/fxml/TelaPrincipal.fxml"));
+                root = fxml.load();
+            } catch (IOException ex) {
+                Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
         TelaPrincipalController.retornaStage().close();
 
         UsuarioController lc = new UsuarioController();

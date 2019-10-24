@@ -5,11 +5,17 @@
  */
 package com.bettercoding.jfx.model;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -18,17 +24,37 @@ import javax.persistence.Id;
 @Entity
 public class Notificacao {
     private Long id;
-    private Date data;
-    private Date proximaAlerta;
-    private static String Status ;
+    private LocalDateTime data;
+    private LocalDateTime proximaAlerta;
+    private Emprestimo emprestimo;
+    private static String Status;
 
-    public Date getProximaAlerta() {
+    public LocalDateTime getData() {
+        return data;
+    }
+
+    
+    @OneToOne
+    public Emprestimo getEmprestimo() {
+        return emprestimo;
+    }
+
+    public void setEmprestimo(Emprestimo emprestimo) {
+        this.emprestimo = emprestimo;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
+    }
+
+    public LocalDateTime getProximaAlerta() {
         return proximaAlerta;
     }
 
-    public void setProximaAlerta(Date proximaAlerta) {
-       this.proximaAlerta = proximaAlerta;
+    public void setProximaAlerta(LocalDateTime proximaAlerta) {
+        this.proximaAlerta = proximaAlerta;
     }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
@@ -39,13 +65,6 @@ public class Notificacao {
         this.id = id;
     }
 
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
-    }
     public String getStatus() {
         return Status;
     }
@@ -54,6 +73,4 @@ public class Notificacao {
         this.Status = Status;
     }
 
-    
-    
 }

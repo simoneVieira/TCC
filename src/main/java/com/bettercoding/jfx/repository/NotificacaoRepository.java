@@ -5,9 +5,9 @@
  */
 package com.bettercoding.jfx.repository;
 
-import com.bettercoding.jfx.model.Cliente;
 import com.bettercoding.jfx.model.Notificacao;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -16,5 +16,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface NotificacaoRepository extends JpaRepository<Notificacao, Long>  {
   //  public Notificacao findByStatus(String status);
-    public Notificacao findByData(Date data);
+    public List<Notificacao> findByProximaAlertaLessThanEqual(LocalDateTime proximaAlerta);
 }

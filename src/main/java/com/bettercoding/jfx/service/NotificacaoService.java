@@ -7,7 +7,14 @@ package com.bettercoding.jfx.service;
 
 import com.bettercoding.jfx.model.Notificacao;
 import com.bettercoding.jfx.repository.NotificacaoRepository;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +32,11 @@ public class NotificacaoService {
 //    public Notificacao buscaStatus(String status) {
 //        return notificacaoRepository.findByStatus(status);
 //    }
-    public Notificacao buscaData(Date data) {
-        return notificacaoRepository.findByData(data);
+    public List<Notificacao> buscaData(LocalDateTime proximaAlerta) {
+        return notificacaoRepository.findByProximaAlertaLessThanEqual(proximaAlerta);
     }
     public Notificacao salvaNotificacao(Notificacao notifica){
        return notificacaoRepository.save(notifica);
     }
+  
 }
