@@ -7,6 +7,7 @@ package com.bettercoding.jfx.controller;
 
 import static com.bettercoding.jfx.controller.UsuarioController.userLogado;
 import com.bettercoding.jfx.model.Usuario;
+import com.bettercoding.jfx.service.Criptografar;
 import com.bettercoding.jfx.service.UsuarioService;
 import java.net.URL;
 import static java.util.Collections.list;
@@ -124,7 +125,7 @@ public class AdminstradorController implements Initializable {
         } else {
             Usuario user = new Usuario();
             user.setEmail(emailUsuario.getText());
-            user.setSenha(senhaUsuario.getText());
+            user.setSenha(Criptografar.criptoSenha(senhaUsuario.getText()));
             user.setUsuario(idNomeUsuario.getText());
             user.setTipoUsuario("" + comBoUsuario.getSelectionModel().getSelectedItem());
 

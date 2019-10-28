@@ -9,6 +9,7 @@ package com.bettercoding.jfx.controller;
 import static antlr.build.ANTLR.root;
 import com.bettercoding.jfx.MyApp;
 import com.bettercoding.jfx.model.Usuario;
+import com.bettercoding.jfx.service.Criptografar;
 import com.bettercoding.jfx.service.UsuarioService;
 import java.io.IOException;
 import java.net.URL;
@@ -92,15 +93,13 @@ public class UsuarioController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //  Image image = new Image("/recursos/sifraoLogin.jpg");
-        // imageview.setImage(image);
 
     }
 
     @FXML
     protected void botaoEntrar(ActionEvent event) {
 
-        userLogado = usuarioService.buscaUsuarioESenha(idUsuario.getText(), idSenha.getText());
+        userLogado = usuarioService.buscaUsuarioESenha(idUsuario.getText(), Criptografar.criptoSenha(idSenha.getText()));
 
         if (userLogado != null) {
             stage = new Stage();

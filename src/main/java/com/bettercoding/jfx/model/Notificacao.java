@@ -27,6 +27,9 @@ public class Notificacao {
     private LocalDateTime data;
     private LocalDateTime proximaAlerta;
     private Emprestimo emprestimo;
+    
+    
+    
     private static String Status;
 
     public LocalDateTime getData() {

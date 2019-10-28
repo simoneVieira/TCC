@@ -44,6 +44,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.annotation.PostConstruct;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -59,12 +60,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExecutaTarefa extends TimerTask {
 
-
     @Autowired
     private NotificacaoService notificacaoService;
 
-   private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     
+   
+    
+
     private void completeTask() {
         try {
             //assuming it takes 20 secs to complete the task
@@ -82,7 +85,7 @@ public class ExecutaTarefa extends TimerTask {
     }
 
     @Override
-   // @PostConstruct
+    // @PostConstruct
     public void run() {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -92,30 +95,50 @@ public class ExecutaTarefa extends TimerTask {
                     @Override
                     public void run() {
                         LocalDateTime agora = LocalDateTime.now();
-
                         List<Notificacao> listNotificacao;
                         listNotificacao = notificacaoService.buscaData(agora);
                         if (!listNotificacao.isEmpty()) {
-
                             listNotificacao.forEach(notfi -> {
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                ButtonType btnExe = new ButtonType("Painel de Notificação");
+                                ButtonType btnOK = new ButtonType("OK");
+                                alert.getButtonTypes().setAll(btnExe, btnOK);
 
-                                System.out.println("id empréstimo: " + notfi.getEmprestimo().getId_Emprestimo());
-                                System.out.println("cliente id: " + notfi.getEmprestimo().getCliente().getId());
-                                System.out.println("cliente: " + notfi.getEmprestimo().getCliente().getNome());
-                                System.out.println("banco: " + notfi.getEmprestimo().getBanco());
-                                System.out.println("data: " + notfi.getData());
-                                System.out.println("data: " + notfi.getProximaAlerta());
-                                
+                                alert.setTitle("NOTIFICACÃO");
+                                alert.setHeaderText(" "
+                                        + "\n" + "COD.NOTIFICAÇÃO: " + notfi.getId() + "\n"
+                                        + "\n" + "NOME: " + notfi.getEmprestimo().getCliente().getNome()
+                                        + "\n" + "CPF:  " + notfi.getEmprestimo().getCliente().getCpf()
+                                        + "\n" + "TELEFONE:  " + notfi.getEmprestimo().getCliente().getTelefone1()
+                                        + "\n" + "BANCO:  " + notfi.getEmprestimo().getBanco()
+                                        + "\n" + "Cliente está apto a ser recontatado");
+                                alert.showAndWait().ifPresent((ButtonType b) -> {
+                                    if (b == btnExe) {
+                                        TelaPrincipalController tpc = new TelaPrincipalController();
+                                        tpc.chamaTelaPainel();
+
+                                    } else if (btnOK == b) {
+                                        alert.close();
+                                    }
+
+                                  
+                                });
+//                                System.out.println("id empréstimo: " + notfi.getEmprestimo().getId_Emprestimo());
+//                                System.out.println("cliente id: " + notfi.getEmprestimo().getCliente().getId());
+//                                System.out.println("cliente: " + notfi.getEmprestimo().getCliente().getNome());
+//                                System.out.println("banco: " + notfi.getEmprestimo().getBanco());
+//                                System.out.println("data: " + notfi.getData());
+//                                System.out.println("data: " + notfi.getProximaAlerta());
                             });
 
-                        }else{
+                        } else {
                             System.out.println("Não há notificações");
                         }
 
                     }
                 });
             }
-        }, 0, 10 * 1000 * 1);
+        }, 0, 10 * 1000 * 5);
     }
 
 }

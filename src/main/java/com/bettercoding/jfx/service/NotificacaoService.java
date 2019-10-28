@@ -5,6 +5,8 @@
  */
 package com.bettercoding.jfx.service;
 
+import com.bettercoding.jfx.model.Cliente;
+import com.bettercoding.jfx.model.Emprestimo;
 import com.bettercoding.jfx.model.Notificacao;
 import com.bettercoding.jfx.repository.NotificacaoRepository;
 import java.time.LocalDateTime;
@@ -24,19 +26,22 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class NotificacaoService {
-    
+
     @Autowired
     private NotificacaoRepository notificacaoRepository;
     
-    
-//    public Notificacao buscaStatus(String status) {
-//        return notificacaoRepository.findByStatus(status);
-//    }
     public List<Notificacao> buscaData(LocalDateTime proximaAlerta) {
         return notificacaoRepository.findByProximaAlertaLessThanEqual(proximaAlerta);
     }
-    public Notificacao salvaNotificacao(Notificacao notifica){
-       return notificacaoRepository.save(notifica);
+
+    public Notificacao salvaNotificacao(Notificacao notifica) {
+        return notificacaoRepository.save(notifica);
     }
-  
+   
+     public List<Notificacao> buscaPorId(Long id) {
+        return notificacaoRepository.findEmprestimoById(id);
+    }
+      public List<Notificacao> notificacao() {
+        return notificacaoRepository.findAll();
+    }
 }

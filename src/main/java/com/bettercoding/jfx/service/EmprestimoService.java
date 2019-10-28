@@ -27,7 +27,6 @@ public class EmprestimoService {
     private EmprestimoRepository emprestimoRepository;
 
     public Emprestimo salvaEmprestimo(Emprestimo ep) {
-
         return emprestimoRepository.save(ep);
     }
 

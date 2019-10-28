@@ -539,7 +539,6 @@ public class ClienteController implements Initializable {
     public void excluirCliente() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         ButtonType btnSim = new ButtonType("OK");
-        //ButtonType btnNao = new ButtonType("Não");
         ButtonType btnNaoResponder = new ButtonType("CANCELAR", ButtonBar.ButtonData.CANCEL_CLOSE);
         alert.setTitle("CONFIRMAÇÃO");
         alert.setHeaderText("DESEJA REALMENTE APAGAR DADOS? ");

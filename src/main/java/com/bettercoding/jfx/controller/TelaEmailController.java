@@ -8,6 +8,7 @@ package com.bettercoding.jfx.controller;
 import com.bettercoding.jfx.MyApp;
 import com.bettercoding.jfx.model.Cliente;
 import com.bettercoding.jfx.model.Usuario;
+import com.bettercoding.jfx.service.Criptografar;
 import com.bettercoding.jfx.service.UsuarioService;
 import java.io.IOException;
 import java.net.URL;
@@ -57,6 +58,8 @@ public class TelaEmailController implements Initializable {
     AdminstradorController usuarioC = new AdminstradorController();
     @Autowired
     UsuarioService usuarioService;
+    @Autowired
+    Criptografar criptografarService;
     Usuario u = new Usuario();
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -71,12 +74,13 @@ public class TelaEmailController implements Initializable {
         if (usuario == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("AVISO");
-            alert.setHeaderText("Email não pertece a nunhum usuário");
+            alert.setHeaderText("Email não Cadastrado");
             alert.show();
             return;
         }
-
-        usuario.setSenha(AdminstradorController.geraNumeroAleatorio());
+        String senha = AdminstradorController.geraNumeroAleatorio();
+        String s = Criptografar.criptoSenha(senha);
+        usuario.setSenha(s);
         usuario = usuarioService.salvaUsuario(usuario);
 
         SimpleEmail email = new SimpleEmail();
@@ -87,7 +91,7 @@ public class TelaEmailController implements Initializable {
         try {
             email.setFrom(enviarEmail);
             email.setSubject("Sua nova senha");
-            email.setMsg(" Senha provisória para acessar o sistema " + usuario.getSenha());
+            email.setMsg(" foi gerado uma nova senha para acesso do sistema" + senha);
             email.addTo(usuario.getEmail());
             email.send();
 

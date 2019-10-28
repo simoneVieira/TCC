@@ -323,7 +323,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     @FXML
     public void salvarEmprestimo() {
         emprestimo.setCliente(cliente);
-        // emprestimo.setNotificacao(notificacao);
+    
 
         emprestimo.setValorParcela(Float.parseFloat(fieldValor.getText().replace(".", "").replace(",", ".")));
 
