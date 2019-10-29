@@ -15,10 +15,9 @@
          <children>
             <TableView layoutY="324.0" prefHeight="198.0" prefWidth="744.0">
               <columns>
-                <TableColumn fx:id="banco" prefWidth="139.0" text="CODIGO:" />
-                <TableColumn fx:id="tipoEmprestimo" prefWidth="209.0" text="BANCO:" />
-                  <TableColumn fx:id="codigo" prefWidth="186.0" text="STATUS:" />
-                  <TableColumn fx:id="status" prefWidth="209.0" text="EMPRÉSTIMO:" />
+                <TableColumn fx:id="banco" prefWidth="191.0" text="CODIGO:" />
+                <TableColumn fx:id="tipoEmprestimo" prefWidth="157.0" text="BANCO:" />
+                  <TableColumn fx:id="codigo" prefWidth="395.0" text="STATUS:" />
               </columns>
             </TableView>
             <TextField fx:id="fieldCpf" layoutX="283.0" layoutY="262.0" prefHeight="41.0" prefWidth="256.0" promptText="INFORME O CPF" />

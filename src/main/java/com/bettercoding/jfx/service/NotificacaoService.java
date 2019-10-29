@@ -38,10 +38,11 @@ public class NotificacaoService {
         return notificacaoRepository.save(notifica);
     }
    
-     public List<Notificacao> buscaPorId(Long id) {
-        return notificacaoRepository.findEmprestimoById(id);
-    }
-      public List<Notificacao> notificacao() {
+    
+      public List<Notificacao> notificacao(int x) {
+        return notificacaoRepository.buscar(x);
+      }
+        public List<Notificacao> notifica() {
         return notificacaoRepository.findAll();
     }
 }

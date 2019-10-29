@@ -99,7 +99,8 @@ public class UsuarioController implements Initializable {
     @FXML
     protected void botaoEntrar(ActionEvent event) {
 
-        userLogado = usuarioService.buscaUsuarioESenha(idUsuario.getText(), Criptografar.criptoSenha(idSenha.getText()));
+        userLogado = usuarioService.buscaUsuarioESenha(idUsuario.getText(), (idSenha.getText()));
+       // Criptografar.criptoSenha(idSenha.getText()
 
         if (userLogado != null) {
             stage = new Stage();

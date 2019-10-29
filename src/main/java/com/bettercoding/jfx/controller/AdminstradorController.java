@@ -125,7 +125,8 @@ public class AdminstradorController implements Initializable {
         } else {
             Usuario user = new Usuario();
             user.setEmail(emailUsuario.getText());
-            user.setSenha(Criptografar.criptoSenha(senhaUsuario.getText()));
+            user.setSenha(senhaUsuario.getText());
+           // Criptografar.criptoSenha(senhaUsuario.getText())
             user.setUsuario(idNomeUsuario.getText());
             user.setTipoUsuario("" + comBoUsuario.getSelectionModel().getSelectedItem());
 

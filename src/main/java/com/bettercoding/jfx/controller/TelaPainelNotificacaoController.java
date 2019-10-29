@@ -37,18 +37,17 @@ import org.springframework.stereotype.Controller;
 public class TelaPainelNotificacaoController implements Initializable {
 
     @FXML
-    private TableColumn<Notificacao, Emprestimo> banco;
+    private TableColumn<Notificacao, String> banco;
 
     @FXML
-    private TableColumn<Notificacao, Emprestimo> tipoEmprestimo;
+    private TableColumn<Notificacao, String> tipoEmprestimo;
 
     @FXML
-    private TableColumn<Notificacao, Emprestimo> codigo;
+    private TableColumn<Notificacao, String> codigo;
 
+//    @FXML
+//    private TableColumn<Notificacao, String> status;
     @FXML
-    private TableColumn<Notificacao, String> status;
-    @FXML
-
     private TableView<Notificacao> tabela;
     @FXML
     private TextField fieldCpf;
@@ -90,9 +89,10 @@ public class TelaPainelNotificacaoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-       
         initTable();
-
+       
+        carregaStatus();
+ //listarNotificacao();
     }
 
     public void carregaStatus() {
@@ -126,40 +126,41 @@ public class TelaPainelNotificacaoController implements Initializable {
         codigo.setCellValueFactory(new PropertyValueFactory("Codigo"));
         tipoEmprestimo.setCellValueFactory(new PropertyValueFactory("TipoEmprestimo"));
         banco.setCellValueFactory(new PropertyValueFactory("banco"));
-        status.setCellValueFactory(new PropertyValueFactory("Status"));
+//        status.setCellValueFactory(new PropertyValueFactory("Status"));
     }
+
     public ObservableList<Notificacao> atualizaTabela = FXCollections.observableArrayList();
 
     public void listarNotificacao() {
-//        if (!atualizaTabela.isEmpty()) {
-//            atualizaTabela.clear();
-//
-//        }
-//    //    List<Notificacao> listaNotificacaoPorId = notificacaoService.buscaPorId(Long.parseLong(fieldCpf.getText()));
-//
-//        if (listaNotificacaoPorId.isEmpty()) {
-//            Alert alert = new Alert(Alert.AlertType.WARNING);
-//            alert.setTitle("AVISO");
-//            alert.setHeaderText("Não foi possível encontrar um Empréstimo para esse Cliente!");
-//            alert.show();
-//            return;
-//        }
-
         if (!atualizaTabela.isEmpty()) {
             atualizaTabela.clear();
 
         }
+        List<Notificacao> listaNotificacaoPorId = notificacaoService.notificacao(Integer.parseInt(fieldCpf.getText()));
 
-        for (Notificacao not : notificacaoService.notificacao()) {
+        if (listaNotificacaoPorId.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("AVISO");
+            alert.setHeaderText("Não foi possível encontrar um Empréstimo para esse Cliente!");
+            alert.show();
+            return;
+        }
+
+        for (Notificacao not :listaNotificacaoPorId ) {
             atualizaTabela.add(not);
 
         }
+    
+//        for (Notificacao notifi : notificacaoService.notifica()) {
+//            atualizaTabela.add(notifi);
+//        }
 
-      
-        banco.setCellValueFactory((TableColumn.CellDataFeatures<Notificacao, Emprestimo> p) -> new ReadOnlyObjectWrapper(p.getValue().getEmprestimo().getBanco()));
-        tipoEmprestimo.setCellValueFactory((TableColumn.CellDataFeatures<Notificacao, Emprestimo> p) -> new ReadOnlyObjectWrapper(p.getValue().getEmprestimo().getFormaContrato()));
+//        banco.setCellValueFactory((TableColumn.CellDataFeatures<Notificacao, Emprestimo> p) -> new ReadOnlyObjectWrapper(p.getValue().getEmprestimo().getBanco()));
+//        tipoEmprestimo.setCellValueFactory((TableColumn.CellDataFeatures<Notificacao, Emprestimo> p) -> new ReadOnlyObjectWrapper(p.getValue().getEmprestimo().getFormaContrato()));
+//        codigo.setCellValueFactory((TableColumn.CellDataFeatures<Notificacao, Emprestimo> p) -> new ReadOnlyObjectWrapper(p.getValue().getEmprestimo().getId_Emprestimo()));
         codigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
-        status.setCellValueFactory(new PropertyValueFactory<>("Status"));
+        tipoEmprestimo.setCellValueFactory(new PropertyValueFactory<>("TipoEmprestimo"));
+        banco.setCellValueFactory(new PropertyValueFactory<>("banco"));
         tabela.setItems(atualizaTabela);
 
     }

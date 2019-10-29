@@ -71,7 +71,7 @@ public class Emprestimo {
         this.dataFim = dataFim;
     }
 
-    @OneToOne(cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToOne(cascade={CascadeType.PERSIST,CascadeType.REMOVE})
     @JoinColumn(name = "id_Notificacao")
     public Notificacao getNotificacao() {
         return notificacao;

@@ -203,6 +203,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     private TextField tf;
     @FXML
     private ComboBox<String> comboEmprestimos;
+
     private List<Emprestimo> tipoEmprestimo = new ArrayList<>();
     private ObservableList<Emprestimo> obsEmprestimo;
     private List<Emprestimo> convenioEmprestimo = new ArrayList<>();
@@ -322,53 +323,58 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
 
     @FXML
     public void salvarEmprestimo() {
-        emprestimo.setCliente(cliente);
-    
 
-        emprestimo.setValorParcela(Float.parseFloat(fieldValor.getText().replace(".", "").replace(",", ".")));
-
-        emprestimo.setObservacao(idTextArea.getText());
-
-        emprestimo.setMatricula(Integer.parseInt(idParcelas.getText()));
-        emprestimo.setBeneficio(fieldBeneficio.getText());
-        emprestimo.setTaxa(Float.parseFloat(idTaxa.getText()));
-        try {
-            emprestimo.setDataInicio(LocalDate.parse(fieldDataInicio.getText(), formatter));
-            emprestimo.setDataFim(LocalDate.parse(fieldDataFinal.getText(), formatter));
-        } catch (DateTimeParseException ex) {
+        if (fieldNomeCliente.getText().equals("")||idParcelas.getText().equals("")||fieldMatricula.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("AVISO");
-            alert.setHeaderText("favor ,informar uma data");
+            alert.setHeaderText("favor adicionar um cliente");
             alert.show();
-        }
-        emprestimo.setValorComissao(Float.parseFloat((idComissão.getText().replace(".", ""))));
 
-        emprestimo.setNumeroContrato(Integer.parseInt(fieldNumContrato.getText()));
-        emprestimo.setPorcentagemComissao(Float.parseFloat(fieldComi.getText()));
-        emprestimo.setQuantidadeParcela(Integer.parseInt(idParcelas.getText()));
-        emprestimo.setValorLiberado(Double.parseDouble(idValorLiberado.getText().replace(".", "").replace(",", ".")));
-        emprestimo.setValorSolicitado(Double.parseDouble(idValorSolicitado.getText().replace(".", "").replace(",", ".")));
-        emprestimo.setConvenio("" + comboBoxConvenio.getSelectionModel().getSelectedItem());
-        emprestimo.setFormaContrato("" + comboEmprestimos.getSelectionModel().getSelectedItem());
-        emprestimo.setStatus("" + idStatus.getSelectionModel().getSelectedItem());
-        emprestimo.setBanco("" + comboBanco.getSelectionModel().getSelectedItem());
-        RadioButton radio = (RadioButton) grupo.getSelectedToggle();
-        emprestimo.setFormaPagamento(radio.getText());
-        emprestimo.setFormaPagamento(radio.getText());
-        RadioButton rad = (RadioButton) grupoRadio.getSelectedToggle();
-        emprestimo.setGerarNotificacao(rad.getText());
-        emprestimo.setGerarNotificacao(rad.getText());
+        } else {
+            emprestimo.setCliente(cliente);
 
-        //  radioButton();
-        if (idCodigoEmprestimo.getText().equals("")) {
+            emprestimo.setValorParcela(Float.parseFloat(fieldValor.getText().replace(".", "").replace(",", ".")));
 
-            if (radioSim.isSelected() && emprestimo.getNotificacao() == null) {
-                emprestimo.setNotificacao(new Notificacao());
-                emprestimo.getNotificacao().setData(LocalDateTime.parse(fieldData.getText(), formater));
-                emprestimo.getNotificacao().setProximaAlerta(emprestimo.getNotificacao().getData());
-                emprestimo.getNotificacao().setEmprestimo(emprestimo);
-                emprestimo.getNotificacao().setStatus("Andamento");
+            emprestimo.setObservacao(idTextArea.getText());
+
+            emprestimo.setMatricula(Integer.parseInt(idParcelas.getText()));
+            emprestimo.setBeneficio(fieldBeneficio.getText());
+            emprestimo.setTaxa(Float.parseFloat(idTaxa.getText()));
+            try {
+                emprestimo.setDataInicio(LocalDate.parse(fieldDataInicio.getText(), formatter));
+                emprestimo.setDataFim(LocalDate.parse(fieldDataFinal.getText(), formatter));
+            } catch (DateTimeParseException ex) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("AVISO");
+                alert.setHeaderText("favor ,informar uma data");
+                alert.show();
             }
+            emprestimo.setValorComissao(Float.parseFloat((idComissão.getText().replace(".", ""))));
+
+            emprestimo.setNumeroContrato(Integer.parseInt(fieldNumContrato.getText()));
+            emprestimo.setPorcentagemComissao(Float.parseFloat(fieldComi.getText()));
+            emprestimo.setQuantidadeParcela(Integer.parseInt(idParcelas.getText()));
+            emprestimo.setValorLiberado(Double.parseDouble(idValorLiberado.getText().replace(".", "").replace(",", ".")));
+            emprestimo.setValorSolicitado(Double.parseDouble(idValorSolicitado.getText().replace(".", "").replace(",", ".")));
+            emprestimo.setConvenio("" + comboBoxConvenio.getSelectionModel().getSelectedItem());
+            emprestimo.setFormaContrato("" + comboEmprestimos.getSelectionModel().getSelectedItem());
+            emprestimo.setStatus("" + idStatus.getSelectionModel().getSelectedItem());
+            emprestimo.setBanco("" + comboBanco.getSelectionModel().getSelectedItem());
+            RadioButton radio = (RadioButton) grupo.getSelectedToggle();
+            emprestimo.setFormaPagamento(radio.getText());
+            emprestimo.setFormaPagamento(radio.getText());
+            RadioButton rad = (RadioButton) grupoRadio.getSelectedToggle();
+            emprestimo.setGerarNotificacao(rad.getText());
+           // emprestimo.setGerarNotificacao(rad.getText());
+            if (idCodigoEmprestimo.getText().equals("")) {
+
+                if (radioSim.isSelected() && emprestimo.getNotificacao() == null) {
+                    emprestimo.setNotificacao(new Notificacao());
+                    emprestimo.getNotificacao().setData(LocalDateTime.parse(fieldData.getText(), formater));
+                    emprestimo.getNotificacao().setProximaAlerta(emprestimo.getNotificacao().getData());
+                    emprestimo.getNotificacao().setEmprestimo(emprestimo);
+                    emprestimo.getNotificacao().setStatus("Andamento");
+                }
 //            try {
 //
 //                 emprestimo.getNotificacao().setData(LocalDateTime.parse(fieldData.getText(), formatter));
@@ -376,26 +382,27 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
 //            } catch (DateTimeParseException ex) {
 //                System.out.println("error" + ex);
 //            }
-            // emprestimo.getNotificacao().setProximaAlerta(emprestimo.getNotificacao().getData());
+                // emprestimo.getNotificacao().setProximaAlerta(emprestimo.getNotificacao().getData());
 
-            // emprestimo.getNotificacao() -> Coloca a data que está no campo no obj (texto para data) ( data normal) 
-            // emprestimo.getNotificacao() -> copiar a data para data de próxima notificação
-            //}
-            emprestimo = emprestimoService.salvaEmprestimo(emprestimo);
+                // emprestimo.getNotificacao() -> Coloca a data que está no campo no obj (texto para data) ( data normal) 
+                // emprestimo.getNotificacao() -> copiar a data para data de próxima notificação
+                //}
+                emprestimo = emprestimoService.salvaEmprestimo(emprestimo);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("CONFIRMAÇÃO");
-            alert.setHeaderText("DADOS SALVOS COM SUCESSO!");
-            alert.show();
-        } else {
-            emprestimo.setId_Emprestimo((Long.parseLong(idCodigoEmprestimo.getText())));
-            Emprestimo AlterarEmpres = emprestimoService.salvaEmprestimo(emprestimo);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("CONFIRMAÇÃO");
-            alert.setHeaderText("DADOS ALTERADOS COM SUCESSO!");
-            alert.show();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("CONFIRMAÇÃO");
+                alert.setHeaderText("DADOS SALVOS COM SUCESSO!");
+                alert.show();
+            } else {
+                emprestimo.setId_Emprestimo((Long.parseLong(idCodigoEmprestimo.getText())));
+                Emprestimo AlterarEmpres = emprestimoService.salvaEmprestimo(emprestimo);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("CONFIRMAÇÃO");
+                alert.setHeaderText("DADOS ALTERADOS COM SUCESSO!");
+                alert.show();
+            }
+
         }
-
     }
 
     @Override
@@ -569,7 +576,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         fieldData.setText(formatter.format(emprestimo.getNotificacao().getProximaAlerta()));
         cliente = emprestimo.getCliente();
 
-        if (emprestimo.getFormaPagamento().equals("Contaaa")) {
+        if (emprestimo.getFormaPagamento().equals("Conta")) {
             radioConta.setSelected(true);
         } else {
             radioOP.setSelected(true);
@@ -578,13 +585,9 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
             radioSim.setSelected(true);
             fieldData.setText(formatter.format(emprestimo.getNotificacao().getProximaAlerta()));
             //fieldData.setText(emprestimo.getGerarNotificacao().format(formatter));
-
-            //fieldData.setVisible(true);
-//            fieldHora.setVisible(true);
-        } else {
+        } else{
             radioNao.setSelected(true);
-            // fieldData.setVisible(false);
-//            fieldHora.setVisible(false);
+         
         }
 
     }

@@ -115,7 +115,7 @@ public class TelaPrincipalController implements Initializable {
         stage.resizableProperty();
         stage.setResizable(false);
 
-     //   botaoCliente.getScene().getWindow().hide();
+        botaoCliente.getScene().getWindow().hide();
 
     }
 
@@ -224,8 +224,21 @@ public class TelaPrincipalController implements Initializable {
 
     @FXML
     public void chamaTelaPainel() {
-        NotificacaoController ntc = new NotificacaoController();
-        ntc.chamaTelaPainelNotificacao();
+        Stage stage = new Stage();
+        Parent root = null;
+        try {
+            FXMLLoader fxml = new FXMLLoader();
+            fxml.setControllerFactory(MyApp.springContext::getBean);
+            fxml.setLocation(getClass().getResource("/fxml/TelaPainelNotificacao.fxml"));
+            root = fxml.load();
+        } catch (IOException ex) {
+            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        stage.resizableProperty();
+        stage.setResizable(false);
     }
 
     @FXML
