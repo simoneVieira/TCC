@@ -3,21 +3,27 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="pEmail" prefHeight="371.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bettercoding.jfx.controller.TelaEmailController">
+<AnchorPane id="AnchorPane" fx:id="pEmail" prefHeight="253.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bettercoding.jfx.controller.TelaEmailController">
    <children>
-      <Pane fx:id="painelEmail" prefHeight="396.0" prefWidth="597.0" style="-fx-background-color: #191970;">
+      <Pane fx:id="painelEmail" prefHeight="291.0" prefWidth="551.0" style="-fx-background-color: #191970;">
          <children>
             <TextField fx:id="fieldEmail" layoutX="147.0" layoutY="42.0" prefHeight="41.0" prefWidth="333.0" promptText="Infome o Email Cadastrado" />
             <Label fx:id="labelEmail" layoutX="67.0" layoutY="48.0" prefHeight="30.0" prefWidth="59.0" text="Email: " textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Button fx:id="buttonEnviar" layoutX="296.0" layoutY="209.0" mnemonicParsing="false" onAction="#enviarEmail" prefHeight="48.0" prefWidth="127.0" text="ENVIAR" />
-            <Button fx:id="buttonCancelar" layoutX="450.0" layoutY="209.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="116.0" text="CANCELAR" />
+            <Button fx:id="buttonEnviar" layoutX="394.0" layoutY="212.0" mnemonicParsing="false" onAction="#enviarEmail" prefHeight="48.0" prefWidth="127.0" text="             ENVIAR" />
+            <ImageView fx:id="emailSenha" fitHeight="41.0" fitWidth="51.0" layoutX="394.0" layoutY="216.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagem/email.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
    </children>

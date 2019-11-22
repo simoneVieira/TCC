@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -36,29 +37,29 @@ public class Emprestimo {
     private String observacao;
     private String formaPagamento;
     private float valorParcela;
-    private int matricula;
+    private String matricula;
     private String banco;
     private float taxa;
     private LocalDate dataInicio;
     private LocalDate dataFim;
-    private int numeroContrato;
+    private String numeroContrato;
     private String beneficio;
     private Double valorSolicitado;
     private Double valorLiberado;
     private float porcentagemComissao;
     private float valorComissao;
-    private String financeira;
     private String formaContrato;
     private int quantidadeParcela;
     private String gerarNotificacao;
     private Cliente cliente;
     private Usuario login;
     private Notificacao notificacao;
-  
+    private Date removedAt;
 
     public LocalDate getDataInicio() {
         return dataInicio;
     }
+
     public void setDataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
     }
@@ -71,10 +72,19 @@ public class Emprestimo {
         this.dataFim = dataFim;
     }
 
-    @OneToOne(cascade={CascadeType.PERSIST,CascadeType.REMOVE})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name = "id_Notificacao")
     public Notificacao getNotificacao() {
         return notificacao;
+    }
+
+    @Column(name = "removed_at")
+    public Date getRemovedAt() {
+        return removedAt;
+    }
+
+    public void setRemovedAt(Date removedAt) {
+        this.removedAt = removedAt;
     }
 
     public void setNotificacao(Notificacao notificacao) {
@@ -89,21 +99,22 @@ public class Emprestimo {
         this.gerarNotificacao = gerarNotificacao;
     }
 
-    public int getMatricula() {
+    public String getMatricula() {
         return matricula;
     }
 
-    public void setMatricula(int matricula) {
+    public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
 
-    public int getNumeroContrato() {
+    public String getNumeroContrato() {
         return numeroContrato;
     }
 
-    public void setNumeroContrato(int numeroContrato) {
+    public void setNumeroContrato(String numeroContrato) {
         this.numeroContrato = numeroContrato;
     }
+
     public int getQuantidadeParcela() {
         return quantidadeParcela;
     }
@@ -135,6 +146,7 @@ public class Emprestimo {
     public void setBeneficio(String beneficio) {
         this.beneficio = beneficio;
     }
+
     public float getPorcentagemComissao() {
         return porcentagemComissao;
     }
@@ -231,14 +243,6 @@ public class Emprestimo {
 
     public void setBanco(String banco) {
         this.banco = banco;
-    }
-
-    public String getFinanceira() {
-        return financeira;
-    }
-
-    public void setFinanceira(String financeira) {
-        this.financeira = financeira;
     }
 
     public String getFormaContrato() {

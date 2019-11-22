@@ -201,26 +201,10 @@ public class ClienteController implements Initializable {
     private Button idButtonVoltar;
     private static ReceptorCliente receptorCliente;
 
-    public static String nomeCli;
-    public static String cpfCli;
 
-    public static String getCpfCli() {
-        return cpfCli;
-    }
-
-    public static void setCpfCli(String cpfCli) {
-        ClienteController.cpfCli = cpfCli;
-    }
-
-    public static String getNomeCli() {
-        return nomeCli;
-    }
-
-    public static void setNomeCli(String nomeCli) {
-        ClienteController.nomeCli = nomeCli;
-    }
     @Autowired
     private UsuarioService loginService;
+    
 
     @Autowired
     TelaPrincipalController tp = new TelaPrincipalController();
@@ -229,10 +213,9 @@ public class ClienteController implements Initializable {
     Cliente c = new Cliente();
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
+  
 
-    public ClienteController() {
 
-    }
 
     public static void setReceptor(ReceptorCliente rc) {
         receptorCliente = rc;
@@ -250,7 +233,7 @@ public class ClienteController implements Initializable {
         imageViewVolt.setImage(imageVoltar);
         Image image = new Image("/imagem/salvar.png");
         imageSalvar.setImage(image);
-        Image imageCancelar = new Image("/imagem/Delete-icon-2.png");
+        Image imageCancelar = new Image("/imagem/Delete-icon-2_1.png");
         viewExcluir.setImage(imageCancelar);
         Image imagePesquisar = new Image("/imagem/lupa.png");
         viewLupa.setImage(imagePesquisar);
@@ -297,8 +280,8 @@ public class ClienteController implements Initializable {
         formata.setMask("(##)-#####-####");
         formata.setCaracteresValidos("0123456789");
         formata.setTf(fieldTelefone2);
-
         formata.formatter();
+        positionCaret(fieldTelefone2);
 
     }
 
@@ -308,8 +291,8 @@ public class ClienteController implements Initializable {
         formata.setMask("#######");
         formata.setCaracteresValidos("0123456789");
         formata.setTf(fieldRG);
-
         formata.formatter();
+        positionCaret(fieldRG);
 
     }
 
@@ -320,6 +303,8 @@ public class ClienteController implements Initializable {
         formata.setCaracteresValidos("0123456789");
         formata.setTf(fielTelefone1);
         formata.formatter();
+        positionCaret(fielTelefone1);
+        
 
     }
 
@@ -330,6 +315,7 @@ public class ClienteController implements Initializable {
         formata.setCaracteresValidos("0123456789");
         formata.setTf(fieldCPF);
         formata.formatter();
+         positionCaret(fieldCPF);
     }
 
     @FXML
@@ -339,6 +325,7 @@ public class ClienteController implements Initializable {
         formata.setCaracteresValidos("0123456789");
         formata.setTf(fieldCep);
         formata.formatter();
+        positionCaret(fieldCep);
     }
 
     @FXML
@@ -351,9 +338,10 @@ public class ClienteController implements Initializable {
         formata.formatter();
         MaskFormatter mask = new MaskFormatter();
         mask.setValueContainsLiteralCharacters(false);
+         positionCaret(fieldNumero);
 
     }
-
+    
     @FXML
     public void validaDataNascimento() {
         maxField(fieldNasciemento, 10);
@@ -365,7 +353,10 @@ public class ClienteController implements Initializable {
                     String value = fieldNasciemento.getText();
                     value = value.replaceAll("[^0-9]", "");
                     value = value.replaceFirst("(\\d{2})(\\d)", "$1/$2");
-                    value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d)", "$1/$2/$3");
+                    value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d)", "$1/$2/$3"
+                            + ""
+                            + ""
+                            + "");
                     fieldNasciemento.setText(value);
                     positionCaret(fieldNasciemento);
                 }
@@ -412,13 +403,26 @@ public class ClienteController implements Initializable {
 
     @FXML
     private void validaDataCadastro() {
-        TextFieldFormatter formata = new TextFieldFormatter();
-        formata.setMask("##/##/####");
-        formata.setCaracteresValidos("0123456789");
-        formata.setTf(dataCadastro);
-        formata.formatter();
+        maxField(dataCadastro, 10);
 
+       dataCadastro.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (newValue.intValue() < 11) {
+                    String value = dataCadastro.getText();
+                    value = value.replaceAll("[^0-9]", "");
+                    value = value.replaceFirst("(\\d{2})(\\d)", "$1/$2");
+                    value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d)", "$1/$2/$3"
+                            + ""
+                            + ""
+                            + "");
+                    dataCadastro.setText(value);
+                    positionCaret(dataCadastro);
+                }
+            }
+        });
     }
+    
 
     @FXML
     public void salvarCli() {
@@ -441,13 +445,16 @@ public class ClienteController implements Initializable {
             cli.setCpf(fieldCPF.getText());
 
             try {
+              
                 cli.setDataNascimento(sdf.parse(fieldNasciemento.getText()));
                 cli.setDataCadastro(sdf.parse(dataCadastro.getText()));
+                 sdf.setLenient(false);
             } catch (ParseException ex) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("AVISO");
-                alert.setHeaderText("favor ,informar uma data");
+                alert.setHeaderText("informar uma data válida");
                 alert.show();
+                
             }
             cli.setComplemento(fieldComplemento.getText());
             cli.setTelefone1(Long.parseLong(fielTelefone1.getText().replaceAll("[^0-9]", "")));
@@ -455,7 +462,6 @@ public class ClienteController implements Initializable {
             cli.setSetor(fieldSetor.getText());
             cli.setRg(Integer.parseInt(fieldRG.getText().replaceAll("[^0-9]", "")));
             cli.setEndereco(fieldEndereco.getText());
-            // cli.setDataNascimento(new Date());
             if (idCli.getText().equals("")) {
                 try {
                     Cliente salvarCli = clienteService.salvarCli(cli);
@@ -463,7 +469,6 @@ public class ClienteController implements Initializable {
                     alert.setTitle("CONFIRMAÇÃO");
                     alert.setHeaderText("SALVO COM SUCESSO!");
                     alert.show();
-                    LimpaCampos();
                 } catch (Exception e) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("AVISO");
@@ -531,6 +536,7 @@ public class ClienteController implements Initializable {
         fieldCep.setText(String.valueOf(cliente.getCep()));
         fieldEndereco.setText(cliente.getEndereco());
         fieldNumero.setText(String.valueOf(cliente.getNumero()));
+        dataCadastro.setText(sdf.format(cliente.getDataCadastro()));
         idCli.setText(String.valueOf(cliente.getId()));
 
     }
@@ -541,7 +547,8 @@ public class ClienteController implements Initializable {
         ButtonType btnSim = new ButtonType("OK");
         ButtonType btnNaoResponder = new ButtonType("CANCELAR", ButtonBar.ButtonData.CANCEL_CLOSE);
         alert.setTitle("CONFIRMAÇÃO");
-        alert.setHeaderText("DESEJA REALMENTE APAGAR DADOS? ");
+        alert.setHeaderText("Ao clicar em OK,"
+                + "\n o cliente e todos os seus empréstimos serão excluídos");
         alert.getButtonTypes().setAll(btnSim, btnNaoResponder);
         alert.showAndWait().ifPresent((ButtonType b) -> {
             if (b == btnSim) {
@@ -561,6 +568,7 @@ public class ClienteController implements Initializable {
                 fieldEndereco.setText("");
                 fieldNumero.setText("");
                 idCli.setText("");
+                dataCadastro.setText("");
 
                 Alert dialogoResultado = new Alert(Alert.AlertType.INFORMATION);
                 dialogoResultado.setHeaderText("INFORMAÇÂO");
@@ -588,6 +596,7 @@ public class ClienteController implements Initializable {
         fieldNumero.setText("");
         idCli.setText("");
         fieldNasciemento.setText(" ");
+        dataCadastro.setText(" ");
 
     }
 

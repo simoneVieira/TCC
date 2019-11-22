@@ -30,19 +30,25 @@ public class NotificacaoService {
     @Autowired
     private NotificacaoRepository notificacaoRepository;
     
-    public List<Notificacao> buscaData(LocalDateTime proximaAlerta) {
-        return notificacaoRepository.findByProximaAlertaLessThanEqual(proximaAlerta);
+    public List<Notificacao> buscaData(LocalDateTime proximaAlerta,String status) {
+        return notificacaoRepository.findByProximaAlertaLessThanEqualAndStatus(proximaAlerta,status);
     }
 
     public Notificacao salvaNotificacao(Notificacao notifica) {
         return notificacaoRepository.save(notifica);
     }
    
-    
-      public List<Notificacao> notificacao(int x) {
-        return notificacaoRepository.buscar(x);
-      }
+//    
+//      public List<Notificacao> notificacao(int x) {
+//        return notificacaoRepository.buscar(x);
+//      }
         public List<Notificacao> notifica() {
         return notificacaoRepository.findAll();
+    }
+      public Notificacao buscaStatus(String status) {
+        return notificacaoRepository.findByStatus(status);
+    }  
+      public List<Notificacao> buscarPorId(Long id) {
+      return notificacaoRepository.findByN(id);
     }
 }

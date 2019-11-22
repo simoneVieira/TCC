@@ -11,8 +11,10 @@ import com.bettercoding.jfx.model.Notificacao;
 import com.bettercoding.jfx.service.NotificacaoService;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import util.TextFieldFormatter;
 
 /**
  * FXML Controller class
@@ -37,16 +40,13 @@ import org.springframework.stereotype.Controller;
 public class TelaPainelNotificacaoController implements Initializable {
 
     @FXML
-    private TableColumn<Notificacao, String> banco;
-
+    private TableColumn<Notificacao, Long> colunaCodigo;
     @FXML
-    private TableColumn<Notificacao, String> tipoEmprestimo;
-
+    private TableColumn<Notificacao, Cliente> colunaCliente;
     @FXML
-    private TableColumn<Notificacao, String> codigo;
-
-//    @FXML
-//    private TableColumn<Notificacao, String> status;
+    private TableColumn<Notificacao, String> colunaStatus;
+    @FXML
+    private TableColumn<Notificacao, Emprestimo> idBanco;
     @FXML
     private TableView<Notificacao> tabela;
     @FXML
@@ -71,6 +71,8 @@ public class TelaPainelNotificacaoController implements Initializable {
 
     @FXML
     private TextField campoCpf;
+    @FXML
+    private TextField DATACADASTRO;
 
     @FXML
     private TextField campoadiar;
@@ -79,54 +81,48 @@ public class TelaPainelNotificacaoController implements Initializable {
     private TextField campoData;
     @Autowired
     NotificacaoService notificacaoService;
-
+    Cliente c = new Cliente();
+    Emprestimo emp = new Emprestimo();
+    Notificacao not;
+    public static final String status_Andamento = "Andamento";
+    public static final String status_Resolvido = "Resolvido";
+    private DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     @FXML
     private ComboBox<String> boxStatus;
-    public static final String STATUS_RESOLVER = "ROSOLVIDO";
-    public static final String STATUS_ADIAR = "ADIAR";
-    public static final String STATUS_CANCELAR = "DESATIVAR";
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         initTable();
-       
         carregaStatus();
- //listarNotificacao();
+        listarNotificacao();
+        tabela.getSelectionModel().selectedItemProperty().addListener(
+                (Notificacao, oldValue, newValue) -> selecionarItemTableViewNotificacao(newValue));
     }
 
     public void carregaStatus() {
         ObservableList<String> itens = FXCollections.observableArrayList();
-        itens.addAll(TelaPainelNotificacaoController.STATUS_ADIAR, TelaPainelNotificacaoController.STATUS_CANCELAR, TelaPainelNotificacaoController.STATUS_RESOLVER);
+        itens.addAll(TelaPainelNotificacaoController.status_Andamento, TelaPainelNotificacaoController.status_Resolvido);
         boxStatus.setItems(itens);
     }
 
     @FXML
-    public void salvarNotificacao() {
-        if (boxStatus.getSelectionModel().getSelectedItem().isEmpty()) {
+    public void alterarNotificacaos() {
+        not.setStatus(boxStatus.getSelectionModel().getSelectedItem());
+        not.setProximaAlerta(LocalDateTime.parse(campoData.getText(), formater));
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("ALERTA");
-            alert.setHeaderText("FAVOR PREENCHER O STATUS DA NOTIFICAÇÂO");
-            alert.show();
-
-        } else {
-            Notificacao notificacao = new Notificacao();
-            notificacao.setStatus("" + boxStatus.getSelectionModel().getSelectedItem());
-            Notificacao not = notificacaoService.salvaNotificacao(notificacao);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("ALERTA");
-            alert.setHeaderText("SALVO COM SUCESSO! ");
-            alert.show();
-        }
-
+        not = notificacaoService.salvaNotificacao(not);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("CONFIRMAÇÃO");
+        alert.setHeaderText("DADOS ALTERADOS COM SUCESSO!");
+        alert.show();
     }
 
     public void initTable() {
-        codigo.setCellValueFactory(new PropertyValueFactory("Codigo"));
-        tipoEmprestimo.setCellValueFactory(new PropertyValueFactory("TipoEmprestimo"));
-        banco.setCellValueFactory(new PropertyValueFactory("banco"));
-//        status.setCellValueFactory(new PropertyValueFactory("Status"));
+        colunaCodigo.setCellValueFactory(new PropertyValueFactory("id"));
+        colunaCliente.setCellValueFactory(new PropertyValueFactory("nome"));
+        colunaStatus.setCellValueFactory(new PropertyValueFactory("Status"));
+        idBanco.setCellValueFactory(new PropertyValueFactory("banco"));
     }
 
     public ObservableList<Notificacao> atualizaTabela = FXCollections.observableArrayList();
@@ -136,33 +132,93 @@ public class TelaPainelNotificacaoController implements Initializable {
             atualizaTabela.clear();
 
         }
-        List<Notificacao> listaNotificacaoPorId = notificacaoService.notificacao(Integer.parseInt(fieldCpf.getText()));
+        List<Notificacao> listNotificacao = notificacaoService.notifica();
 
-        if (listaNotificacaoPorId.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("AVISO");
-            alert.setHeaderText("Não foi possível encontrar um Empréstimo para esse Cliente!");
-            alert.show();
-            return;
+        if (listNotificacao.isEmpty()) {
+            
         }
 
-        for (Notificacao not :listaNotificacaoPorId ) {
+        for (Notificacao not : listNotificacao) {
             atualizaTabela.add(not);
-
         }
-    
-//        for (Notificacao notifi : notificacaoService.notifica()) {
-//            atualizaTabela.add(notifi);
-//        }
 
-//        banco.setCellValueFactory((TableColumn.CellDataFeatures<Notificacao, Emprestimo> p) -> new ReadOnlyObjectWrapper(p.getValue().getEmprestimo().getBanco()));
-//        tipoEmprestimo.setCellValueFactory((TableColumn.CellDataFeatures<Notificacao, Emprestimo> p) -> new ReadOnlyObjectWrapper(p.getValue().getEmprestimo().getFormaContrato()));
-//        codigo.setCellValueFactory((TableColumn.CellDataFeatures<Notificacao, Emprestimo> p) -> new ReadOnlyObjectWrapper(p.getValue().getEmprestimo().getId_Emprestimo()));
-        codigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
-        tipoEmprestimo.setCellValueFactory(new PropertyValueFactory<>("TipoEmprestimo"));
-        banco.setCellValueFactory(new PropertyValueFactory<>("banco"));
+        idBanco.setCellValueFactory((TableColumn.CellDataFeatures<Notificacao, Emprestimo> p) -> new ReadOnlyObjectWrapper(p.getValue().getEmprestimo().getBanco()));
+        colunaCliente.setCellValueFactory((TableColumn.CellDataFeatures<Notificacao, Cliente> p) -> new ReadOnlyObjectWrapper(p.getValue().getEmprestimo().getCliente().getNome()));
+        colunaCodigo.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colunaStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
         tabela.setItems(atualizaTabela);
 
     }
 
+    public void selecionarItemTableViewNotificacao(Notificacao notifi) {
+        campoNome.setText(notifi.getEmprestimo().getCliente().getNome());
+        campoCpf.setText(notifi.getEmprestimo().getCliente().getCpf());
+        campoTelefone.setText(String.valueOf(notifi.getEmprestimo().getCliente().getTelefone1()));
+        campoBanco.setText(notifi.getEmprestimo().getBanco());
+        campoData.setText(formater.format(notifi.getProximaAlerta()));
+        boxStatus.setValue(notifi.getStatus());
+        campoCodigo.setText("" + notifi.getId());
+        DATACADASTRO.setText(formater.format(notifi.getData()));
+        c = notifi.getEmprestimo().getCliente();
+        emp = notifi.getEmprestimo();
+        not = notifi;
+
+    }
+
+    public void listarNotificacaoPorId() {
+        if (!atualizaTabela.isEmpty()) {
+            atualizaTabela.clear();
+
+        }
+        List<Notificacao> listNotificacao = notificacaoService.buscarPorId(Long.parseLong(fieldCpf.getText()));
+
+        if (listNotificacao.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("AVISO");
+            alert.setHeaderText("Notificação Não Cadastrada!");
+            alert.show();
+            return;
+        }
+
+        for (Notificacao not : listNotificacao) {
+            atualizaTabela.add(not);
+        }
+
+        idBanco.setCellValueFactory((TableColumn.CellDataFeatures<Notificacao, Emprestimo> p) -> new ReadOnlyObjectWrapper(p.getValue().getEmprestimo().getBanco()));
+        colunaCliente.setCellValueFactory((TableColumn.CellDataFeatures<Notificacao, Cliente> p) -> new ReadOnlyObjectWrapper(p.getValue().getEmprestimo().getCliente().getNome()));
+        colunaCodigo.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colunaStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
+        tabela.setItems(atualizaTabela);
+
+    }
+
+    public void atualizaNotificacao() {
+        if (!atualizaTabela.isEmpty()) {
+            atualizaTabela.clear();
+
+        }
+
+        for (Notificacao not : notificacaoService.notifica()) {
+            atualizaTabela.add(not);
+        }
+    }
+     private static void positionCaret(final TextField textField) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                textField.positionCaret(textField.getText().length());
+            }
+        });
+    }
+    
+    @FXML
+    private void validaDataNotificacao() {
+        TextFieldFormatter formata = new TextFieldFormatter();
+        formata.setMask("##/##/#### ##:##");
+        formata.setCaracteresValidos("0123456789");
+        formata.setTf(campoData);
+        formata.formatter();
+        positionCaret(campoData);
+
+    }
 }

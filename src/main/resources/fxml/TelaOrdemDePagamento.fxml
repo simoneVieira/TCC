@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="687.0" prefWidth="946.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bettercoding.jfx.controller.TelaOrdemDePagamentoController">
+   <children>
+      <Pane fx:id="painelOP" layoutX="-1.0" layoutY="-4.0" prefHeight="697.0" prefWidth="956.0" style="-fx-background-color: #00008B;">
+         <children>
+            <Label layoutX="38.0" layoutY="64.0" text="Banco : " textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font></Label>
+            <ComboBox fx:id="comboBancos" layoutX="99.0" layoutY="53.0" prefHeight="41.0" prefWidth="150.0" />
+            <Label layoutX="34.0" layoutY="134.0" prefHeight="17.0" prefWidth="52.0" text="Agência:" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font></Label>
+            <Label layoutX="28.0" layoutY="196.0" text="Cidade:" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font></Label>
+            <TextField fx:id="campoCidade" layoutX="91.0" layoutY="185.0" prefHeight="41.0" prefWidth="165.0" />
+            <Button fx:id="idSalvar" layoutX="773.0" layoutY="244.0" mnemonicParsing="false" onAction="#salvarDadosOrdemPagamento" prefHeight="41.0" prefWidth="150.0" text="       SALVAR" />
+            <TableView fx:id="tableOp" layoutY="512.0" prefHeight="183.0" prefWidth="956.0">
+              <columns>
+                <TableColumn fx:id="colunaCodigo" prefWidth="104.0" text="Codigo Ordem:" />
+                <TableColumn fx:id="colunaNome" prefWidth="159.0" text="Nome Cliente:" />
+                  <TableColumn fx:id="colunaCpf" minWidth="0.0" prefWidth="186.0" text="CPF:" />
+                  <TableColumn fx:id="colunaStatus" prefWidth="174.0" text="Status:" />
+                  <TableColumn fx:id="valorOrdem" prefWidth="148.0" text="Valor:" />
+                  <TableColumn fx:id="colunaBanco" prefWidth="170.0" text="Banco:" />
+              </columns>
+            </TableView>
+            <TextField fx:id="idAgencia" layoutX="95.0" layoutY="123.0" onKeyReleased="#formatAgencia" prefHeight="41.0" prefWidth="159.0" />
+            <TextField fx:id="UFCidade" layoutX="363.0" layoutY="198.0" prefHeight="33.0" prefWidth="58.0" />
+            <Label layoutX="300.0" layoutY="205.0" text="Estado:" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font></Label>
+            <Button fx:id="buscaEmprestimo" layoutX="773.0" layoutY="165.0" mnemonicParsing="false" onAction="#chamaTelaEmprestimo" prefHeight="41.0" prefWidth="150.0" text="         Buscar Emprestimo" />
+            <Label layoutX="13.0" layoutY="264.0" text="Nº Contrato:" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <TextField fx:id="numeroContrato" layoutX="91.0" layoutY="253.0" prefHeight="41.0" prefWidth="165.0" />
+            <Label layoutX="13.0" layoutY="326.0" text="Cod.Empréstimo:" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="275.0" layoutY="75.0" text="DATA SAQUE:" textFill="WHITE" />
+            <TextField fx:id="dataSaque" layoutX="363.0" layoutY="63.0" onKeyReleased="#validaDataNotificacao" prefHeight="41.0" prefWidth="202.0" />
+            <Label layoutX="22.0" layoutY="401.0" text="Status:" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="comboOrdem" layoutX="87.0" layoutY="394.0" prefWidth="150.0" promptText="selecione" />
+            <Label layoutX="277.0" layoutY="134.0" text="Cod: Ordem" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <TextField fx:id="codigoOrdemPagamento" editable="false" layoutX="363.0" layoutY="123.0" prefHeight="41.0" prefWidth="74.0" />
+            <TextField fx:id="fieldPesquisa" layoutX="543.0" layoutY="447.0" prefHeight="33.0" prefWidth="192.0" promptText="informe o codigo da notificação" />
+            <Button fx:id="butonPesquisar" layoutX="773.0" layoutY="443.0" mnemonicParsing="false" onAction="#listarOPcpf" prefHeight="41.0" prefWidth="122.0" text="           Pesquisar" />
+            <ImageView fx:id="imagemLupaPesquisa" fitHeight="33.0" fitWidth="41.0" layoutX="773.0" layoutY="447.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagem/pesquisa4.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="viewEmprestimo" fitHeight="33.0" fitWidth="38.0" layoutX="773.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagem/pesquisa4.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="imageSalvar" fitHeight="41.0" fitWidth="38.0" layoutX="771.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagem/salvar.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="botaoExcluir" layoutX="773.0" layoutY="317.0" mnemonicParsing="false" onAction="#excluirOrdemPagamento" prefHeight="38.0" prefWidth="150.0" text="      EXCLUIR" />
+            <ImageView fx:id="viewExcluir" fitHeight="33.0" fitWidth="58.0" layoutX="773.0" layoutY="319.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagem/Delete-icon-2_1.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="emprestimoId" layoutX="117.0" layoutY="315.0" prefHeight="41.0" prefWidth="113.0" />
+            <Label layoutX="363.0" layoutY="14.0" text="CADASTRO ORDEM DE PAGAMENTO" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="ordemNovo" layoutX="848.0" layoutY="19.0" onMouseClicked="#limparCampos" text="NOVO" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="ordemAtualizar" layoutX="838.0" layoutY="55.0" onMouseClicked="#atualizaTabela" text="ATUALIZAR" textFill="WHITE" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

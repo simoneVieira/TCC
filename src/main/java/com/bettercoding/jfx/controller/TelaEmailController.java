@@ -24,6 +24,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -48,6 +50,8 @@ public class TelaEmailController implements Initializable {
 
     @FXML
     private TextField fieldEmail;
+     @FXML
+    private ImageView emailSenha;
 
     @FXML
     private Label labelEmail;
@@ -63,6 +67,8 @@ public class TelaEmailController implements Initializable {
     Usuario u = new Usuario();
 
     public void initialize(URL location, ResourceBundle resources) {
+         Image email = new Image("/imagem/sair12.png");
+        emailSenha.setImage(email);
 
     }
 
@@ -91,7 +97,7 @@ public class TelaEmailController implements Initializable {
         try {
             email.setFrom(enviarEmail);
             email.setSubject("Sua nova senha");
-            email.setMsg(" foi gerado uma nova senha para acesso do sistema" + senha);
+            email.setMsg(" foi gerado uma nova senha para acesso do sistema: \n Favor copiar a senha e colar no campo\n Para evitar possíveis erros de digitação!  "+ "SENHA: " + senha);
             email.addTo(usuario.getEmail());
             email.send();
 

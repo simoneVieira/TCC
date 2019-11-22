@@ -25,6 +25,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -54,7 +55,12 @@ public class UsuarioController implements Initializable {
     @FXML
 
     private Pane painelLogin;
+    
+    @FXML
+    private TextField mostrarSenha;
 
+    @FXML
+    private CheckBox boxMostar;
     @FXML
     private TextField idUsuario;
 
@@ -99,8 +105,9 @@ public class UsuarioController implements Initializable {
     @FXML
     protected void botaoEntrar(ActionEvent event) {
 
-        userLogado = usuarioService.buscaUsuarioESenha(idUsuario.getText(), (idSenha.getText()));
-       // Criptografar.criptoSenha(idSenha.getText()
+        userLogado = usuarioService.buscaUsuarioESenha(idUsuario.getText(),idSenha.getText());
+        // colocar no segundo paramentro do metodo buscaUsuarioESenha no lugar de idSenha.getText
+       // Criptografar.criptoSenha(idSenha.getText())
 
         if (userLogado != null) {
             stage = new Stage();
@@ -167,50 +174,16 @@ public class UsuarioController implements Initializable {
 
         //    labelRecuperaSenha.getScene().getWindow().hide();
     }
-
-//    public void confereSenha() {
-//        //  Usuario senhaLogada = usuarioService.buscaSenhaUsuario(idSenha.getText());
-//       Usuario dadosLogin = usuarioService.buscaUsuarioESenha(idUsuario.getText(), idSenha.getText());
-//        if (dadosLogin != userLogado) {
-//            Random ran = new Random();
-//            int n = ran.nextInt(1000000) + 1;
-//            String valorAleatorio = String.valueOf(n);
-//            
-//            usuario.setSenha(valorAleatorio);
-//         
-//            Usuario usua = usuarioService.salvaUsuario(usuario);
-//            System.out.println(" senha alterada");
-//        }
-//
-//    }
+    public void mostrarSenha(){
+        if(boxMostar.isSelected()){
+         idSenha.setVisible(false);
+         String c = idSenha.getText();
+         mostrarSenha.setText(c);
+         mostrarSenha.setVisible(true);
+        }else{
+         idSenha.setVisible(true);
+         mostrarSenha.setVisible(false);
+        }
+    }
 }
-
-//                FXMLLoader fxmlLoader = new FXMLLoader();
-//                Region root = null;
-//             AnchorPane pane = (pane) = FXMLLoader.load(getClass().getResource("/fxml/TelaPrincipal.fxml"));
-//             pane.getChildren().add(p);
-//              fxmlLoader.setController(this);
-// root = (Region) fxmlLoader.load();
-//        }catch (Exception ex) {
-//Scene scene = new Scene(root);
-//            Stage stage = new Stage();
-//            stage.setTitle("APP - Informações");
-//            //stage.setScene(scene);
-//            stage.initModality(Modality.WINDOW_MODAL);
-//            stage.show();
-//            pane.setVisible(true);
-//           p.setVisible(true);
-// root = FXMLLoader.load(getClass().getResource("/fxml/TelaPrincipal.fxml"));
-//        }catch (IOException ex) {
-//                Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        Scene scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
-//
-//        pai.setVisible(false);
-//        stage.setTitle("TELA PRINCIPAL");
-//
-//        botaoEntrar.getScene().getWindow().hide();
-//    }
 

@@ -7,7 +7,9 @@ package com.bettercoding.jfx.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,10 +29,8 @@ public class Notificacao {
     private LocalDateTime data;
     private LocalDateTime proximaAlerta;
     private Emprestimo emprestimo;
-    
-    
-    
-    private static String Status;
+    private String status;
+     private Date removedAt;
 
     public LocalDateTime getData() {
         return data;
@@ -69,11 +69,21 @@ public class Notificacao {
     }
 
     public String getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(String Status) {
-        this.Status = Status;
+        this.status = Status;
     }
+
+    public Date getRemovedAt() {
+        return removedAt;
+    }
+    @Column(name = "removed_at")
+    public void setRemovedAt(Date removedAt) {
+        this.removedAt = removedAt;
+    }
+
+   
 
 }

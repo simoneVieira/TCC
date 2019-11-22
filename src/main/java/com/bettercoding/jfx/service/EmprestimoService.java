@@ -7,12 +7,13 @@ package com.bettercoding.jfx.service;
 
 import com.bettercoding.jfx.model.Cliente;
 import com.bettercoding.jfx.model.Emprestimo;
+import com.bettercoding.jfx.model.Notificacao;
+import com.bettercoding.jfx.model.OrdemPagamento;
 import com.bettercoding.jfx.repository.EmprestimoRepository;
+import com.bettercoding.jfx.repository.NotificacaoRepository;
+import com.bettercoding.jfx.repository.OrdemPagamentoRepository;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +21,14 @@ import org.springframework.stereotype.Service;
  *
  * @author SimoneBarbosa
  */
+
 @Service
 public class EmprestimoService {
 
+    @Autowired
+    private OrdemPagamentoRepository ordemPagamentoRepository;
+    @Autowired
+    private NotificacaoRepository notificacaoRepository;
     @Autowired
     private EmprestimoRepository emprestimoRepository;
 
@@ -47,8 +53,32 @@ public class EmprestimoService {
         return emprestimoRepository.findByNumeroContrato(numeroContrato);
         
     }
-    public List<Emprestimo>somaComissao(String banco, float valorComissao){
-        return emprestimoRepository.findBancoAndValorComissao(banco, valorComissao);
+    public Double somaComissao(){
+        return emprestimoRepository.findBancoAndValorComissao();
     }
-
+   public List<Emprestimo> buscaStatus(String status){
+       return emprestimoRepository.findByStatus(status);
+   }
+      public void excluirEmprestimo(Long id) {
+        emprestimoRepository.deleteById(id);
+        
+        Emprestimo emprestimo = new Emprestimo();
+        emprestimo.setId_Emprestimo(id);
+        Notificacao not = notificacaoRepository.findByEmprestimo(emprestimo) ;
+        OrdemPagamento op =ordemPagamentoRepository.findByEmprestimo(emprestimo);
+         
+        if(not!= null){
+            notificacaoRepository.delete(not);
+        }
+         if(op!= null){
+            ordemPagamentoRepository.delete(op);
+        }
+        
+    }
+ public List<Emprestimo> buscaDadosRemovidosEmp(){
+          return emprestimoRepository.FindAllEvenRemovede();
+      }
+    public List<Emprestimo> buscaPorContrato(int numeroContrato){
+        return emprestimoRepository.FindAllEvenRemo(numeroContrato);
+    }
 }

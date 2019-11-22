@@ -9,11 +9,21 @@ import com.bettercoding.jfx.MyApp;
 import com.bettercoding.jfx.model.Cliente;
 import com.bettercoding.jfx.model.Emprestimo;
 import com.bettercoding.jfx.model.Notificacao;
+import com.bettercoding.jfx.model.Usuario;
 import com.bettercoding.jfx.service.EmprestimoService;
 import com.bettercoding.jfx.service.NotificacaoService;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,9 +33,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -41,6 +53,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -84,8 +98,9 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
 
     @FXML
     private MenuButton boxBanco;
+
     @FXML
-    private Label labelAgendamento;
+    private Button buttaoOP;
 
     @FXML
     private TextField fieldBeneficio;
@@ -154,12 +169,11 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
 
     @FXML
     private RadioButton radioNao;
+    @FXML
+    private Label labelOp;
 
     @FXML
     private TextField fieldData;
-
-//    @FXML
-//    private TextField fieldHora;
     @FXML
     private Button buttonExcluir;
 
@@ -228,23 +242,31 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     Emprestimo emprestimo = new Emprestimo();
     Cliente cliente;
     Notificacao notificacao;
+
     @Autowired
     NotificacaoService notificacaoService;
+    Usuario user = new Usuario();
+    public static final String status_Cancelado = "Cancelado";
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    // private SimpleDateFormat d = new SimpleDateFormat("dd/MM/yyyy");
 
-    //  SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
     DecimalFormat df = new DecimalFormat(",000.00");
+    private static ReceptorEmprestimo receptorEmprestimo;
+
+    public static void setReceptor(ReceptorEmprestimo rc) {
+        receptorEmprestimo = rc;
+
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        buttaoOP.setDisable(receptorEmprestimo == null);
         Image image = new Image("/imagem/salvar.png");
         viewSalvar.setImage(image);
         Image imageVoltar = new Image("/imagem/voltar.png");
         viewVoltar.setImage(imageVoltar);
-        Image imageCancelar = new Image("/imagem/Delete-icon-2.png");
+        Image imageCancelar = new Image("/imagem/Delete-icon-2_1.png");
         viewCancelar.setImage(imageCancelar);
         Image imagePesquisar = new Image("/imagem/pesquisa4.png");
         viewPesquisa.setImage(imagePesquisar);
@@ -324,7 +346,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     @FXML
     public void salvarEmprestimo() {
 
-        if (fieldNomeCliente.getText().equals("")||idParcelas.getText().equals("")||fieldMatricula.getText().equals("")) {
+        if (fieldNomeCliente.getText().equals("") || idParcelas.getText().equals("") || fieldMatricula.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("AVISO");
             alert.setHeaderText("favor adicionar um cliente");
@@ -333,13 +355,13 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         } else {
             emprestimo.setCliente(cliente);
 
-            emprestimo.setValorParcela(Float.parseFloat(fieldValor.getText().replace(".", "").replace(",", ".")));
+            emprestimo.setValorParcela(Float.parseFloat(fieldValor.getText().replace(".", "").replace(",", ".").replace("R$", "")));
 
             emprestimo.setObservacao(idTextArea.getText());
 
-            emprestimo.setMatricula(Integer.parseInt(idParcelas.getText()));
-            emprestimo.setBeneficio(fieldBeneficio.getText());
-            emprestimo.setTaxa(Float.parseFloat(idTaxa.getText()));
+            emprestimo.setMatricula((fieldMatricula.getText().replaceAll("[^0-9]", "").replace("#", "").replace("", "")));
+            emprestimo.setBeneficio(fieldBeneficio.getText().replaceAll("[^0-9]", ""));
+            emprestimo.setTaxa(Float.parseFloat(idTaxa.getText().replace(".", ".").replace("%", "")));
             try {
                 emprestimo.setDataInicio(LocalDate.parse(fieldDataInicio.getText(), formatter));
                 emprestimo.setDataFim(LocalDate.parse(fieldDataFinal.getText(), formatter));
@@ -349,13 +371,13 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
                 alert.setHeaderText("favor ,informar uma data");
                 alert.show();
             }
-            emprestimo.setValorComissao(Float.parseFloat((idComissão.getText().replace(".", ""))));
+            emprestimo.setValorComissao(Float.parseFloat((idComissão.getText().replace(".", "").replace(",", ".").replace("R$", ""))));
 
-            emprestimo.setNumeroContrato(Integer.parseInt(fieldNumContrato.getText()));
-            emprestimo.setPorcentagemComissao(Float.parseFloat(fieldComi.getText()));
-            emprestimo.setQuantidadeParcela(Integer.parseInt(idParcelas.getText()));
-            emprestimo.setValorLiberado(Double.parseDouble(idValorLiberado.getText().replace(".", "").replace(",", ".")));
-            emprestimo.setValorSolicitado(Double.parseDouble(idValorSolicitado.getText().replace(".", "").replace(",", ".")));
+            emprestimo.setNumeroContrato((fieldNumContrato.getText().replaceAll("[^0-9]", "")));
+            emprestimo.setPorcentagemComissao(Float.parseFloat(fieldComi.getText().replace("%", "").replace(".", "")));
+            emprestimo.setQuantidadeParcela(Integer.parseInt(idParcelas.getText().replaceAll("[^0-9]", "")));
+            emprestimo.setValorLiberado(Double.parseDouble(idValorLiberado.getText().replace(".", "").replace(",", ".").replace("R$", "")));
+            emprestimo.setValorSolicitado(Double.parseDouble(idValorSolicitado.getText().replace(".", "").replace(",", ".").replace("R$", "")));
             emprestimo.setConvenio("" + comboBoxConvenio.getSelectionModel().getSelectedItem());
             emprestimo.setFormaContrato("" + comboEmprestimos.getSelectionModel().getSelectedItem());
             emprestimo.setStatus("" + idStatus.getSelectionModel().getSelectedItem());
@@ -364,8 +386,12 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
             emprestimo.setFormaPagamento(radio.getText());
             emprestimo.setFormaPagamento(radio.getText());
             RadioButton rad = (RadioButton) grupoRadio.getSelectedToggle();
-            emprestimo.setGerarNotificacao(rad.getText());
-           // emprestimo.setGerarNotificacao(rad.getText());
+            emprestimo.setGerarNotificacao(radioSim.getText());
+            // emprestimo.setGerarNotificacao(radioNao.getText());
+            emprestimo.setLogin(UsuarioController.userLogado);
+//            emprestimo.getNotificacao().setData(LocalDateTime.parse(fieldData.getText(), formater));
+//            emprestimo.getNotificacao().setProximaAlerta(emprestimo.getNotificacao().getData());
+
             if (idCodigoEmprestimo.getText().equals("")) {
 
                 if (radioSim.isSelected() && emprestimo.getNotificacao() == null) {
@@ -375,18 +401,6 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
                     emprestimo.getNotificacao().setEmprestimo(emprestimo);
                     emprestimo.getNotificacao().setStatus("Andamento");
                 }
-//            try {
-//
-//                 emprestimo.getNotificacao().setData(LocalDateTime.parse(fieldData.getText(), formatter));
-//              
-//            } catch (DateTimeParseException ex) {
-//                System.out.println("error" + ex);
-//            }
-                // emprestimo.getNotificacao().setProximaAlerta(emprestimo.getNotificacao().getData());
-
-                // emprestimo.getNotificacao() -> Coloca a data que está no campo no obj (texto para data) ( data normal) 
-                // emprestimo.getNotificacao() -> copiar a data para data de próxima notificação
-                //}
                 emprestimo = emprestimoService.salvaEmprestimo(emprestimo);
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -394,6 +408,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
                 alert.setHeaderText("DADOS SALVOS COM SUCESSO!");
                 alert.show();
             } else {
+
                 emprestimo.setId_Emprestimo((Long.parseLong(idCodigoEmprestimo.getText())));
                 Emprestimo AlterarEmpres = emprestimoService.salvaEmprestimo(emprestimo);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -403,6 +418,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
             }
 
         }
+
     }
 
     @Override
@@ -439,6 +455,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         radioConta.setSelected(false);
         radioOP.setSelected(false);
         emprestimo = new Emprestimo();
+
     }
 
     public void somaComissao() {
@@ -465,7 +482,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
 
     public void comboStatus() {
         ObservableList<String> itens = FXCollections.observableArrayList();
-        itens.addAll("Andamento", "Pendente", "Pago", "Cancelado");
+        itens.addAll("Andamento", "Pendente", "Pago", TelaEmprestimoController.status_Cancelado);
         idStatus.setItems(itens);
     }
 
@@ -554,11 +571,11 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
     }
 
     public void selecionarItemTableViewEmprestimo(Emprestimo emprestimo) {
-        fieldValor.setText(String.valueOf(emprestimo.getValorParcela()));
-        idValorSolicitado.setText(String.valueOf(emprestimo.getValorSolicitado()));
-        idValorLiberado.setText(String.valueOf(emprestimo.getValorLiberado()));
-        idComissão.setText(String.valueOf(emprestimo.getValorComissao()));
-        fieldComi.setText(String.valueOf(emprestimo.getPorcentagemComissao()));
+        fieldValor.setText(TelaEmprestimoController.converteMoeda(emprestimo.getValorParcela()));
+        idValorSolicitado.setText(TelaEmprestimoController.converteMoeda(emprestimo.getValorSolicitado()));
+        idValorLiberado.setText(TelaEmprestimoController.converteMoeda(emprestimo.getValorLiberado()));
+        idComissão.setText(TelaEmprestimoController.converteMoeda(emprestimo.getValorComissao()));
+        fieldComi.setText(TelaEmprestimoController.converteMoeda(emprestimo.getPorcentagemComissao()));
         idTaxa.setText(String.valueOf(emprestimo.getTaxa()));
         fieldNomeCliente.setText(emprestimo.getCliente().getNome());
         fieldCpfCli.setText(String.valueOf(emprestimo.getCliente().getCpf()));
@@ -575,6 +592,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         idCodigoEmprestimo.setText(String.valueOf(emprestimo.getId_Emprestimo()));
         fieldData.setText(formatter.format(emprestimo.getNotificacao().getProximaAlerta()));
         cliente = emprestimo.getCliente();
+        notificacao = emprestimo.getNotificacao();
 
         if (emprestimo.getFormaPagamento().equals("Conta")) {
             radioConta.setSelected(true);
@@ -583,39 +601,208 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         }
         if (emprestimo.getNotificacao() != null) {
             radioSim.setSelected(true);
-            fieldData.setText(formatter.format(emprestimo.getNotificacao().getProximaAlerta()));
+            fieldData.setText(formater.format(emprestimo.getNotificacao().getProximaAlerta()));
             //fieldData.setText(emprestimo.getGerarNotificacao().format(formatter));
-        } else{
+        } else if (emprestimo.getNotificacao().equals("NÃO")) {
             radioNao.setSelected(true);
-         
+
         }
 
     }
-
-    @FXML
-    private void validaDataInicio() {
-        TextFieldFormatter formata = new TextFieldFormatter();
-        formata.setMask("##/##/####");
-        formata.setCaracteresValidos("0123456789");
-        formata.setTf(fieldDataInicio);
-        formata.formatter();
-
+    private static void maxField(final TextField textField, final Integer length) {
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if (newValue.length() > length) {
+                    textField.setText(oldValue);
+                }
+            }
+        });
+    }
+    private static void positionCaret(final TextField textField) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                textField.positionCaret(textField.getText().length());
+            }
+        });
     }
 
     @FXML
-    public void formata() {
-
+    private void validaDataNotificacao() {
         TextFieldFormatter formata = new TextFieldFormatter();
-        formata.setMask("#.###,##");
+        formata.setMask("##/##/#### ##:##");
         formata.setCaracteresValidos("0123456789");
-        formata.setTf(fieldValor);
+        formata.setTf(fieldData);
         formata.formatter();
+        positionCaret(fieldData);
 
     }
+    @FXML
+    public void validaDataInicio() {
+        maxField(fieldDataInicio, 10);
 
+        fieldDataInicio.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (newValue.intValue() < 11) {
+                    String value = fieldDataInicio.getText();
+                    value = value.replaceAll("[^0-9]", "");
+                    value = value.replaceFirst("(\\d{2})(\\d)", "$1/$2");
+                    value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d)", "$1/$2/$3"
+                            + ""
+                            + ""
+                            + "");
+                   fieldDataInicio.setText(value);
+                    positionCaret(fieldDataInicio);
+                }
+            }
+        });
+    }
+    @FXML
+    public void validaDataFim() {
+        maxField(fieldDataFinal, 10);
+
+        fieldDataFinal.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (newValue.intValue() < 11) {
+                    String value = fieldDataFinal.getText();
+                    value = value.replaceAll("[^0-9]", "");
+                    value = value.replaceFirst("(\\d{2})(\\d)", "$1/$2");
+                    value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d)", "$1/$2/$3"
+                            + ""
+                            + ""
+                            + "");
+                   fieldDataFinal.setText(value);
+                    positionCaret(fieldDataFinal);
+                }
+            }
+        });
+    }
+
+    public static String converteMoeda(double valor) {
+        Locale locale = new Locale("pt", "BR");
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
+        String va = currencyFormatter.format(valor);
+        return va;
+    }
+
+    
+    
+    
+    @FXML
+    public void formatas() {
+        TextFieldFormatter formata = new TextFieldFormatter();
+        formata.setMask("#.##%");
+        formata.setCaracteresValidos("0123456789");
+        formata.setTf(idTaxa);
+        formata.formatter();
+        positionCaret(idTaxa);
+
+    }
+     @FXML
+    public void formataTaxa () {
+        TextFieldFormatter formata = new TextFieldFormatter();
+        formata.setMask("##.#");
+        formata.setCaracteresValidos("0123456789");
+        formata.setTf(fieldComi);
+        formata.formatter();
+        positionCaret(fieldComi);
+
+    }
+    @FXML
+    public void formatQuantidadeParcelas() {
+        TextFieldFormatter formata = new TextFieldFormatter();
+        formata.setMask("##");
+        formata.setCaracteresValidos("0123456789");
+        formata.setTf(idParcelas);
+        formata.formatter();
+        positionCaret(idParcelas);
+    }
+    @FXML
+    public void formatMatricula() {
+        TextFieldFormatter formata = new TextFieldFormatter();
+        formata.setMask("##########");
+        formata.setCaracteresValidos("0123456789");
+        formata.setTf(fieldMatricula);
+        formata.formatter();
+        positionCaret(fieldMatricula);
+    }
+    @FXML
+    public void formatNumeroB() {
+        TextFieldFormatter formata = new TextFieldFormatter();
+        formata.setMask("##");
+        formata.setCaracteresValidos("0123456789");
+        formata.setTf(fieldBeneficio);
+        formata.formatter();
+        positionCaret(fieldBeneficio);
+    }
+    @FXML
+    public void formatNumeroC() {
+        TextFieldFormatter formata = new TextFieldFormatter();
+        formata.setMask("##########");
+        formata.setCaracteresValidos("0123456789");
+        formata.setTf(fieldNumContrato);
+        formata.formatter();
+        positionCaret(fieldNumContrato);
+    }
+
+
+    
+    
     public void chamaTelaNotificacao() {
         ExecutaTarefa exect = new ExecutaTarefa();
         exect.run();
+    }
+
+    @FXML
+    public void excluirEmprestimo() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        ButtonType btnSim = new ButtonType("OK");
+        ButtonType btnNaoResponder = new ButtonType("CANCELAR", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.setTitle("CONFIRMAÇÃO");
+        alert.setHeaderText("DESEJA REALMENTE APAGAR DADOS? ");
+        alert.getButtonTypes().setAll(btnSim, btnNaoResponder);
+        alert.showAndWait().ifPresent((ButtonType b) -> {
+            if (b == btnSim) {
+                Emprestimo emp = new Emprestimo();
+                emp.setId_Emprestimo(Long.parseLong(idCodigoEmprestimo.getText()));
+                emprestimoService.excluirEmprestimo(emp.getId_Emprestimo());
+                fieldValor.setText("");
+                idComissão.setText("");
+                idValorSolicitado.setText("");
+                idValorLiberado.setText("");
+                fieldComi.setText("");
+                idTaxa.setText("");
+                fieldNomeCliente.setText("");
+                fieldCpfCli.setText("");
+                fieldDataInicio.setText("");
+                fieldDataFinal.setText("");
+                comboBoxConvenio.setValue("");
+                comboEmprestimos.setValue("");
+                idStatus.setValue("");
+                comboBanco.setValue("");
+                fieldNumContrato.setText("");
+                fieldMatricula.setText("");
+                idParcelas.setText("");
+                fieldBeneficio.setText("");
+                idCodigoEmprestimo.setText("");
+                fieldData.setText("");
+                radioSim.setSelected(false);
+                radioNao.setSelected(false);
+                radioConta.setSelected(false);
+                radioOP.setSelected(false);
+                Alert dialogoResultado = new Alert(Alert.AlertType.INFORMATION);
+                dialogoResultado.setHeaderText("INFORMAÇÂO");
+                dialogoResultado.setContentText("DADOS DELETADOS COM SUCESSO!");
+                dialogoResultado.showAndWait();
+            } else {
+                alert.close();
+
+            }
+
+        });
     }
 //
 
@@ -640,7 +827,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
 //
 //    }
     @FXML
-    public void monetaryField() {
+    public void formata() {
         fieldValor.setAlignment(Pos.CENTER_RIGHT);
         fieldValor.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             String value = fieldValor.getText();
@@ -739,27 +926,6 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         });
     }
 
-//        if ((notiData).equals (dataAtual)){
-//            
-//             Stage stage = new Stage();
-//                        Parent root = null;
-//                        try {
-//                            FXMLLoader fxml = new FXMLLoader();
-//                            fxml.setControllerFactory(MyApp.springContext::getBean);
-//                            fxml.setLocation(getClass().getResource("/fxml/TelaNotificacao.fxml"));
-//                            root = fxml.load();
-//                        } catch (IOException ex) {
-//                            Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-//                        }
-//                        Scene scene = new Scene(root);
-//                        stage.setScene(scene);
-//                        stage.show();
-//                        stage.setResizable(false);
-//                        stage.setTitle("Tela de Messagem!");
-//                        stage.setResizable(false);
-//            
-//        }
-//    }
     @FXML
     public void atualizaEmprestimo() {
 
@@ -775,4 +941,19 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
 
     }
 
+    @FXML
+    public void adcionarEmprestimo() {
+        TelaPrincipalController.fechaEmprestimo().close();
+        receptorEmprestimo.receberEmprestimo(tabela.getSelectionModel().getSelectedItem());
+        receptorEmprestimo = null;
+
+    }
+
+    @FXML
+    public void ativaButao() {
+        buttaoOP.setVisible(true);
+
+    }
+
+    
 }

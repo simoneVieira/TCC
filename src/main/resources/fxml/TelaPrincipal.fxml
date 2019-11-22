@@ -14,14 +14,14 @@
         <URL value="@/fxml/telaprincipal.css" />
     </stylesheets>
    <children>
-      <Pane layoutY="289.0" prefHeight="88.0" prefWidth="808.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="221.0" AnchorPane.topAnchor="289.0">
+      <Pane layoutX="14.0" layoutY="297.0" prefHeight="107.0" prefWidth="1954.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="-5.0" AnchorPane.topAnchor="297.0">
          <children>
             <Button fx:id="botaoEmprestimo" layoutX="209.0" layoutY="1.0" mnemonicParsing="false" onAction="#botaoEmprestimo" prefHeight="72.0" prefWidth="151.0" text="          EMPRÉSTIMOS">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="botaoRelatorio" layoutX="386.0" layoutY="1.0" mnemonicParsing="false" onAction="#TelaRelatorio" prefHeight="72.0" prefWidth="143.0" text="            RELATÓRIOS" visible="false">
+            <Button fx:id="botaoRelatorio" layoutX="616.0" mnemonicParsing="false" onAction="#geraPdf" prefHeight="72.0" prefWidth="168.0" text="            RELATÓRIOS" visible="false">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
@@ -31,7 +31,7 @@
                   <Image url="@../imagem/emp.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="imgRelatorio" fitHeight="44.0" fitWidth="51.0" layoutX="386.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <ImageView fx:id="imgRelatorio" fitHeight="44.0" fitWidth="51.0" layoutX="630.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../imagem/relatorio.png" />
                </image>
@@ -46,6 +46,16 @@
                   <Image url="@cliente.png" />
                </image>
             </ImageView>
+            <Button fx:id="botaoOp" layoutX="389.0" layoutY="1.0" mnemonicParsing="false" onAction="#chamaTelaOp" prefHeight="72.0" prefWidth="174.0" text="          ORDEM PAGAMENTO">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <ImageView fx:id="imagemOp" fitHeight="44.0" fitWidth="80.0" layoutX="389.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagem/op.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
       <Pane id="pane.setStyle " layoutX="-4.0" layoutY="-3.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="194.0" prefWidth="1974.0" styleClass="telaPrinc" stylesheets="@telaprincipal.css" AnchorPane.bottomAnchor="509.0" AnchorPane.leftAnchor="-4.0" AnchorPane.topAnchor="-3.0">
@@ -55,14 +65,25 @@
                   <Font name="Tw Cen MT" size="57.0" />
                </font>
             </Label>
-            <Button fx:id="idCadastro" layoutX="1179.0" layoutY="127.0" mnemonicParsing="false" onAction="#idCadastro" prefHeight="33.0" prefWidth="174.0" text="Cadastrar Usuario" visible="false" />
+            <Button fx:id="idCadastro" layoutX="1179.0" layoutY="127.0" mnemonicParsing="false" onAction="#idCadastro" prefHeight="44.0" prefWidth="168.0" text="           Cadastrar Usuario" visible="false" />
             <Label fx:id="labelRedefineSenha" layoutX="929.0" layoutY="130.0" onKeyReleased="#abreTelaNovaSenha" onMouseClicked="#abreTelaNovaSenha" text="Redefinir Senha" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
             <Label fx:id="voltarLogin" layoutX="1095.0" layoutY="135.0" onMouseClicked="#reiniciar" text="VOLTAR" textFill="WHITE" />
-            <Label fx:id="painelNotificacao" layoutX="36.0" layoutY="152.0" onMouseReleased="#chamaTelaPainel" text="PAINEL DE NOTIFICAÇÃO" textFill="WHITE" />
+            <Label fx:id="painelNotificacao" layoutX="36.0" layoutY="152.0" onMouseReleased="#chamaTelaPainel" text="NOTIFICAÇÃO CRÉDITO" textFill="WHITE" />
+            <ImageView fx:id="viewUsuario" fitHeight="44.0" fitWidth="52.0" layoutX="1179.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../imagem/icone_usuario_novo.png" />
+               </image>
+            </ImageView>
          </children></Pane>
+      <Button fx:id="btnLixeira" layoutX="1257.0" layoutY="234.0" mnemonicParsing="false" onAction="#TelaDadosRemovidos" prefHeight="44.0" prefWidth="98.0" style="-fx-background-color: white;" visible="false" />
+      <ImageView fx:id="imgLixeira" fitHeight="44.0" fitWidth="51.0" layoutX="1257.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../imagem/lixeira.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

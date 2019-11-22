@@ -6,6 +6,7 @@
 package com.bettercoding.jfx.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -16,16 +17,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 
 /**
  *
  * @author SimoneBarbosa
  */
 @Entity
+//
+//@SQLDelete(sql = "update Usuario set ativo = false where id = ?")
+//@Where(clause = "ativo = true")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo", length = 1, discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue("P")
+@DiscriminatorValue("U")
 public class Usuario implements Serializable {
 
     private Long id;
@@ -33,7 +41,17 @@ public class Usuario implements Serializable {
     private String senha;
     private String email;
     private String role;
-   
+    private Date removedAt;
+   // private boolean ativo = true;
+
+//    public boolean isAtivo() {
+//        return ativo;
+//    }
+//
+//    public void setAtivo(boolean ativo) {
+//        this.ativo = ativo;
+//    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
@@ -43,6 +61,7 @@ public class Usuario implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
     @Column(name = "usuario", unique = true)
     public String getUsuario() {
         return usuario;
@@ -51,7 +70,8 @@ public class Usuario implements Serializable {
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
-@Column(name = "senha", unique = true)
+
+    @Column(name = "senha", unique = true)
     public String getSenha() {
         return senha;
     }
@@ -59,8 +79,11 @@ public class Usuario implements Serializable {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-@Email
-@Column(name = "email", unique = true)
+
+   
+    @NotEmpty
+    
+    @Column(name = "email", unique = true)
     public String getEmail() {
         return email;
     }
@@ -75,6 +98,22 @@ public class Usuario implements Serializable {
 
     public void setTipoUsuario(String tipoUsuario) {
         this.role = tipoUsuario;
+    }
+
+//    public String getRole() {
+//        return role;
+//    }
+//
+//    public void setRole(String role) {
+//        this.role = role;
+//    }
+
+    public Date getRemovedAt() {
+        return removedAt;
+    }
+
+    public void setRemovedAt(Date removedAt) {
+        this.removedAt = removedAt;
     }
 
 }

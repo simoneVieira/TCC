@@ -22,10 +22,10 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
-@SQLDelete(sql = "update Cliente set ativo = false where id = ?")
+//@SQLDelete(sql = "update Cliente set ativo = false where id = ?")
+//
+//@Where(clause = "ativo = true")
 
-@Where(clause = "ativo = true")
-//@Where(clause = "ativo is true")
 public class Cliente {
 
     private Long id;
@@ -42,6 +42,7 @@ public class Cliente {
     private Date dataCadastro;
     private int cep;
     private int numero;
+    private Date removedAt;
 
     public Date getDataCadastro() {
         return dataCadastro;
@@ -70,6 +71,14 @@ public class Cliente {
     public Long getTelefone2() {
         return telefone2;
     }
+    @Column(name = "removed_at")
+    public Date getRemovedAt() {
+        return removedAt;
+    }
+
+    public void setRemovedAt(Date removedAt) {
+        this.removedAt = removedAt;
+    }
 
     public void setTelefone2(Long telefone2) {
         this.telefone2 = telefone2;
@@ -82,7 +91,8 @@ public class Cliente {
     public void setCep(int cep) {
         this.cep = cep;
     }
-     @Size(min = 3, max = 4, message="numero maior")
+
+    @Size(min = 3, max = 4, message = "numero maior")
     public int getNumero() {
         return numero;
     }
@@ -91,15 +101,13 @@ public class Cliente {
         this.numero = numero;
     }
 
-    private boolean ativo = true;
-
-    public boolean isAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
-    }
+//    public boolean isAtivo() {
+//        return ativo;
+//    }
+//
+//    public void setAtivo(boolean ativo) {
+//        this.ativo = ativo;
+//    }
 
     public Cliente(String nome) {
         this.nome = nome;

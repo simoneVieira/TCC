@@ -21,6 +21,7 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -62,15 +63,16 @@ public class ExecutaTarefa extends TimerTask {
 
     @Autowired
     private NotificacaoService notificacaoService;
+    Notificacao notifica;
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     
-   
+      Alert alert;
     
 
     private void completeTask() {
         try {
-            //assuming it takes 20 secs to complete the task
+           
             Thread.sleep(20000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -85,7 +87,6 @@ public class ExecutaTarefa extends TimerTask {
     }
 
     @Override
-    // @PostConstruct
     public void run() {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -96,15 +97,14 @@ public class ExecutaTarefa extends TimerTask {
                     public void run() {
                         LocalDateTime agora = LocalDateTime.now();
                         List<Notificacao> listNotificacao;
-                        listNotificacao = notificacaoService.buscaData(agora);
+                        listNotificacao = notificacaoService.buscaData(agora,TelaPainelNotificacaoController.status_Andamento);
                         if (!listNotificacao.isEmpty()) {
                             listNotificacao.forEach(notfi -> {
-                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                ButtonType btnExe = new ButtonType("Painel de Notificação");
-                                ButtonType btnOK = new ButtonType("OK");
-                                alert.getButtonTypes().setAll(btnExe, btnOK);
-
-                                alert.setTitle("NOTIFICACÃO");
+                                if (alert == null) {
+                                    alert = new Alert(Alert.AlertType.INFORMATION);
+                                }
+                             
+                                alert.setTitle("RENOVAÇÃO DE CONTRATO");
                                 alert.setHeaderText(" "
                                         + "\n" + "COD.NOTIFICAÇÃO: " + notfi.getId() + "\n"
                                         + "\n" + "NOME: " + notfi.getEmprestimo().getCliente().getNome()
@@ -112,23 +112,7 @@ public class ExecutaTarefa extends TimerTask {
                                         + "\n" + "TELEFONE:  " + notfi.getEmprestimo().getCliente().getTelefone1()
                                         + "\n" + "BANCO:  " + notfi.getEmprestimo().getBanco()
                                         + "\n" + "Cliente está apto a ser recontatado");
-                                alert.showAndWait().ifPresent((ButtonType b) -> {
-                                    if (b == btnExe) {
-                                        TelaPrincipalController tpc = new TelaPrincipalController();
-                                        tpc.chamaTelaPainel();
-
-                                    } else if (btnOK == b) {
-                                        alert.close();
-                                    }
-
-                                  
-                                });
-//                                System.out.println("id empréstimo: " + notfi.getEmprestimo().getId_Emprestimo());
-//                                System.out.println("cliente id: " + notfi.getEmprestimo().getCliente().getId());
-//                                System.out.println("cliente: " + notfi.getEmprestimo().getCliente().getNome());
-//                                System.out.println("banco: " + notfi.getEmprestimo().getBanco());
-//                                System.out.println("data: " + notfi.getData());
-//                                System.out.println("data: " + notfi.getProximaAlerta());
+                               alert.show();                     
                             });
 
                         } else {
