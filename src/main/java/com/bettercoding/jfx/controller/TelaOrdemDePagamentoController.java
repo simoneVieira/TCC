@@ -196,8 +196,9 @@ public class TelaOrdemDePagamentoController implements Initializable, ReceptorEm
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("CONFIRMAÇÃO");
                     alert.setHeaderText("FAVOR ADICIONAR UM EMPRÉSTIMO!");
-                    alert.show();
+                    alert.show();            
                 }
+                return;
             } else {
                 op.setId(Long.parseLong(codigoOrdemPagamento.getText()));
                 OrdemPagamento ordp = ordemService.salvaOrdem(op);

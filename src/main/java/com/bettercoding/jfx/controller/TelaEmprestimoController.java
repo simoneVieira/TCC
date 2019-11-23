@@ -374,7 +374,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
             emprestimo.setValorComissao(Float.parseFloat((idComissão.getText().replace(".", "").replace(",", ".").replace("R$", ""))));
 
             emprestimo.setNumeroContrato((fieldNumContrato.getText().replaceAll("[^0-9]", "")));
-            emprestimo.setPorcentagemComissao(Float.parseFloat(fieldComi.getText().replace("%", "").replace(".", "")));
+            emprestimo.setPorcentagemComissao(Float.parseFloat(fieldComi.getText().replace(".", ".")));
             emprestimo.setQuantidadeParcela(Integer.parseInt(idParcelas.getText().replaceAll("[^0-9]", "")));
             emprestimo.setValorLiberado(Double.parseDouble(idValorLiberado.getText().replace(".", "").replace(",", ".").replace("R$", "")));
             emprestimo.setValorSolicitado(Double.parseDouble(idValorSolicitado.getText().replace(".", "").replace(",", ".").replace("R$", "")));
@@ -575,7 +575,7 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
         idValorSolicitado.setText(TelaEmprestimoController.converteMoeda(emprestimo.getValorSolicitado()));
         idValorLiberado.setText(TelaEmprestimoController.converteMoeda(emprestimo.getValorLiberado()));
         idComissão.setText(TelaEmprestimoController.converteMoeda(emprestimo.getValorComissao()));
-        fieldComi.setText(TelaEmprestimoController.converteMoeda(emprestimo.getPorcentagemComissao()));
+        fieldComi.setText(""+emprestimo.getPorcentagemComissao());
         idTaxa.setText(String.valueOf(emprestimo.getTaxa()));
         fieldNomeCliente.setText(emprestimo.getCliente().getNome());
         fieldCpfCli.setText(String.valueOf(emprestimo.getCliente().getCpf()));
@@ -794,9 +794,10 @@ public class TelaEmprestimoController implements Initializable, ReceptorCliente 
                 radioConta.setSelected(false);
                 radioOP.setSelected(false);
                 Alert dialogoResultado = new Alert(Alert.AlertType.INFORMATION);
-                dialogoResultado.setHeaderText("INFORMAÇÂO");
+                dialogoResultado.setHeaderText("INFORMAÇÃO");
                 dialogoResultado.setContentText("DADOS DELETADOS COM SUCESSO!");
                 dialogoResultado.showAndWait();
+                alert.show();
             } else {
                 alert.close();
 

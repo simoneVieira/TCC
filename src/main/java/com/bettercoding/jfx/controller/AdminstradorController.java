@@ -31,7 +31,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javax.validation.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import java.util.regex.*; 
+import java.util.regex.*;
+
 /**
  * FXML Controller class
  *
@@ -79,6 +80,7 @@ public class AdminstradorController implements Initializable {
     @FXML
     private TextField idPesquisa;
     Usuario usuario = new Usuario();
+    Usuario user = new Usuario();
     @FXML
     private Button pesquisaUsuario;
     @Autowired
@@ -127,7 +129,7 @@ public class AdminstradorController implements Initializable {
     public void salvaUsuario() {
 
         if (idNomeUsuario.getText().equals("") || senhaUsuario.getText().equals("")
-                ||emailUsuario.getText().equals("")
+                || emailUsuario.getText().equals("")
                 || comBoUsuario.getSelectionModel().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("ALERTA");
@@ -135,22 +137,32 @@ public class AdminstradorController implements Initializable {
             alert.show();
             geraNumeroAleatorio();
         } else {
-            Usuario user = new Usuario();
-            user.setEmail(emailUsuario.getText());
+      
             user.setSenha(senhaUsuario.getText());
             // Criptografar.criptoSenha(senhaUsuario.getText());
             user.setUsuario(idNomeUsuario.getText());
             user.setTipoUsuario("" + comBoUsuario.getSelectionModel().getSelectedItem());
 
             if (idcodigo.getText().equals("")) {
-                    Usuario usua = usuarioService.salvaUsuario(user);
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("CONFIRMAÇÃO");
-                    alert.setHeaderText("SALVO COM SUCESSO!");
-                    alert.show();
-            }  else {
-               user.setId(Long.parseLong(idcodigo.getText()));
-                 Usuario usua = usuarioService.salvaUsuario(user);
+                Pattern p = Pattern.compile("^[\\w-]+(\\.[\\w-]+)*@([\\w-]+\\.)+[a-zA-Z]{2,7}$");
+                Matcher m = p.matcher(emailUsuario.getText());
+                if (m.find()) {
+                    user.setEmail(emailUsuario.getText());
+                } else {
+                    Alert dialogoResultado = new Alert(Alert.AlertType.INFORMATION);
+                    dialogoResultado.setHeaderText("INFORMAÇÃO");
+                    dialogoResultado.setContentText("Email inválido!");
+                    dialogoResultado.showAndWait();
+                    return;
+                }
+                Usuario usua = usuarioService.salvaUsuario(user);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("CONFIRMAÇÃO");
+                alert.setHeaderText("SALVO COM SUCESSO!");
+                alert.show();
+            } else {
+                user.setId(Long.parseLong(idcodigo.getText()));
+                Usuario usua = usuarioService.salvaUsuario(user);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("CONFIRMAÇÃO");
                 alert.setHeaderText("DADOS ALTERADOS COM SUCESSO!");
@@ -158,7 +170,6 @@ public class AdminstradorController implements Initializable {
 
             }
         }
-
     }
 
     public void selecionarItemTableViewClientes(Usuario usuario) {
@@ -256,20 +267,6 @@ public class AdminstradorController implements Initializable {
         idNomeUsuario.setText(" ");
         idcodigo.setText(" ");
     }
-    
-    public static Boolean validEmail(String email) {
-    System.out.println("Metodo de validacao de email");
-    Pattern p = Pattern.compile("^[\\w-]+(\\.[\\w-]+)*@([\\w-]+\\.)+[a-zA-Z]{2,7}$"); 
-    Matcher m = p.matcher(email); 
-    if (m.find()){
-      System.out.println("O email "+email+" e valido");
-      return true;
-    }
-    else{
-      System.out.println("O E-mail "+email+" é inválido");
-      return false;
-    }  
-    
- }
 
+    
 }

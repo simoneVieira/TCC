@@ -6,6 +6,9 @@
 package com.bettercoding.jfx.model;
 
 import java.io.Serializable;
+import static java.lang.Integer.max;
+import static java.lang.Long.max;
+
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -18,9 +21,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.validator.Length;
+
 
 
 /**
@@ -70,7 +72,7 @@ public class Usuario implements Serializable {
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
-
+    
     @Column(name = "senha", unique = true)
     public String getSenha() {
         return senha;
@@ -82,7 +84,7 @@ public class Usuario implements Serializable {
 
    
     @NotEmpty
-    
+   
     @Column(name = "email", unique = true)
     public String getEmail() {
         return email;
