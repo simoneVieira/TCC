@@ -61,4 +61,4 @@ compile group: 'org.hibernate', name: 'hibernate-validator-cdi', version: '6.0.6
 }
 
 
-ext.mainClass='com.bettercoding.jfx.MyApp'
+ext.mainClass='com.pacote.jfx.MyApp'

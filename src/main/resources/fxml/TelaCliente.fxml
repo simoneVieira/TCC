@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="300.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bettercoding.jfx.controller.ClienteController">
+<VBox prefHeight="300.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacote.jfx.controller.ClienteController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="100.0" prefWidth="1497.0" VBox.vgrow="ALWAYS">
          <children>
@@ -45,32 +45,7 @@
                   <TextField fx:id="fieldNumero" layoutX="1251.0" layoutY="134.0" onKeyReleased="#validaNumero" prefHeight="38.0" prefWidth="68.0" />
                   <Label fx:id="labelnumero" layoutX="1227.0" layoutY="144.0" text="Nº" />
                   <Label layoutX="1213.0" layoutY="28.0" prefHeight="17.0" prefWidth="77.0" text="Cod Cliente :" />
-                  <TextField fx:id="idCli" editable="false" layoutX="1285.0" layoutY="17.0" prefHeight="38.0" prefWidth="89.0" />
-                  <Label fx:id="labelAsteriscoN" layoutX="62.0" layoutY="30.0" prefHeight="27.0" prefWidth="23.0" text="*" textFill="RED">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="labAsteriscoT" layoutX="62.0" layoutY="83.0" prefHeight="27.0" prefWidth="23.0" text="*" textFill="RED">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="labAsteriscoD" layoutX="62.0" layoutY="148.0" prefHeight="25.0" prefWidth="23.0" text="*" textFill="RED">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lbAsteriscoCPF" layoutX="633.0" layoutY="19.0" prefHeight="25.0" prefWidth="18.0" text="*" textFill="RED">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="labAstersicoRG" layoutX="983.0" layoutY="198.0" prefHeight="17.0" prefWidth="18.0" text="*" textFill="RED">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
+                  <TextField fx:id="idCli" editable="false" layoutX="1285.0" layoutY="17.0" prefHeight="37.0" prefWidth="52.0" />
                   <Label layoutX="934.0" layoutY="24.0" text="Data Cadastro:" />
                   <TextField fx:id="dataCadastro" layoutX="1031.0" layoutY="14.0" onKeyReleased="#validaDataCadastro" prefHeight="44.0" prefWidth="175.0" />
                </children>
@@ -109,8 +84,8 @@
                      </image>
                   </ImageView>
                   <Button fx:id="btPesquisa" layoutX="1120.0" layoutY="16.0" mnemonicParsing="false" onAction="#botaoP" prefHeight="38.0" prefWidth="137.0" text="Pesquisar" />
-                  <Button fx:id="idAtualizar" layoutX="1250.0" layoutY="161.0" mnemonicParsing="false" onAction="#atualiza" prefHeight="44.0" prefWidth="112.0" style="-fx-background-color: #00008B #00008B;" text="              Atualizar " textFill="WHITE" />
-                  <ImageView fx:id="imageViewAtualiza" fitHeight="50.0" fitWidth="53.0" layoutX="1250.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" style="visibility: #228B22;">
+                  <Button fx:id="idAtualizar" layoutX="1241.0" layoutY="171.0" mnemonicParsing="false" onAction="#atualiza" prefHeight="37.0" prefWidth="112.0" style="-fx-background-color: #00008B #00008B;" text="              Atualizar " textFill="WHITE" />
+                  <ImageView fx:id="imageViewAtualiza" fitHeight="38.0" fitWidth="52.0" layoutX="1241.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true" style="visibility: #228B22;">
                      <image>
                         <Image url="@../imagem/atualizacao.png" />
                      </image>
